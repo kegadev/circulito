@@ -9,9 +9,14 @@ class CircularProgressWheel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: CirculitoPainter(sections: sections),
-      child: Container(),
+    return Center(
+      child: SizedBox(
+        width: 200,
+        height: 200,
+        child: CustomPaint(
+          painter: CirculitoPainter(sections: sections),
+        ),
+      ),
     );
   }
 }
