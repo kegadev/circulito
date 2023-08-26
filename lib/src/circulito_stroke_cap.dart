@@ -1,0 +1,1 @@
+enum CirculitoStrokeCap { round, butt }

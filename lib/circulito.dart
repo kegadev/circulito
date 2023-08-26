@@ -1,30 +1,48 @@
-library circulito;
-
-export 'src/circulito_section.dart';
-export 'src/circulito_painter.dart';
-export 'src/circular_progress_wheel.dart';
-
 import 'package:flutter/material.dart';
 
 import 'src/circulito_painter.dart';
 import 'src/circulito_section.dart';
+import 'src/circulito_stroke_cap.dart';
+
+export 'src/circulito_section.dart';
+export 'src/circulito_stroke_cap.dart';
 
 class Circulito extends StatelessWidget {
+  /// The sections to be painted
   final List<CirculitoSection> sections;
 
-  Circulito({required this.sections});
+  /// The width of the stroke
+  final double strokeWidth;
+
+  /// The actual size of the widget will be the double of the radius
+  final double? radius;
+
+  final CirculitoStrokeCap strokeCap;
+
+  const Circulito({
+    super.key,
+    required this.sections,
+    this.strokeWidth = 20,
+    this.radius,
+    this.strokeCap = CirculitoStrokeCap.round,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: CirculitoPainter(sections: sections),
+    final radius = this.radius ?? double.infinity - 20;
+
+    return Center(
+      child: SizedBox(
+        width: radius,
+        height: radius,
+        child: CustomPaint(
+          painter: CirculitoPainter(
+            sections: sections,
+            strokeWidth: strokeWidth,
+            strokeCap: strokeCap,
+          ),
+        ),
+      ),
     );
   }
 }
-// export 'src/circulito_animated_progress.dart';
-
-// /// A Calculator.
-// class Calculator {
-//   /// Returns [value] plus 1.
-//   int addOne(int value) => value + 1;
-// }
