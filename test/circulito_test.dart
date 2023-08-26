@@ -1,12 +1,21 @@
+import 'package:flutter/material.dart';
+
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:circulito/circulito.dart';
 
 void main() {
-  test('adds one to input values', () {
-    final calculator = Calculator();
-    expect(calculator.addOne(2), 3);
-    expect(calculator.addOne(-7), -6);
-    expect(calculator.addOne(0), 1);
+  testWidgets('Circulito widget test', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      Circulito(
+        sections: [
+          CirculitoSection(color: Colors.red, percentage: 0.4),
+          CirculitoSection(color: Colors.blue, percentage: 0.6),
+        ],
+      ),
+    );
+
+    expect(find.byType(Circulito), findsOneWidget);
+    // Perform your testing/assertions here
   });
 }
