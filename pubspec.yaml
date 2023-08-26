@@ -1,7 +1,14 @@
+# author: 
+#   name: Kevin Garcia
+#   email: kegadev@outlook.com
+#   url: www.kega.dev
+
+
 name: circulito
-description: A new Flutter package project.
+description: A Flutter package for creating animated circular progress bars.
 version: 0.0.1
-homepage:
+homepage: https://github.com/kegadev/circulito
+
 
 environment:
   sdk: '>=3.1.0 <4.0.0'
