@@ -14,10 +14,13 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(title: const Text('Circulito basic example')),
         body: Center(
           child: Container(
-            color: Colors.white,
+            width: 250,
+            height: 250,
+            color: Colors.grey.shade200,
             child: Circulito(
-              radius: 180,
-              strokeWidth: 25,
+              maxSize: 280,
+              strokeWidth: 20,
+              padding: const EdgeInsets.all(20),
               strokeCap: CirculitoStrokeCap.round,
               backgroundColor: Colors.grey,
               sections: [

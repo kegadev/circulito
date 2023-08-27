@@ -14,46 +14,57 @@ class Circulito extends StatelessWidget {
   /// The width of the stroke.
   final double strokeWidth;
 
-  /// The actual size of the widget will be the double of the radius.
-  final double? radius;
+  /// Whether the widget should be centered or not inside the parent widget.
+  final bool isCentered;
+
+  /// The maximum size the widget can grow on screen.
+  ///
+  /// If any of the sizes (width or height) of the parent widget are smaller
+  /// than this size, the widget will be shrinked to fit the parent.
+  final double? maxSize;
 
   /// Determines the shape of the stroke endings.
   ///
   /// Could be `Butt` or `Round`. Default to `Round`.
   final CirculitoStrokeCap strokeCap;
 
-  // The background color of the widget.
-  //
-  // If null, no background will be painted.
-  // If not null, a background will be painted with the specified color.
+  /// The background color of the wheel to be painted.
+  ///
+  /// If null, no background will be painted.
   final Color? backgroundColor;
+
+  /// The padding to be applied to the widget.
+  /// If null, no padding will be applied.
+  final EdgeInsets? padding;
 
   const Circulito({
     super.key,
     required this.sections,
-    this.radius,
-    this.strokeWidth = 20,
+    this.maxSize,
+    this.padding,
     this.backgroundColor,
+    this.strokeWidth = 20,
+    this.isCentered = true,
     this.strokeCap = CirculitoStrokeCap.round,
   });
 
   @override
   Widget build(BuildContext context) {
-    final radius = this.radius ?? double.infinity - 20;
-
-    return Center(
-      child: SizedBox(
-        width: radius,
-        height: radius,
-        child: CustomPaint(
-          painter: CirculitoPainter(
-            sections: sections,
-            strokeCap: strokeCap,
-            strokeWidth: strokeWidth,
-            backgroundColor: backgroundColor,
-          ),
-        ),
+    Widget mainWidget = CustomPaint(
+      painter: CirculitoPainter(
+        maxsize: maxSize,
+        sections: sections,
+        strokeCap: strokeCap,
+        isCentered: isCentered,
+        strokeWidth: strokeWidth,
+        backgroundColor: backgroundColor,
       ),
     );
+
+    if (padding != null) {
+      mainWidget = Padding(padding: padding!, child: mainWidget);
+    }
+
+    return mainWidget;
   }
 }
