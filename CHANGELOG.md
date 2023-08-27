@@ -1,3 +1,8 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+### First release
+
+Features:
+
+- Background
+- Section with colors
