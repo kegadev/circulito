@@ -5,44 +5,45 @@ import 'package:flutter/material.dart';
 import 'package:circulito/circulito.dart';
 
 class CirculitoPainter extends CustomPainter {
-  final List<CirculitoSection> sections;
   final double strokeWidth;
+  final Color? backgroundColor;
   final CirculitoStrokeCap strokeCap;
+  final List<CirculitoSection> sections;
 
-  CirculitoPainter(
-      {required this.sections,
-      this.strokeWidth = 20,
-      this.strokeCap = CirculitoStrokeCap.round});
+  CirculitoPainter({
+    this.backgroundColor,
+    this.strokeWidth = 20,
+    required this.sections,
+    required this.strokeCap,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
     final width = size.width / 2;
     final height = size.height / 2;
-
     final center = Offset(width, height);
 
     final halfStrokeWidth = strokeWidth / 2;
     final radius = min(width - halfStrokeWidth, height - halfStrokeWidth);
 
-    // Calculate total percentage
-    double sumSection(sum, section) => sum + section.percentage;
-    final totalPercentage = sections.fold(0.0, sumSection);
+    final flutterStrokeCap = strokeCap == CirculitoStrokeCap.butt //
+        ? StrokeCap.butt
+        : StrokeCap.round;
 
     var startAngle = -pi / 2;
 
-    final isStrokeCapButt = strokeCap == CirculitoStrokeCap.butt;
-
-    for (int i = 0; i < sections.length; i++) {
-      final sectionPercentage = isStrokeCapButt
-          ? sections[i].percentage
-          : sections[i].percentage / totalPercentage;
-      var sweepAngle = 2 * pi * sectionPercentage;
+    void customDraw(
+      double percentage,
+      Color color, [
+      bool isBackground = false,
+    ]) {
+      var sweepAngle = 2 * pi * percentage;
 
       final sectionPaint = Paint()
-        ..color = sections[i].color
+        ..color = color
         ..style = PaintingStyle.stroke
         ..strokeWidth = strokeWidth
-        ..strokeCap = isStrokeCapButt ? StrokeCap.butt : StrokeCap.round;
+        ..strokeCap = flutterStrokeCap;
 
       canvas.drawArc(
         Rect.fromCircle(center: center, radius: radius),
@@ -52,7 +53,16 @@ class CirculitoPainter extends CustomPainter {
         sectionPaint,
       );
 
+      if (isBackground) return;
       startAngle += sweepAngle;
+    }
+
+    // Background.
+    if (backgroundColor != null) customDraw(1, backgroundColor!, true);
+
+    // Sections.
+    for (int i = 0; i < sections.length; i++) {
+      customDraw(sections[i].percentage, sections[i].color);
     }
   }
 

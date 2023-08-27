@@ -17,13 +17,23 @@ class Circulito extends StatelessWidget {
   /// The actual size of the widget will be the double of the radius
   final double? radius;
 
+  /// Determines the shape of the stroke endings.
+  ///
+  /// Could be `Butt` or `Round`. Default to `Round`.
   final CirculitoStrokeCap strokeCap;
+
+  // The background color of the widget.
+  //
+  // If null, no background will be painted.
+  // If not null, a background will be painted with the specified color.
+  final Color? backgroundColor;
 
   const Circulito({
     super.key,
     required this.sections,
-    this.strokeWidth = 20,
     this.radius,
+    this.strokeWidth = 20,
+    this.backgroundColor,
     this.strokeCap = CirculitoStrokeCap.round,
   });
 
@@ -38,8 +48,9 @@ class Circulito extends StatelessWidget {
         child: CustomPaint(
           painter: CirculitoPainter(
             sections: sections,
-            strokeWidth: strokeWidth,
             strokeCap: strokeCap,
+            strokeWidth: strokeWidth,
+            backgroundColor: backgroundColor,
           ),
         ),
       ),
