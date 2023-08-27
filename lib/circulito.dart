@@ -11,10 +11,10 @@ class Circulito extends StatelessWidget {
   /// The sections to be painted
   final List<CirculitoSection> sections;
 
-  /// The width of the stroke
+  /// The width of the stroke.
   final double strokeWidth;
 
-  /// The actual size of the widget will be the double of the radius
+  /// The actual size of the widget will be the double of the radius.
   final double? radius;
 
   /// Determines the shape of the stroke endings.
