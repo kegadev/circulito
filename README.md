@@ -1,16 +1,24 @@
 # Circulito
 
-This Package allows to insert a simple Circular wheel chart
+Circulito is a Flutter package that provides a simple circular wheel chart for visualizing data using percentages and colors.
 
 ## Features
 
-It can receive percentage and colors and show graph
+Display circular wheel charts with customizable sections.
+Easily visualize data by providing percentages and corresponding colors.
 
 ## Getting started
 
-Just import and use
+Add the package to your pubspec.yaml file:
+
+```yml
+dependencies:
+  circulito: ^0.0.2
+```
 
 ## Usage
+
+Use the Circulito widget in your Flutter app:
 
 ```dart
 Circulito(
@@ -27,6 +35,18 @@ Circulito(
 )
 ```
 
-## Additional information
+### Parameters
 
-See example to know more.
+`radius`: The radius of the circular chart.
+
+`strokeWidth`: The width of the stroke that defines the chart's outline.
+
+`strokeCap`: The type of cap to use for the stroke (round or butt).
+
+`backgroundColor`: The color of the chart's background.
+
+`sections`: A list of CirculitoSection objects representing each chart section.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
