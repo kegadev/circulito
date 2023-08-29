@@ -1,15 +1,16 @@
 ## 0.0.2
 
-**BREAKING CHANGE:** `radius` is now called `maxSize`.<br>
-**Docs:** Update README and example<br>
-**Feature:** `isCenter`: Allow to center the widget.<br>
-**Feature:** `padding`: Add a padding to the widget.
+- **BREAKING CHANGE:** `radius` is now called `maxSize` and required.<br>
+- **Fix:** Some issues when drawing `Circulito` inside an infinite size parent like
+- **Feature:** `isCenter`: Allow to center the widget.<br>
+- **Feature:** `padding`: Add a padding to the widget.<br>
+  `Column` or `Row`.
+- **Docs:** Update README and example<br>
+- **Docs:** Add Circulito painter class documentation<br>
 
 ---
 
 ## 0.0.1 First release
 
-Features:
-
-- Background
-- Section with colors
+- **Feature:** background
+- **Feature:** Section with colors
