@@ -1,16 +1,12 @@
+library utils;
+
 import 'dart:math';
 
-/// The start point to draw the wheel.
-///
-/// Could be `top`, `bottom`, `left` or `right`.
-enum StartPoint {
-  top,
-  bottom,
-  left,
-  right,
-}
+part 'direction.dart';
+part 'start_point.dart';
+part 'circulito_stroke_cap.dart';
 
-/// Returns the start angle to draw the wheel.
+/// Returns the start angle to draw the wheel from the [startPoint]
 double getStartAngle(StartPoint startPoint) {
   switch (startPoint) {
     case StartPoint.top:

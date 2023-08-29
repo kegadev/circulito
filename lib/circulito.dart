@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 
 import 'src/circulito_painter.dart';
 import 'src/circulito_section.dart';
-import 'src/circulito_stroke_cap.dart';
-import 'src/start_point.dart';
+import 'src/utils/utils.dart';
 
 export 'src/circulito_section.dart';
-export 'src/circulito_stroke_cap.dart';
-export 'src/start_point.dart';
+export 'src/utils/utils.dart';
 
 /// Circulito is a widget wraps the CirculitoPainter class
 /// to be used properly.
@@ -59,6 +57,11 @@ class Circulito extends StatelessWidget {
   /// Could be `top`, `bottom`, `left` or `right`. Default to `top`.
   final StartPoint startPoint;
 
+  /// Determines the direction of the wheel.
+  ///
+  /// Could be `clockwise` or `counterClockwise`. Default to `clockwise`.
+  final CirculitoDirection direction;
+
   const Circulito({
     super.key,
     required this.sections,
@@ -68,6 +71,7 @@ class Circulito extends StatelessWidget {
     this.strokeWidth = 20,
     this.isCentered = true,
     this.startPoint = StartPoint.top,
+    this.direction = CirculitoDirection.clockwise,
     this.strokeCap = CirculitoStrokeCap.round,
   })  : assert(strokeWidth > 0, "[strokeWidth] must be a positive value"),
         assert(maxSize > 0, "[maxSize] must be a positive value"),
@@ -82,10 +86,11 @@ class Circulito extends StatelessWidget {
       painter: CirculitoPainter(
         maxsize: maxSize,
         sections: sections,
-        strokeWidth: strokeWidth,
-        isCentered: isCentered,
         strokeCap: strokeCap,
+        isCentered: isCentered,
         startPoint: startPoint,
+        strokeWidth: strokeWidth,
+        direction: direction,
         backgroundColor: backgroundColor,
       ),
     );

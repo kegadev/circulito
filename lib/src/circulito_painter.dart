@@ -13,6 +13,7 @@ class CirculitoPainter extends CustomPainter {
   final double strokeWidth;
   final bool isCentered;
   final StartPoint startPoint;
+  final CirculitoDirection direction;
   final Color? backgroundColor;
   final CirculitoStrokeCap strokeCap;
 
@@ -22,6 +23,7 @@ class CirculitoPainter extends CustomPainter {
     required this.strokeCap,
     required this.isCentered,
     required this.startPoint,
+    required this.direction,
     this.backgroundColor,
     this.strokeWidth = 20,
   });
@@ -54,6 +56,8 @@ class CirculitoPainter extends CustomPainter {
       bool isBackground = false,
     ]) {
       var sweepAngle = 2 * pi * percentage;
+      if (direction == CirculitoDirection.counterClockwise)
+        sweepAngle = -sweepAngle;
 
       final sectionPaint = Paint()
         ..color = color
