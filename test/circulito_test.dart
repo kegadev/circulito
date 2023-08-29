@@ -12,6 +12,7 @@ void main() {
           CirculitoSection(color: Colors.red, percentage: 0.4),
           CirculitoSection(color: Colors.blue, percentage: 0.6),
         ],
+        maxSize: 150,
       ),
     );
 
