@@ -52,6 +52,8 @@ Circulito(
 
 `startPoint:` Determines the start point of the wheel.
 
+`circulitoDirection:` Determines the direction of the wheel.
+
 `backgroundColor`: The background color of the wheel to be painted.
 
 `padding:` The padding to be applied to the widget.
