@@ -1,5 +1,7 @@
-/// Same as `StrokeCap` from `flutter/material` but this has only 2 enum types:
+/// Same as `StrokeCap` from `flutter/material` but this has only 2 enum types.
 ///
+///
+/// Types available:
 /// - `butt`
 ///
 /// - `round`

@@ -9,6 +9,10 @@ import 'src/circulito_stroke_cap.dart';
 export 'src/circulito_section.dart';
 export 'src/circulito_stroke_cap.dart';
 
+/// Circulito is a widget wraps the CirculitoPainter class
+/// to be used properly.
+///
+/// Each section has a percentage and a color.
 class Circulito extends StatelessWidget {
   /// The sections to be painted
   ///
