@@ -5,20 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:circulito/circulito.dart';
 
 class CirculitoPainter extends CustomPainter {
+  final double maxsize;
+  final List<CirculitoSection> sections;
   final double strokeWidth;
+  final bool isCentered;
   final Color? backgroundColor;
   final CirculitoStrokeCap strokeCap;
-  final List<CirculitoSection> sections;
-  final double maxsize;
-  final bool isCentered;
 
   CirculitoPainter({
-    this.backgroundColor,
-    this.strokeWidth = 20,
     required this.maxsize,
     required this.sections,
     required this.strokeCap,
     required this.isCentered,
+    this.backgroundColor,
+    this.strokeWidth = 20,
   });
 
   @override

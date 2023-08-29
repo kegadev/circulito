@@ -15,6 +15,23 @@ class Circulito extends StatelessWidget {
   /// Each section has a percentage and a color.
   final List<CirculitoSection> sections;
 
+  /// The maximum size the widget can grow inside its parent.
+  ///
+  /// If any of the sizes (width or height) of the parent widget are smaller
+  /// than this size, the widget will be shrinked to fit the parent.
+  ///
+  /// Cannot be lower or equal than zero and lower or equal than [strokeWidth].
+  final double maxSize;
+
+  /// The padding to be applied to the widget when the parent widget is
+  /// bigger or equal than the widget itself.
+  final EdgeInsets? padding;
+
+  /// The background color of the wheel to be painted.
+  ///
+  /// If null, no background will be painted.
+  final Color? backgroundColor;
+
   /// The width of the stroke.
   ///
   /// Cannot be lower or equal than zero and higher than [maxSize].
@@ -26,27 +43,10 @@ class Circulito extends StatelessWidget {
   /// no significant effect.
   final bool isCentered;
 
-  /// The maximum size the widget can grow inside its parent.
-  ///
-  /// If any of the sizes (width or height) of the parent widget are smaller
-  /// than this size, the widget will be shrinked to fit the parent.
-  ///
-  /// Cannot be lower or equal than zero and lower or equal than [strokeWidth].
-  final double maxSize;
-
   /// Determines the shape of the stroke endings.
   ///
   /// Could be `Butt` or `Round`. Default to `Round`.
   final CirculitoStrokeCap strokeCap;
-
-  /// The background color of the wheel to be painted.
-  ///
-  /// If null, no background will be painted.
-  final Color? backgroundColor;
-
-  /// The padding to be applied to the widget when the parent widget is
-  /// bigger or equal than the widget itself.
-  final EdgeInsets? padding;
 
   const Circulito({
     super.key,
@@ -70,9 +70,9 @@ class Circulito extends StatelessWidget {
       painter: CirculitoPainter(
         maxsize: maxSize,
         sections: sections,
-        strokeCap: strokeCap,
-        isCentered: isCentered,
         strokeWidth: strokeWidth,
+        isCentered: isCentered,
+        strokeCap: strokeCap,
         backgroundColor: backgroundColor,
       ),
     );
