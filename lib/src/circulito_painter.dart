@@ -56,8 +56,9 @@ class CirculitoPainter extends CustomPainter {
       bool isBackground = false,
     ]) {
       var sweepAngle = 2 * pi * percentage;
-      if (direction == CirculitoDirection.counterClockwise)
+      if (direction == CirculitoDirection.counterClockwise) {
         sweepAngle = -sweepAngle;
+      }
 
       final sectionPaint = Paint()
         ..color = color
