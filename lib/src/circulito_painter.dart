@@ -9,22 +9,24 @@ class CirculitoPainter extends CustomPainter {
   final Color? backgroundColor;
   final CirculitoStrokeCap strokeCap;
   final List<CirculitoSection> sections;
-  final double? maxsize;
+  final double maxsize;
   final bool isCentered;
 
   CirculitoPainter({
     this.backgroundColor,
     this.strokeWidth = 20,
+    required this.maxsize,
     required this.sections,
     required this.strokeCap,
     required this.isCentered,
-    this.maxsize,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
-    final sizeToDraw =
-        min((maxsize ?? double.infinity), min(size.width, size.height));
+    var sizeToDraw = maxsize;
+    if (size.width >= 0.0 || size.height >= 0.0) {
+      sizeToDraw = min(maxsize, min(size.width, size.height));
+    }
 
     final width = sizeToDraw / 2;
     final height = sizeToDraw / 2;
