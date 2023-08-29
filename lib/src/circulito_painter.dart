@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 
 import 'package:circulito/circulito.dart';
 
+/// Paints the Circulito widget in canvas.
+///
+/// Shouldn't be used directly. Use [Circulito] instead.
 class CirculitoPainter extends CustomPainter {
   final double maxsize;
   final List<CirculitoSection> sections;
