@@ -14,15 +14,15 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(title: const Text('Circulito basic example')),
         body: Center(
           child: Container(
-            width: 250,
-            height: 250,
+            width: 480,
+            height: 480,
             color: Colors.grey.shade200,
             child: Circulito(
-              maxSize: 280,
-              strokeWidth: 20,
+              maxSize: 500,
+              strokeWidth: 50,
+              backgroundColor: Colors.grey,
               padding: const EdgeInsets.all(20),
               strokeCap: CirculitoStrokeCap.round,
-              backgroundColor: Colors.grey,
               sections: [
                 // Male percentage.
                 CirculitoSection(color: Colors.blue, percentage: 0.45),
@@ -36,4 +36,5 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+  // Container(width: 150, height: 50, color: Colors.green),
 }
