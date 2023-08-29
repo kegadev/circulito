@@ -6,10 +6,11 @@ Circulito provides a simple circular wheel chart for visualizing data using perc
 <img src='https://user-images.githubusercontent.com/138328831/263871505-d39bc60c-261f-448f-91a6-5605ad1e4f2d.png' alt='example circle wheel'>
 
 </div>
+
 ## Features
 
-Display circular wheel charts with customizable sections.
-Easily visualize data by providing percentages and corresponding colors.
+- Display circular wheel charts with customizable sections.
+- Easily visualize data by providing percentages and corresponding colors.
 
 ## Getting started
 
@@ -17,7 +18,7 @@ Add the package to your pubspec.yaml file:
 
 ```yml
 dependencies:
-  circulito: ^0.0.2
+  circulito: ^0.0.3
 ```
 
 ## Usage

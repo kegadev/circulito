@@ -6,7 +6,7 @@
 
 name: circulito
 description: Circulito provides a simple circular wheel chart for visualizing data using percentages and colors.
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/kegadev/circulito
 
 

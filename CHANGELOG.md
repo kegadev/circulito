@@ -1,3 +1,8 @@
+## 0.0.3
+
+- **Docs:** Update README<br>
+- **Docs:** Update circulito classes documentation<br>
+
 ## 0.0.2
 
 - **BREAKING CHANGE:** `radius` is now called `maxSize` and required.<br>
@@ -7,8 +12,6 @@
   `Column` or `Row`.
 - **Docs:** Update README and example<br>
 - **Docs:** Add Circulito painter class documentation<br>
-
----
 
 ## 0.0.1 First release
 
