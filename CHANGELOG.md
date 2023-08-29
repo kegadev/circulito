@@ -1,4 +1,4 @@
-## 0.0.3
+## 0.1.0
 
 - **Feature:** `startPoint`: Defines the starting point to draw the wheel.<br>
 - **Feature:** `circulitoDirection`: Determines the direction of the wheel.<br>
