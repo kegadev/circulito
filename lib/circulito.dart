@@ -62,10 +62,26 @@ class Circulito extends StatelessWidget {
   /// Could be `clockwise` or `counterClockwise`. Default to `clockwise`.
   final CirculitoDirection direction;
 
+  /// The widget to be shown over the wheel.
+  ///
+  /// If a `widget` is provided, a `Stack` widget is going to be created and
+  /// the [child] widget is going to be placed over the wheel. If no widget
+  /// is provided, `Circulito` will be return as it is.
+  ///
+  /// Easily Center the child wrapping it in a `Center` widget like this:
+  /// ```dart
+  /// Circulito(
+  /// ...
+  /// child: Center(child: Text('$value'%)),
+  /// )
+  /// ```
+  final Widget? child;
+
   const Circulito({
     super.key,
     required this.sections,
     required this.maxSize,
+    this.child,
     this.padding,
     this.backgroundColor,
     this.strokeWidth = 20,
@@ -105,7 +121,17 @@ class Circulito extends StatelessWidget {
         final maxHeight = constraints.maxHeight;
 
         // For fixed sizes, just return the widget.
-        if (maxWidth.isFinite && maxHeight.isFinite) return mainWidget;
+        // if (maxWidth.isFinite && maxHeight.isFinite) return mainWidget;
+        if (maxWidth.isFinite && maxHeight.isFinite) {
+          return _Circulito(
+            sizeToDraw: min(maxWidth, maxHeight),
+            mainWidget: mainWidget,
+            isCentered: isCentered,
+            isInfiniteSizedParent: false,
+            maxsize: maxSize,
+            child: child,
+          );
+        }
 
         // For infinite sizes, it is necesary shrink the widget to fit the parent.
         final outerStrokeWidth = strokeWidth / 2;
@@ -114,14 +140,68 @@ class Circulito extends StatelessWidget {
         var sizeToDraw = min(maxSize, maxAvailableSize);
         sizeToDraw -= outerStrokeWidth;
 
-        return SizedBox(
-          width: sizeToDraw,
-          height: sizeToDraw,
-          child: mainWidget,
+        return _Circulito(
+          sizeToDraw: sizeToDraw,
+          mainWidget: mainWidget,
+          isCentered: isCentered,
+          isInfiniteSizedParent: true,
+          maxsize: maxSize,
+          child: child,
         );
       },
     );
 
     // return mainWidget;
+  }
+}
+
+/// Wraps the main widget and the child widget.
+class _Circulito extends StatelessWidget {
+  const _Circulito({
+    required this.sizeToDraw,
+    required this.mainWidget,
+    required this.maxsize,
+    required this.isCentered,
+    required this.isInfiniteSizedParent,
+    this.child,
+  });
+
+  final double sizeToDraw;
+  final Widget mainWidget;
+  final double maxsize;
+  final bool isCentered;
+  final bool isInfiniteSizedParent;
+  final Widget? child;
+
+  @override
+  Widget build(BuildContext context) {
+    final wrappedMainWidget = SizedBox(
+      width: sizeToDraw,
+      height: sizeToDraw,
+      child: mainWidget,
+    );
+
+    if (child == null) return wrappedMainWidget;
+
+    Widget childToSHow = SizedBox(
+      width: min(maxsize, sizeToDraw),
+      height: min(maxsize, sizeToDraw),
+      child: child,
+    );
+
+    if (!isInfiniteSizedParent) {
+      childToSHow = Center(child: childToSHow);
+    }
+
+    return Stack(
+      children: [
+        SizedBox(
+          width: sizeToDraw,
+          height: sizeToDraw,
+          child: wrappedMainWidget,
+        ),
+        childToSHow,
+      ],
+    );
   }
 }

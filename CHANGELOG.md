@@ -1,3 +1,8 @@
+## 0.2.0
+
+- **Feature:** `child`: Now a widget can be shown over the wheel.<br>
+- **Docs:** Update README.<br>
+
 ## 0.1.0
 
 - **Feature:** `startPoint`: Defines the starting point to draw the wheel.<br>

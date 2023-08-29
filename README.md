@@ -39,6 +39,7 @@ Circulito(
      // Female percentage.
      CirculitoSection(color: Colors.pink, percentage: 0.35),
    ],
+    child: const Center(child: Text('Genders')),
  ),
 ```
 
@@ -61,6 +62,8 @@ Circulito(
 `sections`: A list of CirculitoSection objects representing each chart section.
 
 `isCentered:` Whether the widget should be centered or not inside the parent widget.
+
+`child`: The widget to be shown over the wheel.
 
 ---
 

@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
                 // Female percentage.
                 CirculitoSection(color: Colors.pink, percentage: 0.35),
               ],
+              child: const Center(child: Text('Genders')),
             ),
           ),
         ),
