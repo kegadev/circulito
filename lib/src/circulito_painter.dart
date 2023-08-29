@@ -12,6 +12,7 @@ class CirculitoPainter extends CustomPainter {
   final List<CirculitoSection> sections;
   final double strokeWidth;
   final bool isCentered;
+  final StartPoint startPoint;
   final Color? backgroundColor;
   final CirculitoStrokeCap strokeCap;
 
@@ -20,6 +21,7 @@ class CirculitoPainter extends CustomPainter {
     required this.sections,
     required this.strokeCap,
     required this.isCentered,
+    required this.startPoint,
     this.backgroundColor,
     this.strokeWidth = 20,
   });
@@ -45,8 +47,7 @@ class CirculitoPainter extends CustomPainter {
         ? StrokeCap.butt
         : StrokeCap.round;
 
-    var startAngle = -pi / 2;
-
+    var startAngle = getStartAngle(startPoint);
     void customDraw(
       double percentage,
       Color color, [

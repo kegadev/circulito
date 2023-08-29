@@ -1,7 +1,8 @@
 ## 0.0.3
 
-- **Docs:** Update README<br>
-- **Docs:** Update circulito classes documentation<br>
+- **Feature:** `startPoint`: Defines the starting point to draw the wheel.<br>
+- **Docs:** Update README.<br>
+- **Docs:** Update circulito classes documentation.<br>
 
 ## 0.0.2
 

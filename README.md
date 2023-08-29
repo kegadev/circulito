@@ -50,6 +50,8 @@ Circulito(
 
 `strokeCap`: The type of cap to use for the stroke (round or butt).
 
+`startPoint:` Determines the start point of the wheel.
+
 `backgroundColor`: The background color of the wheel to be painted.
 
 `padding:` The padding to be applied to the widget.
