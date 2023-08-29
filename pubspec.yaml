@@ -5,7 +5,7 @@
 
 
 name: circulito
-description: A Flutter package for creating animated circular progress bars.
+description: Circulito provides a simple circular wheel chart for visualizing data using percentages and colors.
 version: 0.0.2
 homepage: https://github.com/kegadev/circulito
 
