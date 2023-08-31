@@ -81,21 +81,23 @@ class Circulito extends StatelessWidget {
   ///
   /// Could be `percentage` or `amount`. Default to `percentage`.
   ///
-  /// If `percentage` is selected, the value of each section will be
-  /// interpreted as a percentage of the total value of all sections.
-  /// value must be **between** `0` and `1`.
+  /// If [SectionValueType.percentage] is selected, the value of each section
+  /// will be interpreted as a percentage of the total value of all sections.
+  /// Value must be **between** `0` and `1`. For example:
   /// ```dart
-  /// [
+  /// sectionValueType: SectionValueType.percentage,
+  /// sections:[
   ///   CirculitoSection(color: Colors.blue, value: 0.45),
   ///   CirculitoSection(color: Colors.pink, value: 0.55),
   /// ]
   /// ```
   ///
-  /// If `amount` is selected, the percentage of the wheel to be painted
+  /// If [SectionValueType.amount] is selected, the percentage of the wheel to be painted
   /// is going to be calculated by dividing the each value by the sum
-  /// of all the values.
+  /// of all the values. For example
   /// ```dart
-  /// [
+  /// sectionValueType: SectionValueType.amount,
+  /// sections:[
   ///   CirculitoSection(color: Colors.blue, value: 450),
   ///   CirculitoSection(color: Colors.pink, value: 550),
   /// ]
