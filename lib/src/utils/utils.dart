@@ -4,6 +4,7 @@ import 'dart:math';
 
 part 'direction.dart';
 part 'start_point.dart';
+part 'section_value_type.dart';
 part 'circulito_stroke_cap.dart';
 
 /// Returns the start angle to draw the wheel from the [startPoint]

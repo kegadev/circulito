@@ -14,6 +14,7 @@ class CirculitoPainter extends CustomPainter {
   final bool isCentered;
   final StartPoint startPoint;
   final CirculitoDirection direction;
+  final SectionValueType sectionValueType;
   final Color? backgroundColor;
   final CirculitoStrokeCap strokeCap;
 
@@ -24,6 +25,7 @@ class CirculitoPainter extends CustomPainter {
     required this.isCentered,
     required this.startPoint,
     required this.direction,
+    required this.sectionValueType,
     this.backgroundColor,
     this.strokeWidth = 20,
   });
@@ -50,6 +52,8 @@ class CirculitoPainter extends CustomPainter {
         : StrokeCap.round;
 
     var startAngle = getStartAngle(startPoint);
+
+    /// Draws a section of the wheel.
     void customDraw(
       double percentage,
       Color color, [
@@ -82,8 +86,17 @@ class CirculitoPainter extends CustomPainter {
     if (backgroundColor != null) customDraw(1, backgroundColor!, true);
 
     // Sections.
+    var valueTotal = 0.0;
+    if (sectionValueType == SectionValueType.amount) {
+      valueTotal = sections.fold(0, (sum, section) => sum + (section.value));
+    }
+
     for (int i = 0; i < sections.length; i++) {
-      customDraw(sections[i].percentage, sections[i].color);
+      double percentage = sectionValueType == SectionValueType.amount
+          ? sections[i].value / valueTotal
+          : sections[i].value;
+
+      customDraw(percentage, sections[i].color);
     }
   }
 
