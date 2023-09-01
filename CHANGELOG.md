@@ -1,3 +1,8 @@
+## 0.3.0
+
+- **BREAKING CHANGE:** `percentage` is now called `value` in `Circulito Section`<br>
+- **Feature:** Now the percentage can be calculated automatically passing `amount` arguments.<br>
+
 ## 0.2.0
 
 - **Feature:** `child`: Now a widget can be shown over the wheel.<br>
