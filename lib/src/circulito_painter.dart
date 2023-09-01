@@ -17,6 +17,7 @@ class CirculitoPainter extends CustomPainter {
   final SectionValueType sectionValueType;
   final Color? backgroundColor;
   final CirculitoStrokeCap strokeCap;
+  final int selectedIndex;
 
   CirculitoPainter({
     required this.maxsize,
@@ -26,6 +27,7 @@ class CirculitoPainter extends CustomPainter {
     required this.startPoint,
     required this.direction,
     required this.sectionValueType,
+    required this.selectedIndex,
     this.backgroundColor,
     this.strokeWidth = 20,
   });
@@ -51,23 +53,29 @@ class CirculitoPainter extends CustomPainter {
         ? StrokeCap.butt
         : StrokeCap.round;
 
-    var startAngle = getStartAngle(startPoint);
+    var startAngle = Utils.getStartAngle(startPoint);
 
     /// Draws a section of the wheel.
     void customDraw(
       double percentage,
       Color color, [
       bool isBackground = false,
+      int index = -1,
     ]) {
       var sweepAngle = 2 * pi * percentage;
       if (direction == CirculitoDirection.counterClockwise) {
         sweepAngle = -sweepAngle;
       }
+      var customStrokeWidth = strokeWidth;
+      if (index == selectedIndex && !isBackground) {
+        // color = Colors.black;
+        customStrokeWidth = strokeWidth * 1.1;
+      }
 
       final sectionPaint = Paint()
         ..color = color
         ..style = PaintingStyle.stroke
-        ..strokeWidth = strokeWidth
+        ..strokeWidth = customStrokeWidth
         ..strokeCap = flutterStrokeCap;
 
       canvas.drawArc(
@@ -88,7 +96,7 @@ class CirculitoPainter extends CustomPainter {
     // Sections.
     var valueTotal = 0.0;
     if (sectionValueType == SectionValueType.amount) {
-      valueTotal = sections.fold(0, (sum, section) => sum + (section.value));
+      valueTotal = Utils.getSectionsTotalValue(sections);
     }
 
     for (int i = 0; i < sections.length; i++) {
@@ -96,7 +104,7 @@ class CirculitoPainter extends CustomPainter {
           ? sections[i].value / valueTotal
           : sections[i].value;
 
-      customDraw(percentage, sections[i].color);
+      customDraw(percentage, sections[i].color, false, i);
     }
   }
 
