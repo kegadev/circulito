@@ -1,5 +1,3 @@
-part of utils;
-
 /// The start point to draw the wheel.
 ///
 /// Could be `top`, `bottom`, `left` or `right`.

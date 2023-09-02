@@ -6,11 +6,6 @@ import 'package:flutter/material.dart';
 
 import 'package:circulito/circulito.dart';
 
-part 'direction.dart';
-part 'start_point.dart';
-part 'section_value_type.dart';
-part 'circulito_stroke_cap.dart';
-
 /// Utility class.
 abstract class Utils {
   /// Returns the start angle to draw the wheel from the [startPoint]

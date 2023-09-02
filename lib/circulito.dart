@@ -6,10 +6,12 @@ import 'package:flutter/services.dart';
 
 import 'src/circulito_painter.dart';
 import 'src/circulito_section.dart';
+import 'src/enums/enums.dart';
 import 'src/utils/utils.dart';
 
 export 'src/circulito_section.dart';
 export 'src/utils/utils.dart';
+export 'src/enums/enums.dart';
 
 /// Circulito is a widget wraps the CirculitoPainter class
 /// to be used properly.

@@ -1,5 +1,3 @@
-part of utils;
-
 /// The type of the value of a section.
 enum SectionValueType {
   /// The value of each section will be interpreted as a percentage of the
