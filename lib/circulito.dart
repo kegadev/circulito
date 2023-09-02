@@ -160,54 +160,42 @@ class Circulito extends StatelessWidget {
         final maxWidth = constraints.maxWidth;
         final maxHeight = constraints.maxHeight;
 
+        final circulitoWidget = _Circulito(
+          sizeToDraw: min(maxWidth, maxHeight),
+          mainWidget: mainWidget,
+          sections: sections,
+          isCentered: isCentered,
+          hoveredIndexController: hoveredIndexController,
+          isInfiniteSizedParent: false,
+          strokeWidth: strokeWidth,
+          maxsize: maxSize,
+          startPoint: startPoint,
+          direction: direction,
+          padding: padding,
+          child: child,
+        );
+
         // For fixed sizes, just return the widget.
-        // if (maxWidth.isFinite && maxHeight.isFinite) return mainWidget;
         if (maxWidth.isFinite && maxHeight.isFinite) {
-          return _Circulito(
-            sizeToDraw: min(maxWidth, maxHeight),
-            mainWidget: mainWidget,
-            sections: sections,
-            isCentered: isCentered,
-            hoveredIndexController: hoveredIndexController,
-            isInfiniteSizedParent: false,
-            strokeWidth: strokeWidth,
-            maxsize: maxSize,
-            startPoint: startPoint,
-            direction: direction,
-            padding: padding,
-            child: child,
-          );
+          return circulitoWidget;
         }
 
         // For infinite sizes, it is necesary shrink the widget to fit the parent.
-        final outerStrokeWidth = strokeWidth / 2;
         final maxAvailableSize = min(maxWidth, maxHeight);
+        final sizeToDraw = min(maxSize, maxAvailableSize);
 
-        var sizeToDraw = min(maxSize, maxAvailableSize);
-        sizeToDraw -= outerStrokeWidth;
+        // Change properties of the widget to fit the parent.
+        circulitoWidget
+          ..isInfiniteSizedParent = true
+          ..sizeToDraw = sizeToDraw;
 
-        return _Circulito(
-          sizeToDraw: sizeToDraw,
-          mainWidget: mainWidget,
-          hoveredIndexController: hoveredIndexController,
-          sections: sections,
-          strokeWidth: strokeWidth,
-          isCentered: isCentered,
-          padding: padding,
-          direction: direction,
-          startPoint: startPoint,
-          isInfiniteSizedParent: true,
-          maxsize: maxSize,
-          child: child,
-        );
+        return circulitoWidget;
       },
     );
-
-    // return mainWidget;
   }
 }
 
-/// Wraps the main widget and the child widget.
+/// Wraps the main widget and the child widget. Also handles the hover events.
 // ignore: must_be_immutable
 class _Circulito extends StatelessWidget {
   _Circulito({
@@ -225,19 +213,18 @@ class _Circulito extends StatelessWidget {
     this.child,
   });
 
-  final double sizeToDraw;
   final Widget mainWidget;
   final double maxsize;
   final bool isCentered;
-  final bool isInfiniteSizedParent;
   final List<CirculitoSection> sections;
   final double strokeWidth;
   final StreamController<int> hoveredIndexController;
   final CirculitoDirection direction;
   final EdgeInsets? padding;
-  StartPoint startPoint;
+  final StartPoint startPoint;
   final Widget? child;
-
+  double sizeToDraw;
+  bool isInfiniteSizedParent;
   var _index = -1;
 
   @override
@@ -293,14 +280,10 @@ class _Circulito extends StatelessWidget {
     final diameter = min(maxsize, sizeToDraw) / 2;
     if (distance <= (diameter - strokeWidth) ||
         distance >= (diameter + (strokeWidth))) {
-      if (_index != -1) {
-        _index = -1;
-
-        hoveredIndexController.add(_index);
-      }
-
+      removeSelection();
       return;
     }
+
     final angle = Utils.calculateHoverAngle(
       hoverPosition,
       centerOffset,
@@ -309,7 +292,8 @@ class _Circulito extends StatelessWidget {
       startPoint,
     );
 
-    var sectionIndex = Utils.determineHoverSection(valueTotal, angle, sections);
+    final sectionIndex =
+        Utils.determineHoverSection(valueTotal, angle, sections);
 
     // Only update stream if the section has changed.
     if (sectionIndex != _index) {
@@ -318,9 +302,11 @@ class _Circulito extends StatelessWidget {
     }
   }
 
-  // Handles the exit event.
-  void onPointerExit(PointerExitEvent event) {
-    // Remove Selection.
+  /// Handles the exit event.
+  void onPointerExit(PointerExitEvent event) => removeSelection();
+
+  /// Removes the selection reseting index.
+  void removeSelection() {
     if (_index != -1) {
       _index = -1;
       hoveredIndexController.add(_index);
