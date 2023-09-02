@@ -69,13 +69,26 @@ abstract class Utils {
   }
 
   /// Returns the index of the section that is being hovered.
+  ///
+  /// Returns `-1` if no section is being hovered.
   static int determineHoverSection(
-      double total, double angle, List<CirculitoSection> sections) {
+    double angle,
+    List<CirculitoSection> sections,
+    SectionValueType sectionValueType,
+  ) {
     var startAngle = 0.0;
+
+    final valueTotal = sectionValueType == SectionValueType.amount
+        ? Utils.getSectionsTotalValue(sections)
+        : 1.0; // No need to do calculations on type percentage.
 
     for (int i = 0; i < sections.length; i++) {
       final section = sections[i];
-      final sectionAngle = (section.value / total) * 2 * pi;
+      final percentage = sectionValueType == SectionValueType.amount
+          ? section.value / valueTotal
+          : section.value;
+      final sectionAngle = percentage * pi * 2;
+
       final sectionEndAngle = startAngle + sectionAngle;
 
       if (angle >= startAngle && (angle <= sectionEndAngle)) {
@@ -85,6 +98,7 @@ abstract class Utils {
       startAngle += sectionAngle;
     }
 
+    // No section is being hovered.
     return -1;
   }
 }

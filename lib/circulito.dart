@@ -168,6 +168,7 @@ class Circulito extends StatelessWidget {
           hoveredIndexController: hoveredIndexController,
           isInfiniteSizedParent: false,
           strokeWidth: strokeWidth,
+          sectionValueType: sectionValueType,
           maxsize: maxSize,
           startPoint: startPoint,
           direction: direction,
@@ -209,6 +210,7 @@ class _Circulito extends StatelessWidget {
     required this.hoveredIndexController,
     required this.direction,
     required this.startPoint,
+    required this.sectionValueType,
     this.padding,
     this.child,
   });
@@ -222,6 +224,7 @@ class _Circulito extends StatelessWidget {
   final CirculitoDirection direction;
   final EdgeInsets? padding;
   final StartPoint startPoint;
+  final SectionValueType sectionValueType;
   final Widget? child;
   double sizeToDraw;
   bool isInfiniteSizedParent;
@@ -265,7 +268,6 @@ class _Circulito extends StatelessWidget {
 
   /// Handles the hover event.
   void onPointerHover(PointerHoverEvent event) {
-    final valueTotal = Utils.getSectionsTotalValue(sections);
     final hoverPosition = event.localPosition;
     final halfSizeToDraw = sizeToDraw / 2;
     final centerOffset = Offset(halfSizeToDraw, halfSizeToDraw);
@@ -293,7 +295,7 @@ class _Circulito extends StatelessWidget {
     );
 
     final sectionIndex =
-        Utils.determineHoverSection(valueTotal, angle, sections);
+        Utils.determineHoverSection(angle, sections, sectionValueType);
 
     // Only update stream if the section has changed.
     if (sectionIndex != _index) {
