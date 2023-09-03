@@ -176,6 +176,7 @@ class Circulito extends StatelessWidget {
           maxsize: maxSize,
           startPoint: startPoint,
           direction: direction,
+          background: background,
           padding: padding,
           child: child,
         );
@@ -215,6 +216,7 @@ class _Circulito extends StatelessWidget {
     required this.direction,
     required this.startPoint,
     required this.sectionValueType,
+    this.background,
     this.padding,
     this.child,
   });
@@ -230,6 +232,7 @@ class _Circulito extends StatelessWidget {
   final StartPoint startPoint;
   final SectionValueType sectionValueType;
   final Widget? child;
+  final CirculitoBackground? background;
   double sizeToDraw;
   bool isInfiniteSizedParent;
   var _index = -1;
@@ -239,10 +242,22 @@ class _Circulito extends StatelessWidget {
     final wrappedMainWidget = SizedBox(
       width: sizeToDraw,
       height: sizeToDraw,
-      child: MouseRegion(
-        onHover: onPointerHover,
-        onExit: onPointerExit,
-        child: mainWidget,
+      child: GestureDetector(
+        onTap: () {
+          if (_index == -2) {
+            background?.onTap?.call();
+          } else if (_index != -1) {
+            final section = sections[_index];
+            if (section.onTap != null) {
+              section.onTap!();
+            }
+          }
+        },
+        child: MouseRegion(
+          onHover: onPointerHover,
+          onExit: onPointerExit,
+          child: mainWidget,
+        ),
       ),
     );
 
