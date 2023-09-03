@@ -39,7 +39,7 @@ class Circulito extends StatelessWidget {
   /// If specific padding is needed, use [Padding] widget to wrap `Circulito`.
   final double? padding;
 
-  /// The background color of the wheel to be painted.
+  /// The background of the wheel to be painted.
   ///
   /// If null, no background will be painted.
   final CirculitoBackground? background;
