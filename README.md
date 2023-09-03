@@ -28,6 +28,7 @@ Use the Circulito widget in your Flutter app:
 ```dart
 Circulito(
     maxSize: 480,
+    padding: 20.0,
     strokeWidth: 80,
     startPoint: StartPoint.left,
     background: CirculitoBackground(),
@@ -53,25 +54,29 @@ Circulito(
 
 ### Parameters
 
-`maxSize`: The maximum size the widget can grow inside its parent.
+<!-- Sort alphabetically -->
 
-`strokeWidth`: The width of the stroke that defines the chart's outline.
+`background`: The background of the wheel to be painted.
 
-`strokeCap`: The type of cap to use for the stroke (round or butt).
-
-`startPoint:` Determines the start point of the wheel.
+`child`: The widget to be shown over the wheel.
 
 `circulitoDirection:` Determines the direction of the wheel.
 
-`backgroundColor`: The background color of the wheel to be painted.
+`direction:` Determines the direction of the wheel.
+
+`isCentered:` Whether the widget should be centered or not inside the parent widget.
+
+`maxSize`: The maximum size the widget can grow inside its parent.
 
 `padding:` The padding to be applied to the widget.
 
 `sections`: A list of CirculitoSection objects representing each chart section.
 
-`isCentered:` Whether the widget should be centered or not inside the parent widget.
+`startPoint:` Determines the start point of the wheel.
 
-`child`: The widget to be shown over the wheel.
+`strokeCap`: The type of cap to use for the stroke (round or butt).
+
+`strokeWidth`: The width of the stroke that defines the chart's outline.
 
 ---
 
