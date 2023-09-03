@@ -14,23 +14,32 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(title: const Text('Circulito basic example')),
         body: Center(
           child: Container(
-            width: 480,
-            height: 480,
+            width: 500,
+            height: 500,
             color: Colors.grey.shade200,
             child: Circulito(
-              maxSize: 500,
-              strokeWidth: 50,
-              backgroundColor: Colors.grey,
-              padding: const EdgeInsets.all(20),
+              maxSize: 480,
+              strokeWidth: 80,
+              startPoint: StartPoint.left,
+              background: CirculitoBackground(),
               strokeCap: CirculitoStrokeCap.round,
+              direction: CirculitoDirection.clockwise,
+              sectionValueType: SectionValueType.percentage,
               sections: [
                 // Male percentage.
-                CirculitoSection(color: Colors.blue, percentage: 0.45),
+                CirculitoSection(
+                  value: .35,
+                  color: Colors.blue,
+                  hoverColor: Colors.blueAccent,
+                ),
 
                 // Female percentage.
-                CirculitoSection(color: Colors.pink, percentage: 0.35),
+                CirculitoSection(
+                  value: .40,
+                  color: Colors.pink,
+                  hoverColor: Colors.pinkAccent,
+                ),
               ],
-              child: const Center(child: Text('Genders')),
             ),
           ),
         ),
