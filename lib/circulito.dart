@@ -13,11 +13,11 @@ import 'src/utils/utils.dart';
 export '/src/circulito_background.dart';
 export 'src/circulito_section.dart';
 export 'src/enums/enums.dart';
-export 'src/utils/utils.dart';
+// export 'src/utils/utils.dart';
 
 /// Circulito is a widget wraps the CirculitoPainter class
 /// to be used properly.
-class Circulito extends StatelessWidget {
+class Circulito extends StatefulWidget {
   /// The sections to be painted
   ///
   /// Each section has a percentage and a color.
@@ -113,10 +113,8 @@ class Circulito extends StatelessWidget {
   final SectionValueType sectionValueType;
 
   /// Controls the hovered index.
-  final StreamController<int> hoveredIndexController =
-      StreamController<int>.broadcast();
 
-  Circulito({
+  const Circulito({
     super.key,
     required this.sections,
     required this.maxSize,
@@ -137,9 +135,18 @@ class Circulito extends StatelessWidget {
             "otherwise, nothing will be drawn on screen.");
 
   @override
+  State<Circulito> createState() => _CirculitoState();
+}
+
+class _CirculitoState extends State<Circulito> {
+  final StreamController<int> hoveredIndexController =
+      StreamController<int>.broadcast();
+
+  @override
   Widget build(BuildContext context) {
     Widget mainWidget = StreamBuilder<int>(
         stream: hoveredIndexController.stream,
+        initialData: -1,
         builder: (_, snapshot) {
           final hoveredIndex = snapshot.data ?? -1;
 
@@ -147,23 +154,23 @@ class Circulito extends StatelessWidget {
             cursor: getCursor(hoveredIndex),
             child: CustomPaint(
               painter: CirculitoPainter(
-                maxsize: maxSize,
-                sections: sections,
-                direction: direction,
-                strokeCap: strokeCap,
-                isCentered: isCentered,
+                maxsize: widget.maxSize,
+                sections: widget.sections,
+                direction: widget.direction,
+                strokeCap: widget.strokeCap,
+                isCentered: widget.isCentered,
                 selectedIndex: hoveredIndex,
-                startPoint: startPoint,
-                strokeWidth: strokeWidth,
-                background: background,
-                sectionValueType: sectionValueType,
+                startPoint: widget.startPoint,
+                strokeWidth: widget.strokeWidth,
+                background: widget.background,
+                sectionValueType: widget.sectionValueType,
               ),
             ),
           );
         });
 
-    if (padding != null) {
-      final paddingInset = EdgeInsets.all(padding!);
+    if (widget.padding != null) {
+      final paddingInset = EdgeInsets.all(widget.padding!);
       mainWidget = Padding(padding: paddingInset, child: mainWidget);
     }
 
@@ -175,18 +182,18 @@ class Circulito extends StatelessWidget {
         final circulitoWidget = _Circulito(
           sizeToDraw: min(maxWidth, maxHeight),
           mainWidget: mainWidget,
-          sections: sections,
-          isCentered: isCentered,
+          sections: widget.sections,
+          isCentered: widget.isCentered,
           hoveredIndexController: hoveredIndexController,
           isInfiniteSizedParent: false,
-          strokeWidth: strokeWidth,
-          sectionValueType: sectionValueType,
-          maxsize: maxSize,
-          startPoint: startPoint,
-          direction: direction,
-          background: background,
-          padding: padding,
-          child: child,
+          strokeWidth: widget.strokeWidth,
+          sectionValueType: widget.sectionValueType,
+          maxsize: widget.maxSize,
+          startPoint: widget.startPoint,
+          direction: widget.direction,
+          background: widget.background,
+          padding: widget.padding,
+          child: widget.child,
         );
 
         // For fixed sizes, just return the widget.
@@ -196,7 +203,7 @@ class Circulito extends StatelessWidget {
 
         // For infinite sizes, it is necesary shrink the widget to fit the parent.
         final maxAvailableSize = min(maxWidth, maxHeight);
-        final sizeToDraw = min(maxSize, maxAvailableSize);
+        final sizeToDraw = min(widget.maxSize, maxAvailableSize);
 
         // Change properties of the widget to fit the parent.
         circulitoWidget
@@ -213,12 +220,19 @@ class Circulito extends StatelessWidget {
     // This as default because it is more often called and more efficient.
     if (hoveredIndex == -1) return SystemMouseCursors.basic;
 
-    if (hoveredIndex == -2 && background?.onTap != null ||
-        hoveredIndex >= 0 && sections[hoveredIndex].onTap != null) {
+    if (hoveredIndex == -2 && widget.background?.onTap != null ||
+        hoveredIndex >= 0 && widget.sections[hoveredIndex].onTap != null) {
       return SystemMouseCursors.click;
     }
 
     return SystemMouseCursors.basic;
+  }
+
+  @override
+  void dispose() {
+    // Close the StreamController when the widget is disposed.
+    hoveredIndexController.close();
+    super.dispose();
   }
 }
 
