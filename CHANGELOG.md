@@ -1,3 +1,9 @@
+## 0.3.1
+
+- **Perf:** Delete unnessary sentence on _Utils_.<br>
+- **Perf:** Making `Circulito` Statefull widget for better practice.<br>
+- **Chore:** Delete default export _Utils_ in Circulito.<br>
+
 ## 0.3.0
 
 - **BREAKING CHANGE:** `percentage` is now called `value` in `Circulito Section`.<br>
