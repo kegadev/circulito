@@ -344,8 +344,6 @@ class _Circulito extends StatelessWidget {
     final sectionIndex =
         Utils.determineHoverSection(angle, sections, sectionValueType);
 
-    SystemChannels.mouseCursor.invokeMethod('mouseCursor', 'pointer');
-
     doSelection(sectionIndex);
   }
 
