@@ -10,10 +10,10 @@ import 'src/circulito_section.dart';
 import 'src/enums/enums.dart';
 import 'src/utils/utils.dart';
 
-export 'src/circulito_section.dart';
-export 'src/utils/utils.dart';
 export '/src/circulito_background.dart';
+export 'src/circulito_section.dart';
 export 'src/enums/enums.dart';
+export 'src/utils/utils.dart';
 
 /// Circulito is a widget wraps the CirculitoPainter class
 /// to be used properly.
@@ -112,6 +112,10 @@ class Circulito extends StatelessWidget {
   /// ```
   final SectionValueType sectionValueType;
 
+  /// Controls the hovered index.
+  final StreamController<int> hoveredIndexController =
+      StreamController<int>.broadcast();
+
   Circulito({
     super.key,
     required this.sections,
@@ -132,23 +136,6 @@ class Circulito extends StatelessWidget {
             "[maxSize] cannot be lower or equal than [strokeWidth],"
             "otherwise, nothing will be drawn on screen.");
 
-  /// Controls the hovered index.
-  final StreamController<int> hoveredIndexController =
-      StreamController<int>.broadcast();
-
-  /// Returns the cursor to be shown when the mouse is over the widget.
-  SystemMouseCursor getCursor(int hoveredIndex) {
-    // This as default because it is more often called and more efficient.
-    if (hoveredIndex == -1) return SystemMouseCursors.basic;
-
-    if (hoveredIndex == -2 && background?.onTap != null ||
-        hoveredIndex >= 0 && sections[hoveredIndex].onTap != null) {
-      return SystemMouseCursors.click;
-    }
-
-    return SystemMouseCursors.basic;
-  }
-
   @override
   Widget build(BuildContext context) {
     Widget mainWidget = StreamBuilder<int>(
@@ -159,18 +146,19 @@ class Circulito extends StatelessWidget {
           return MouseRegion(
             cursor: getCursor(hoveredIndex),
             child: CustomPaint(
-                painter: CirculitoPainter(
-              maxsize: maxSize,
-              sections: sections,
-              direction: direction,
-              strokeCap: strokeCap,
-              isCentered: isCentered,
-              selectedIndex: hoveredIndex,
-              startPoint: startPoint,
-              strokeWidth: strokeWidth,
-              background: background,
-              sectionValueType: sectionValueType,
-            )),
+              painter: CirculitoPainter(
+                maxsize: maxSize,
+                sections: sections,
+                direction: direction,
+                strokeCap: strokeCap,
+                isCentered: isCentered,
+                selectedIndex: hoveredIndex,
+                startPoint: startPoint,
+                strokeWidth: strokeWidth,
+                background: background,
+                sectionValueType: sectionValueType,
+              ),
+            ),
           );
         });
 
@@ -219,43 +207,58 @@ class Circulito extends StatelessWidget {
       },
     );
   }
+
+  /// Returns the cursor to be shown when the mouse is over the widget.
+  SystemMouseCursor getCursor(int hoveredIndex) {
+    // This as default because it is more often called and more efficient.
+    if (hoveredIndex == -1) return SystemMouseCursors.basic;
+
+    if (hoveredIndex == -2 && background?.onTap != null ||
+        hoveredIndex >= 0 && sections[hoveredIndex].onTap != null) {
+      return SystemMouseCursors.click;
+    }
+
+    return SystemMouseCursors.basic;
+  }
 }
 
 /// Wraps the main widget and the child widget. Also handles the hover events.
 // ignore: must_be_immutable
 class _Circulito extends StatelessWidget {
+  final CirculitoDirection direction;
+  final StreamController<int> hoveredIndexController;
+  final bool isCentered;
+  final Widget mainWidget;
+  final double maxsize;
+  final List<CirculitoSection> sections;
+  final SectionValueType sectionValueType;
+  final StartPoint startPoint;
+  final double strokeWidth;
+  double sizeToDraw;
+  bool isInfiniteSizedParent;
+
+  final CirculitoBackground? background;
+  final double? padding;
+  final Widget? child;
+
+  var _index = -1;
+
   _Circulito({
-    required this.sizeToDraw,
-    required this.mainWidget,
-    required this.maxsize,
+    required this.direction,
+    required this.hoveredIndexController,
     required this.isCentered,
     required this.isInfiniteSizedParent,
+    required this.mainWidget,
+    required this.maxsize,
     required this.sections,
-    required this.strokeWidth,
-    required this.hoveredIndexController,
-    required this.direction,
-    required this.startPoint,
     required this.sectionValueType,
+    required this.sizeToDraw,
+    required this.startPoint,
+    required this.strokeWidth,
     this.background,
     this.padding,
     this.child,
   });
-
-  final Widget mainWidget;
-  final double maxsize;
-  final bool isCentered;
-  final List<CirculitoSection> sections;
-  final double strokeWidth;
-  final StreamController<int> hoveredIndexController;
-  final CirculitoDirection direction;
-  final double? padding;
-  final StartPoint startPoint;
-  final SectionValueType sectionValueType;
-  final Widget? child;
-  final CirculitoBackground? background;
-  double sizeToDraw;
-  bool isInfiniteSizedParent;
-  var _index = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -296,17 +299,26 @@ class _Circulito extends StatelessWidget {
     );
   }
 
-  /// Handles the tap event.
-  void onTap() {
-    if (_index == -2) {
-      background?.onTap?.call();
-    } else if (_index != -1) {
-      final section = sections[_index];
-      if (section.onTap != null) {
-        section.onTap!();
-      }
+  /// Handles the selection event.
+  ///
+  /// Only update stream if the section has changed.
+  void doSelection(int sectionIndex) {
+    if (sectionIndex != _index) {
+      _index = sectionIndex;
+      hoveredIndexController.add(sectionIndex);
+
+      // Nothing selected.
+      if (_index == -1) return;
+
+      // on Hover callback.
+      _index == -2
+          ? background?.onHover?.call()
+          : sections[_index].onHover?.call();
     }
   }
+
+  /// Handles the exit event.
+  void onPointerExit(PointerExitEvent event) => removeSelection();
 
   /// Handles the hover event.
   void onPointerHover(PointerHoverEvent event) {
@@ -345,24 +357,15 @@ class _Circulito extends StatelessWidget {
     doSelection(sectionIndex);
   }
 
-  /// Handles the exit event.
-  void onPointerExit(PointerExitEvent event) => removeSelection();
-
-  /// Handles the selection event.
-  ///
-  /// Only update stream if the section has changed.
-  void doSelection(int sectionIndex) {
-    if (sectionIndex != _index) {
-      _index = sectionIndex;
-      hoveredIndexController.add(sectionIndex);
-
-      // Nothing selected.
-      if (_index == -1) return;
-
-      // on Hover callback.
-      _index == -2
-          ? background?.onHover?.call()
-          : sections[_index].onHover?.call();
+  /// Handles the tap event.
+  void onTap() {
+    if (_index == -2) {
+      background?.onTap?.call();
+    } else if (_index != -1) {
+      final section = sections[_index];
+      if (section.onTap != null) {
+        section.onTap!();
+      }
     }
   }
 
