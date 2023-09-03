@@ -47,5 +47,5 @@ class CirculitoSection {
     this.onTap,
     this.onHover,
     this.hoverStrokeMultiplier = 1.1,
-  }) : assert((value > 0.0), 'Value can not be negative or zero.');
+  }) : assert((value >= 0.0), 'Value can not be negative.');
 }
