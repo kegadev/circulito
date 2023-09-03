@@ -319,15 +319,29 @@ class _Circulito extends StatelessWidget {
     final sectionIndex =
         Utils.determineHoverSection(angle, sections, sectionValueType);
 
-    // Only update stream if the section has changed.
-    if (sectionIndex != _index) {
-      _index = sectionIndex;
-      hoveredIndexController.add(sectionIndex);
-    }
+    doSelection(sectionIndex);
   }
 
   /// Handles the exit event.
   void onPointerExit(PointerExitEvent event) => removeSelection();
+
+  /// Handles the selection event.
+  ///
+  /// Only update stream if the section has changed.
+  void doSelection(int sectionIndex) {
+    if (sectionIndex != _index) {
+      _index = sectionIndex;
+      hoveredIndexController.add(sectionIndex);
+
+      // Nothing selected.
+      if (_index == -1) return;
+
+      // on Hover callback.
+      _index == -2
+          ? background?.onHover?.call()
+          : sections[_index].onHover?.call();
+    }
+  }
 
   /// Removes the selection reseting index.
   void removeSelection() {
