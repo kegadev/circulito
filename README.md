@@ -18,7 +18,7 @@ Add the package to your pubspec.yaml file:
 
 ```yml
 dependencies:
-  circulito: ^0.3.1
+  circulito: ^0.3.2
 ```
 
 ## Usage
