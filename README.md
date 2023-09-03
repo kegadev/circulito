@@ -27,20 +27,28 @@ Use the Circulito widget in your Flutter app:
 
 ```dart
 Circulito(
-   maxSize: 500,
-   strokeWidth: 50,
-   backgroundColor: Colors.grey,
-   padding: const EdgeInsets.all(20),
-   strokeCap: CirculitoStrokeCap.round,
-   sections: [
-     // Male percentage.
-     CirculitoSection(color: Colors.blue, percentage: 0.45),
-
-     // Female percentage.
-     CirculitoSection(color: Colors.pink, percentage: 0.35),
-   ],
-    child: const Center(child: Text('Genders')),
- ),
+    maxSize: 480,
+    strokeWidth: 80,
+    startPoint: StartPoint.left,
+    background: CirculitoBackground(),
+    strokeCap: CirculitoStrokeCap.round,
+    direction: CirculitoDirection.clockwise,
+    sectionValueType: SectionValueType.percentage,
+    sections: [
+        // Male percentage.
+        CirculitoSection(
+          value: .35,
+          color: Colors.blue,
+          hoverColor: Colors.blueAccent,
+        ),
+        // Female percentage.
+        CirculitoSection(
+          value: .40,
+          color: Colors.pink,
+          hoverColor: Colors.pinkAccent,
+        ),
+    ],
+);
 ```
 
 ### Parameters
