@@ -1,7 +1,18 @@
 ## 0.3.0
 
-- **BREAKING CHANGE:** `percentage` is now called `value` in `Circulito Section`<br>
+- **BREAKING CHANGE:** `percentage` is now called `value` in `Circulito Section`.<br>
+- **BREAKING CHANGE:** `backgroundColor` has been changed to `CirculitoBackground`.<br>
+- **BREAKING CHANGE:** `padding` has been changed from `EdgeInset` to `double`
+  to make _hover_ selections more precise.<br>
 - **Feature:** Now the percentage can be calculated automatically passing `amount` arguments.<br>
+- **Feature:** _Sections_ are now interactable.<br>
+- **Feature:** _Background_ is now interactable.<br>
+- **Feature:** `onTap` on sections has been added.<br>
+- **Feature:** `onTap` on background has been added.<br>
+- **Feature:** `onHover` on sections has been added.<br>
+- **Feature:** `onHover` on background has been added.<br>
+- **Feature:** `Change Mouse Pointer` when _onTap_ is not null.<br>
+- **Chore:** Reorganize files and folders.<br>
 
 ## 0.2.0
 
@@ -22,10 +33,10 @@
 - **Feature:** `isCenter`: Allow to center the widget.<br>
 - **Feature:** `padding`: Add a padding to the widget.<br>
   `Column` or `Row`.
-- **Docs:** Update README and example<br>
-- **Docs:** Add Circulito painter class documentation<br>
+- **Docs:** Update README and example.<br>
+- **Docs:** Add Circulito painter class documentation.<br>
 
 ## 0.0.1 First release
 
-- **Feature:** background
-- **Feature:** Section with colors
+- **Feature:** background.
+- **Feature:** Section with colors.
