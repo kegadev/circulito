@@ -35,7 +35,11 @@ class Circulito extends StatelessWidget {
 
   /// The padding to be applied to the widget when the parent widget is
   /// bigger or equal than the widget itself.
-  final EdgeInsets? padding;
+  ///
+  /// This represent a `EdgeInsets.all(padding)` value.
+  ///
+  /// If specific padding is needed, use [Padding] widget to wrap `Circulito`.
+  final double? padding;
 
   /// The background color of the wheel to be painted.
   ///
@@ -173,7 +177,8 @@ class Circulito extends StatelessWidget {
         });
 
     if (padding != null) {
-      mainWidget = Padding(padding: padding!, child: mainWidget);
+      final paddingInset = EdgeInsets.all(padding!);
+      mainWidget = Padding(padding: paddingInset, child: mainWidget);
     }
 
     return LayoutBuilder(
@@ -245,7 +250,7 @@ class _Circulito extends StatelessWidget {
   final double strokeWidth;
   final StreamController<int> hoveredIndexController;
   final CirculitoDirection direction;
-  final EdgeInsets? padding;
+  final double? padding;
   final StartPoint startPoint;
   final SectionValueType sectionValueType;
   final Widget? child;
@@ -317,10 +322,13 @@ class _Circulito extends StatelessWidget {
       centerOffset,
     );
 
-    // If the hover position is too much inside the wheel, return.
     final diameter = min(maxsize, sizeToDraw) / 2;
-    if (distance <= (diameter - strokeWidth) ||
-        distance >= (diameter + (strokeWidth))) {
+    final paddingValue = padding ?? 0.0;
+
+    /// If the hover position is too much inside the wheel,
+    /// or too much outside the wheel, remove selection.
+    if (distance <= ((diameter - strokeWidth) - paddingValue) ||
+        distance >= (diameter - paddingValue)) {
       removeSelection();
       return;
     }
