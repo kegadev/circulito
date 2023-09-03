@@ -90,7 +90,8 @@ abstract class Utils {
   ) {
     var startAngle = 0.0;
 
-    final valueTotal = Utils.getSectionsTotalValue(sections, sectionValueType);
+    final valueTotal =
+        Utils.getSectionsTotalValue(sections, sectionValueType, true);
 
     for (int i = 0; i < sections.length; i++) {
       final section = sections[i];
@@ -106,6 +107,12 @@ abstract class Utils {
         return i;
       }
       startAngle += sectionAngle;
+    }
+
+    /// Hovering the background.
+    /// Only percentage can be less than 1.0 in value total.
+    if (sectionValueType == SectionValueType.percentage && valueTotal < 1.0) {
+      return -2;
     }
 
     // No section is being hovered.

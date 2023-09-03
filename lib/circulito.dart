@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '/src/circulito_background.dart';
 import 'src/circulito_painter.dart';
 import 'src/circulito_section.dart';
 import 'src/enums/enums.dart';
@@ -11,6 +12,7 @@ import 'src/utils/utils.dart';
 
 export 'src/circulito_section.dart';
 export 'src/utils/utils.dart';
+export '/src/circulito_background.dart';
 export 'src/enums/enums.dart';
 
 /// Circulito is a widget wraps the CirculitoPainter class
@@ -38,7 +40,7 @@ class Circulito extends StatelessWidget {
   /// The background color of the wheel to be painted.
   ///
   /// If null, no background will be painted.
-  final Color? backgroundColor;
+  final CirculitoBackground? background;
 
   /// The width of the stroke.
   ///
@@ -114,7 +116,7 @@ class Circulito extends StatelessWidget {
     required this.maxSize,
     this.child,
     this.padding,
-    this.backgroundColor,
+    this.background,
     this.strokeWidth = 20,
     this.isCentered = true,
     this.startPoint = StartPoint.top,
@@ -148,7 +150,7 @@ class Circulito extends StatelessWidget {
             selectedIndex: hoveredIndex,
             startPoint: startPoint,
             strokeWidth: strokeWidth,
-            backgroundColor: backgroundColor,
+            background: background,
             sectionValueType: sectionValueType,
           ));
         });

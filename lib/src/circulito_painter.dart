@@ -15,7 +15,7 @@ class CirculitoPainter extends CustomPainter {
   final StartPoint startPoint;
   final CirculitoDirection direction;
   final SectionValueType sectionValueType;
-  final Color? backgroundColor;
+  final CirculitoBackground? background;
   final CirculitoStrokeCap strokeCap;
   final int selectedIndex;
 
@@ -28,7 +28,7 @@ class CirculitoPainter extends CustomPainter {
     required this.direction,
     required this.sectionValueType,
     required this.selectedIndex,
-    this.backgroundColor,
+    this.background,
     this.strokeWidth = 20,
   });
 
@@ -58,18 +58,26 @@ class CirculitoPainter extends CustomPainter {
     /// Draws a section of the wheel.
     void customDraw(
       double percentage,
-      Color color, [
+      Color color,
+      int index, [
+      Color? hoverColor,
       bool isBackground = false,
-      int index = -1,
     ]) {
       var sweepAngle = 2 * pi * percentage;
       if (direction == CirculitoDirection.counterClockwise) {
         sweepAngle = -sweepAngle;
       }
       var customStrokeWidth = strokeWidth;
-      if (index == selectedIndex && !isBackground) {
-        // color = Colors.black;
-        customStrokeWidth = strokeWidth * 1.1;
+
+      if (index == selectedIndex || (isBackground && selectedIndex == index)) {
+        // Stroke transformation on Hover
+        final multiplier = isBackground
+            ? background!.hoverStrokeMultiplier
+            : sections[index].hoverStrokeMultiplier;
+        customStrokeWidth = strokeWidth * multiplier;
+
+        // Color transformation on Hover
+        if (hoverColor != null) color = hoverColor;
       }
 
       final sectionPaint = Paint()
@@ -91,20 +99,19 @@ class CirculitoPainter extends CustomPainter {
     }
 
     // Background.
-    if (backgroundColor != null) customDraw(1, backgroundColor!, true);
+    if (background != null) {
+      customDraw(1, background!.color, -2, background!.hoverColor, true);
+    }
 
     // Sections.
-    var valueTotal = 0.0;
-    if (sectionValueType == SectionValueType.amount) {
-      valueTotal = Utils.getSectionsTotalValue(sections);
-    }
+    var valueTotal = Utils.getSectionsTotalValue(sections, sectionValueType);
 
     for (int i = 0; i < sections.length; i++) {
       double percentage = sectionValueType == SectionValueType.amount
           ? sections[i].value / valueTotal
           : sections[i].value;
 
-      customDraw(percentage, sections[i].color, false, i);
+      customDraw(percentage, sections[i].color, i, sections[i].hoverColor);
     }
   }
 
