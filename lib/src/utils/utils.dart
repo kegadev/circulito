@@ -58,7 +58,6 @@ abstract class Utils {
   /// the wheel.
   static double calculateHoverAngle(Offset tapPosition, Offset centerOffset,
       double radius, CirculitoDirection direction, StartPoint startPoint) {
-    tapPosition - centerOffset;
     final dx = tapPosition.dx - centerOffset.dx;
     final dy = tapPosition.dy - centerOffset.dy;
 
