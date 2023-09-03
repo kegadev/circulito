@@ -243,16 +243,7 @@ class _Circulito extends StatelessWidget {
       width: sizeToDraw,
       height: sizeToDraw,
       child: GestureDetector(
-        onTap: () {
-          if (_index == -2) {
-            background?.onTap?.call();
-          } else if (_index != -1) {
-            final section = sections[_index];
-            if (section.onTap != null) {
-              section.onTap!();
-            }
-          }
-        },
+        onTap: onTap,
         child: MouseRegion(
           onHover: onPointerHover,
           onExit: onPointerExit,
@@ -283,6 +274,18 @@ class _Circulito extends StatelessWidget {
         childToSHow,
       ],
     );
+  }
+
+  /// Handles the tap event.
+  void onTap() {
+    if (_index == -2) {
+      background?.onTap?.call();
+    } else if (_index != -1) {
+      final section = sections[_index];
+      if (section.onTap != null) {
+        section.onTap!();
+      }
+    }
   }
 
   /// Handles the hover event.
