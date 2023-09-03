@@ -130,8 +130,22 @@ class Circulito extends StatelessWidget {
             "[maxSize] cannot be lower or equal than [strokeWidth],"
             "otherwise, nothing will be drawn on screen.");
 
+  /// Controls the hovered index.
   final StreamController<int> hoveredIndexController =
       StreamController<int>.broadcast();
+
+  /// Returns the cursor to be shown when the mouse is over the widget.
+  SystemMouseCursor getCursor(int hoveredIndex) {
+    // This as default because it is more often called and more efficient.
+    if (hoveredIndex == -1) return SystemMouseCursors.basic;
+
+    if (hoveredIndex == -2 && background?.onTap != null ||
+        hoveredIndex >= 0 && sections[hoveredIndex].onTap != null) {
+      return SystemMouseCursors.click;
+    }
+
+    return SystemMouseCursors.basic;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -140,19 +154,22 @@ class Circulito extends StatelessWidget {
         builder: (_, snapshot) {
           final hoveredIndex = snapshot.data ?? -1;
 
-          return CustomPaint(
-              painter: CirculitoPainter(
-            maxsize: maxSize,
-            sections: sections,
-            direction: direction,
-            strokeCap: strokeCap,
-            isCentered: isCentered,
-            selectedIndex: hoveredIndex,
-            startPoint: startPoint,
-            strokeWidth: strokeWidth,
-            background: background,
-            sectionValueType: sectionValueType,
-          ));
+          return MouseRegion(
+            cursor: getCursor(hoveredIndex),
+            child: CustomPaint(
+                painter: CirculitoPainter(
+              maxsize: maxSize,
+              sections: sections,
+              direction: direction,
+              strokeCap: strokeCap,
+              isCentered: isCentered,
+              selectedIndex: hoveredIndex,
+              startPoint: startPoint,
+              strokeWidth: strokeWidth,
+              background: background,
+              sectionValueType: sectionValueType,
+            )),
+          );
         });
 
     if (padding != null) {
@@ -318,6 +335,8 @@ class _Circulito extends StatelessWidget {
 
     final sectionIndex =
         Utils.determineHoverSection(angle, sections, sectionValueType);
+
+    SystemChannels.mouseCursor.invokeMethod('mouseCursor', 'pointer');
 
     doSelection(sectionIndex);
   }
