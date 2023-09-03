@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:circulito/circulito.dart';
+import 'package:circulito/src/utils/utils.dart';
 
 /// Paints the Circulito widget in canvas.
 ///
