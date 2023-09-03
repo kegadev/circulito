@@ -25,9 +25,26 @@ abstract class Utils {
 
   /// Returns the total (sum) value of all sections.
   ///
+  ///
   /// Must be used when types are [SectionValueType.amount].
-  static double getSectionsTotalValue(sections) {
-    return sections.fold(0.0, (sum, section) => sum + section.value);
+  /// if types are [SectionValueType.percentage], the total value will be `1.0`.
+  /// This is to prevent unnecessary calculations due to the fact that the total
+  /// on `percentages` is not usually needed to draw the wheel.
+  ///
+  ///
+  /// If [forceCalculatePercentageTotal] is `true`, the total value will be
+  /// calculated even if the type is [SectionValueType.percentage].
+  static double getSectionsTotalValue(
+    List<CirculitoSection> sections,
+    SectionValueType sectionValueType, [
+    bool forceCalculatePercentageTotal = false,
+  ]) {
+    final doCalculation = sectionValueType == SectionValueType.amount ||
+        forceCalculatePercentageTotal;
+
+    return doCalculation
+        ? sections.fold(0.0, (sum, section) => sum + section.value)
+        : 1.0; // Prevent unnecessary calculations.
   }
 
   /// Returns the distance from the center of the wheel to the [hoverPosition].
@@ -73,9 +90,7 @@ abstract class Utils {
   ) {
     var startAngle = 0.0;
 
-    final valueTotal = sectionValueType == SectionValueType.amount
-        ? Utils.getSectionsTotalValue(sections)
-        : 1.0; // No need to do calculations on type percentage.
+    final valueTotal = Utils.getSectionsTotalValue(sections, sectionValueType);
 
     for (int i = 0; i < sections.length; i++) {
       final section = sections[i];
