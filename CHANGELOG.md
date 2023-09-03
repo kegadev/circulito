@@ -1,7 +1,11 @@
+## 0.3.2
+
+- **Chore:** Allow values as zero (`0`) on `sections`.<br>
+
 ## 0.3.1
 
-- **Perf:** Delete unnessary sentence on _Utils_.<br>
-- **Perf:** Making `Circulito` Statefull widget for better practice.<br>
+- **Performance:** Delete unnessary sentence on _Utils_.<br>
+- **Performance:** Making `Circulito` Statefull widget for better practice.<br>
 - **Chore:** Delete default export _Utils_ in Circulito.<br>
 
 ## 0.3.0
