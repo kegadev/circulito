@@ -101,7 +101,7 @@ class Circulito extends StatefulWidget {
   /// ```
   ///
   /// If [SectionValueType.amount] is selected, the percentage of the wheel to be painted
-  /// is going to be calculated by dividing the each value by the sum
+  /// is going to be calculated by dividing each value by the sum
   /// of all the values. For example
   /// ```dart
   /// sectionValueType: SectionValueType.amount,

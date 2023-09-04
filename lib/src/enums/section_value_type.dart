@@ -11,7 +11,7 @@ enum SectionValueType {
   percentage,
 
   /// Here the percentage of the wheel to be painted is going to be calculated
-  /// by dividing the each value by the sum of all the values.
+  /// by dividing each value by the sum of all the values.
   /// ```dart
   /// [
   ///   CirculitoSection(color: Colors.blue, value: 450),
