@@ -112,8 +112,6 @@ class Circulito extends StatefulWidget {
   /// ```
   final SectionValueType sectionValueType;
 
-  /// Controls the hovered index.
-
   const Circulito({
     super.key,
     required this.sections,
@@ -139,6 +137,7 @@ class Circulito extends StatefulWidget {
 }
 
 class _CirculitoState extends State<Circulito> {
+  /// Controls the hovered index.
   final StreamController<int> hoveredIndexController =
       StreamController<int>.broadcast();
 
