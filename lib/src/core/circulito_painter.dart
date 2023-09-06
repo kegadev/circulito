@@ -74,19 +74,16 @@ class CirculitoPainter extends CustomPainter {
       var baseGradient = decoration.gradient;
 
       if (index == selectedIndex || (isBackground && selectedIndex == index)) {
-        // Stroke transformation on Hover
+        // Stroke transformation on Hover.
         final multiplier = isBackground
             ? background!.hoverStrokeMultiplier
             : sections[index].hoverStrokeMultiplier;
         customStrokeWidth = strokeWidth * multiplier;
 
-        // Color transformation on Hover
+        // Color transformation on Hover.
         decoration.type == DecorationType.color
             ? baseColor = decoration.hoverColor ?? baseColor
             : baseGradient = decoration.hoverGradient ?? baseGradient;
-
-        // final hoverColor = decoration.hoverColor;
-        // if (hoverColor != null) color = hoverColor;
       }
 
       final rect = Rect.fromCircle(center: centerOffset, radius: radius);
@@ -94,9 +91,8 @@ class CirculitoPainter extends CustomPainter {
         ..style = PaintingStyle.stroke
         ..strokeWidth = customStrokeWidth
         ..strokeCap = flutterStrokeCap;
-      sectionPaint.color = Colors.black;
 
-      // Asign decoration
+      // Asign decoration.
       decoration.type == DecorationType.color
           ? sectionPaint.color = baseColor!
           : sectionPaint.shader = baseGradient!.createShader(rect);
@@ -109,7 +105,10 @@ class CirculitoPainter extends CustomPainter {
         sectionPaint,
       );
 
+      // Prevent moving startAngle.
       if (isBackground) return;
+
+      // Set new starting angle for next iteration.
       startAngle += sweepAngle;
     }
 
@@ -119,6 +118,7 @@ class CirculitoPainter extends CustomPainter {
     // Sections.
     var valueTotal = Utils.getSectionsTotalValue(sections, sectionValueType);
 
+    // If there are not sectionValues then it is not animated.
     List sectionsToUse = sectionValues ?? sections;
 
     for (int i = 0; i < sections.length; i++) {
@@ -126,12 +126,11 @@ class CirculitoPainter extends CustomPainter {
           ? sectionsToUse[i].value / valueTotal
           : sectionsToUse[i].value;
 
+      // Draw the section.
       customDraw(percentage, sections[i].decoration, i);
     }
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }
