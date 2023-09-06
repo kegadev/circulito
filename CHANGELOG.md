@@ -1,3 +1,11 @@
+## 0.4.0
+
+- **Feature:** `animation` has been added.<br>
+- **Performance:** Prevent Circulito _redraw_ when parent calls _setState_.<br>
+- **Docs:** Update Documentation.<br>
+- **Docs:** Update README.<br>
+- **Chore:** Reorganize files and folders.<br>
+
 ## 0.3.2
 
 - **Chore:** Allow values as zero (`0`) on `sections`.<br>
