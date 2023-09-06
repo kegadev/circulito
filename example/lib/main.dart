@@ -18,9 +18,13 @@ class MyApp extends StatelessWidget {
             height: 500,
             color: Colors.grey.shade200,
             child: Circulito(
+              // Custom animation.
+              animation: CirculitoAnimation(
+                duration: 600,
+                curve: Curves.easeInOut,
+              ),
               maxSize: 480,
               strokeWidth: 80,
-              startPoint: StartPoint.left,
               background: CirculitoBackground(),
               strokeCap: CirculitoStrokeCap.round,
               direction: CirculitoDirection.clockwise,
@@ -29,15 +33,28 @@ class MyApp extends StatelessWidget {
                 // Male percentage.
                 CirculitoSection(
                   value: .35,
-                  color: Colors.blue,
-                  hoverColor: Colors.blueAccent,
+                  decoration: const CirculitoDecoration.fromColor(
+                    Colors.blue,
+                    hoverColor: Colors.blueAccent,
+                  ),
+                  onHover: () {
+                    // Do something when mouse over this section.
+                  },
+                  onTap: () {
+                    // Do something when mouse tapped this section.
+                  },
                 ),
 
                 // Female percentage.
                 CirculitoSection(
                   value: .40,
-                  color: Colors.pink,
-                  hoverColor: Colors.pinkAccent,
+                  decoration: const CirculitoDecoration.fromGradient(
+                    LinearGradient(colors: [Colors.pink, Colors.red]),
+                    hoverGradient: LinearGradient(colors: [
+                      Colors.pinkAccent,
+                      Colors.redAccent,
+                    ]),
+                  ),
                 ),
               ],
             ),
@@ -46,5 +63,4 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-  // Container(width: 150, height: 50, color: Colors.green),
 }
