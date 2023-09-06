@@ -9,8 +9,12 @@ void main() {
     await tester.pumpWidget(
       Circulito(
         sections: [
-          CirculitoSection(color: Colors.red, value: 0.4),
-          CirculitoSection(color: Colors.blue, value: 0.6),
+          CirculitoSection(
+              decoration: const CirculitoDecoration.fromColor(Colors.red),
+              value: 0.4),
+          CirculitoSection(
+              decoration: const CirculitoDecoration.fromColor(Colors.blue),
+              value: 0.6),
         ],
         maxSize: 150,
       ),
