@@ -10,7 +10,10 @@ Circulito provides a simple circular wheel chart for visualizing data using perc
 ## Features
 
 - Display circular wheel charts with customizable sections.
-- Easily visualize data by providing percentages and corresponding colors.
+- Easily visualize data by providing amounts or percentages and corresponding colors.
+- Gradient decoration on sections and background.
+- Interactive sections: `hover` and `onTap` events;
+- Animated sections.
 
 ## Getting started
 
@@ -96,7 +99,26 @@ Circulito(
 )
 ```
 
-### Parameters
+### Section Interactivity
+
+To add **Interactivity** to sections or background just need to add `onHover` or
+`onTap` properties to each _CirculitoSection_ widget or _CirculitoBackground_ widget:
+
+```dart
+Circulito(
+  sections: [
+      CirculitoSection(
+        ...// required properties
+        onHover: _doHoverAction,
+        onTap: _doTapAction,
+      ),
+  ]
+  // ...other Circulito properties.
+)
+
+```
+
+## Parameters
 
 <!-- Sort alphabetically -->
 
