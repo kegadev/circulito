@@ -114,13 +114,7 @@ class CirculitoPainter extends CustomPainter {
     }
 
     // Background.
-    if (background != null) {
-      final decoration = CirculitoDecoration.fromColor(
-        background!.color,
-        hoverColor: background!.hoverColor,
-      );
-      customDraw(1, decoration, -2, true);
-    }
+    if (background != null) customDraw(1, background!.decoration, -2, true);
 
     // Sections.
     var valueTotal = Utils.getSectionsTotalValue(sections, sectionValueType);

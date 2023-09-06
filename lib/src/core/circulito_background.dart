@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 
+import 'core.dart';
+
 /// The background to be painted behind the wheel.
 class CirculitoBackground {
-  /// The color of the background.
+  /// The decoration of background in the Circulito widget.
   ///
-  /// Defaults to `Colors.grey`.
-  final Color color;
-
-  /// The color of the background when hovered.
+  /// This decoration can contain either a solid `color` or a `gradient`. Users
+  /// should instantiate it using one of the following constructors:
+  /// - [CirculitoDecoration.fromColor] for a solid color.
+  /// - [CirculitoDecoration.fromGradient] for a gradient.
   ///
-  /// If no [hoverColor] is provided, the [color] will be used.
-  final Color? hoverColor;
+  /// Additionally, this decoration supports hover effects, which can be defined
+  /// using `hoverColor` or `hoverGradient`, depending on the constructor used.
+  ///
+  /// Defaults to `CirculitoDecoration.fromColor(Colors.grey)`.
+  final CirculitoDecoration decoration;
 
   /// The function to be called when the background is tapped.
   ///
@@ -30,8 +35,7 @@ class CirculitoBackground {
 
   /// Creates a background to be painted behind the wheel.
   CirculitoBackground({
-    this.color = Colors.grey,
-    this.hoverColor,
+    this.decoration = const CirculitoDecoration.fromColor(Colors.grey),
     this.onTap,
     this.onHover,
     this.hoverStrokeMultiplier = 1.0,
