@@ -181,7 +181,7 @@ class _CirculitoState extends State<Circulito>
           _checkAnimation();
 
           return MouseRegion(
-            cursor: getCursor(hoveredIndex),
+            cursor: _getCursor(hoveredIndex),
             child: AnimatedBuilder(
                 animation: _animController,
                 builder: (_, __) {
@@ -251,7 +251,7 @@ class _CirculitoState extends State<Circulito>
   }
 
   /// Returns the cursor to be shown when the mouse is over the widget.
-  SystemMouseCursor getCursor(int hoveredIndex) {
+  SystemMouseCursor _getCursor(int hoveredIndex) {
     // This as default because it is more often called and more efficient.
     if (hoveredIndex == -1) return SystemMouseCursors.basic;
 
