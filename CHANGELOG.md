@@ -1,7 +1,7 @@
 ## 0.4.0
 
 - **Feature:** `animation` has been added.<br>
-- **Performance:** Prevent Circulito _redraw_ when parent calls _setState_.<br>
+- **Performance:** Prevent `Circulito` _redraw_ when parent calls _setState_.<br>
 - **Docs:** Update Documentation.<br>
 - **Docs:** Update README.<br>
 - **Chore:** Reorganize files and folders.<br>
