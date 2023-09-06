@@ -55,7 +55,7 @@ Circulito(
 );
 ```
 
-#### Amount values
+### Amount values
 
 If you want to use _amount_ values instead of _percentages_ just add `sectionValueType` property. The library will automatically calculate the percentages.
 
@@ -71,11 +71,10 @@ Circulito(
   ]
 
   // ...other Circulito properties.
-)
-
+);
 ```
 
-#### Animation
+### Animation
 
 To add **Animation** simply add `animation` property:
 
@@ -83,8 +82,7 @@ To add **Animation** simply add `animation` property:
 Circulito(
   animation: CirculitoAnimation(),
   // ...other Circulito properties.
-)
-
+);
 ```
 
 You can also configure duration and curve of the animation like this:
@@ -96,7 +94,33 @@ Circulito(
     curve: Curves.easeInOut,
   ),
   // ...other Circulito properties.
-)
+);
+```
+
+### Decoration
+
+The `decoration` property is **required** for both the background and sections in Circulito to display something on the screen. While the background has a default value of grey when using `CirculitoBackground()`, you can customize the decoration with either a `color` or a `gradient`.
+
+```dart
+Circulito(
+    background: CirculitoBackground(
+        // Implement decoration on background with color.
+        decoration: CirculitoDecoration.fromColor(
+            Colors.white,
+            hoverColor: Colors.grey,
+        ),
+    ),
+    sections: [
+        CirculitoSection(
+            value: 0.5,
+            // Implement decoration on a section with gradient.
+            decoration: CirculitoDecoration.fromGradient(
+                const LinearGradient(colors: [Colors.green, Colors.yellow]),
+            ),
+      ),
+  ]
+  // ...other Circulito properties.
+);
 ```
 
 ### Section Interactivity
@@ -114,8 +138,7 @@ Circulito(
       ),
   ]
   // ...other Circulito properties.
-)
-
+);
 ```
 
 ## Parameters
