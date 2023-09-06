@@ -117,4 +117,22 @@ abstract class Utils {
     // No section is being hovered.
     return -1;
   }
+
+  /// Returns `true` if the [array1] and [array2] are different.
+  static areArraysDifferent(List<double> array1, List<double> array2) {
+    // Check if the arrays have the same length; if not, they are different.
+    if (array1.length != array2.length) {
+      return true;
+    }
+
+    // Iterate through the arrays and compare each pair of values.
+    for (int i = 0; i < array1.length; i++) {
+      if (array1[i] != array2[i]) {
+        return true; // Found a difference, so the arrays are different.
+      }
+    }
+
+    // If no differences were found, the arrays are the same.
+    return false;
+  }
 }
