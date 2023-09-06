@@ -1,19 +1,29 @@
+## 0.5.0
+
+- **BREAKING CHANGE:** `color` and `hoverColor` are now included in `CirculitoDecoration` for _CirculitoSection_ and _CirculitoBackground_.<br>
+- **Feature:** `gradient` decoration has been added for _CirculitoSection_ and _CirculitoBackground_.<br>
+- **Performance:** Delete unnessary sentences on _CirculitoPainter_.<br>
+- **Docs:** Update Documentation.<br>
+- **Docs:** Update _README_.<br>
+- **Chore:** Update main example.<br>
+- **Chore:** Update main test.<br>
+
 ## 0.4.0
 
 - **Feature:** `animation` has been added.<br>
-- **Performance:** Prevent `Circulito` _redraw_ when parent calls _setState_.<br>
+- **Performance:** Prevent _Circulito_ redraw when parent calls _setState_.<br>
 - **Docs:** Update Documentation.<br>
-- **Docs:** Update README.<br>
+- **Docs:** Update _README_.<br>
 - **Chore:** Reorganize files and folders.<br>
 
 ## 0.3.2
 
-- **Chore:** Allow values as zero (`0`) on `sections`.<br>
+- **Chore:** Allow values as zero (`0`) on _sections_.<br>
 
 ## 0.3.1
 
-- **Performance:** Delete unnessary sentence on _Utils_.<br>
 - **Performance:** Making `Circulito` Statefull widget for better practice.<br>
+- **Performance:** Delete unnessary sentence on _Utils_.<br>
 - **Chore:** Delete default export _Utils_ in Circulito.<br>
 
 ## 0.3.0
@@ -25,23 +35,23 @@
 - **Feature:** Now the percentage can be calculated automatically passing `amount` arguments.<br>
 - **Feature:** _Sections_ are now interactable.<br>
 - **Feature:** _Background_ is now interactable.<br>
-- **Feature:** `onTap` on sections has been added.<br>
-- **Feature:** `onTap` on background has been added.<br>
-- **Feature:** `onHover` on sections has been added.<br>
-- **Feature:** `onHover` on background has been added.<br>
+- **Feature:** `onTap` on _sections_ has been added.<br>
+- **Feature:** `onTap` on _background_ has been added.<br>
+- **Feature:** `onHover` on _sections_ has been added.<br>
+- **Feature:** `onHover` on _background_ has been added.<br>
 - **Feature:** `Change Mouse Pointer` when _onTap_ is not null.<br>
 - **Chore:** Reorganize files and folders.<br>
 
 ## 0.2.0
 
 - **Feature:** `child`: Now a widget can be shown over the wheel.<br>
-- **Docs:** Update README.<br>
+- **Docs:** Update _README_.<br>
 
 ## 0.1.0
 
 - **Feature:** `startPoint`: Defines the starting point to draw the wheel.<br>
 - **Feature:** `circulitoDirection`: Determines the direction of the wheel.<br>
-- **Docs:** Update README.<br>
+- **Docs:** Update _README_.<br>
 - **Docs:** Update circulito classes documentation.<br>
 
 ## 0.0.2
@@ -50,11 +60,11 @@
 - **Fix:** Some issues when drawing `Circulito` inside an infinite size parent like
 - **Feature:** `isCenter`: Allow to center the widget.<br>
 - **Feature:** `padding`: Add a padding to the widget.<br>
-  `Column` or `Row`.
-- **Docs:** Update README and example.<br>
+  _Column_ or _Row_.
+- **Docs:** Update _README_ and _example_.<br>
 - **Docs:** Add Circulito painter class documentation.<br>
 
 ## 0.0.1 First release
 
-- **Feature:** background.
-- **Feature:** Section with colors.
+- **Feature:** `background`.
+- **Feature:** `section` with colors.
