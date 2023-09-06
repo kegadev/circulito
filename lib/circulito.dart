@@ -115,6 +115,9 @@ class Circulito extends StatefulWidget {
   /// ```
   final SectionValueType sectionValueType;
 
+  /// The animation to be applied to the wheel.
+  ///
+  /// If null, no animation will be applied.
   final CirculitoAnimation? animation;
 
   const Circulito({
@@ -160,7 +163,7 @@ class _CirculitoState extends State<Circulito>
     // Initialize the AnimationController.
     _animController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 400),
+      duration: Duration(milliseconds: widget.animation?.duration ?? 500),
     );
 
     // Initialize the list of Animations for each section.
@@ -273,13 +276,16 @@ class _CirculitoState extends State<Circulito>
 
   /// Returns an animation from a value to another.
   Animation<double> _getAnimation(double begin, double end) {
+    _animController.duration =
+        Duration(milliseconds: widget.animation?.duration ?? 500);
+
     return Tween<double>(
       begin: begin,
       end: end,
     ).animate(
       CurvedAnimation(
         parent: _animController,
-        curve: Curves.easeInOut,
+        curve: widget.animation?.curve ?? Curves.decelerate,
       ),
     );
   }
