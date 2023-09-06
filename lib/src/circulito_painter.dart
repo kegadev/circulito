@@ -19,6 +19,7 @@ class CirculitoPainter extends CustomPainter {
   final CirculitoBackground? background;
   final CirculitoStrokeCap strokeCap;
   final int selectedIndex;
+  List<Animation<double>> sectionValues;
 
   CirculitoPainter({
     required this.maxsize,
@@ -31,6 +32,7 @@ class CirculitoPainter extends CustomPainter {
     required this.selectedIndex,
     this.background,
     this.strokeWidth = 20,
+    this.sectionValues = const [],
   });
 
   @override
@@ -109,8 +111,8 @@ class CirculitoPainter extends CustomPainter {
 
     for (int i = 0; i < sections.length; i++) {
       double percentage = sectionValueType == SectionValueType.amount
-          ? sections[i].value / valueTotal
-          : sections[i].value;
+          ? sectionValues[i].value / valueTotal
+          : sectionValues[i].value;
 
       customDraw(percentage, sections[i].color, i, sections[i].hoverColor);
     }

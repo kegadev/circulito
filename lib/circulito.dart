@@ -136,10 +136,39 @@ class Circulito extends StatefulWidget {
   State<Circulito> createState() => _CirculitoState();
 }
 
-class _CirculitoState extends State<Circulito> {
+class _CirculitoState extends State<Circulito>
+    with SingleTickerProviderStateMixin {
   /// Controls the hovered index.
   final StreamController<int> hoveredIndexController =
       StreamController<int>.broadcast();
+
+  // Animation variables.
+  late AnimationController _animController;
+  late List<Animation<double>> animatedSectionValues;
+  List<double> previousSectionValues = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize the AnimationController.
+    _animController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+
+    // Initialize the list of Animations for each section.
+    animatedSectionValues = widget.sections.map((section) {
+      final value = section.value;
+
+      previousSectionValues.add(value);
+
+      return _getAnimation(0.0, value);
+    }).toList();
+
+    // Start the animation when the widget is built.
+    _animController.forward();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -149,22 +178,29 @@ class _CirculitoState extends State<Circulito> {
         builder: (_, snapshot) {
           final hoveredIndex = snapshot.data ?? -1;
 
+          _checkAnimation();
+
           return MouseRegion(
             cursor: getCursor(hoveredIndex),
-            child: CustomPaint(
-              painter: CirculitoPainter(
-                maxsize: widget.maxSize,
-                sections: widget.sections,
-                direction: widget.direction,
-                strokeCap: widget.strokeCap,
-                isCentered: widget.isCentered,
-                selectedIndex: hoveredIndex,
-                startPoint: widget.startPoint,
-                strokeWidth: widget.strokeWidth,
-                background: widget.background,
-                sectionValueType: widget.sectionValueType,
-              ),
-            ),
+            child: AnimatedBuilder(
+                animation: _animController,
+                builder: (_, __) {
+                  return CustomPaint(
+                    painter: CirculitoPainter(
+                      maxsize: widget.maxSize,
+                      sections: widget.sections,
+                      direction: widget.direction,
+                      strokeCap: widget.strokeCap,
+                      isCentered: widget.isCentered,
+                      selectedIndex: hoveredIndex,
+                      startPoint: widget.startPoint,
+                      strokeWidth: widget.strokeWidth,
+                      background: widget.background,
+                      sectionValues: animatedSectionValues,
+                      sectionValueType: widget.sectionValueType,
+                    ),
+                  );
+                }),
           );
         });
 
@@ -227,10 +263,63 @@ class _CirculitoState extends State<Circulito> {
     return SystemMouseCursors.basic;
   }
 
+  /// Returns an animation from a value to another.
+  Animation<double> _getAnimation(double begin, double end) {
+    return Tween<double>(
+      begin: begin,
+      end: end,
+    ).animate(
+      CurvedAnimation(
+        parent: _animController,
+        curve: Curves.easeInOut,
+      ),
+    );
+  }
+
+  /// Checks if the animation should be reseted.
+  void _checkAnimation() {
+    final sections = widget.sections;
+
+    // Only draw again if the sections have changed.
+    final canDrawAgain = Utils.areArraysDifferent(
+        previousSectionValues, sections.map((e) => e.value).toList());
+
+    if (canDrawAgain) {
+      // Restore values.
+      animatedSectionValues = [];
+
+      // Prevent overflow when adding and removing sectitons.
+      previousSectionValues = Utils.truncateList(
+        previousSectionValues,
+        sections.length,
+      ) as List<double>;
+
+      _animController.reset();
+
+      for (int i = 0; i < sections.length; i++) {
+        final section = sections[i];
+        final isOutOfRange = i > previousSectionValues.length - 1;
+        final previousValue = isOutOfRange ? 0.0 : previousSectionValues[i];
+
+        // New animation.
+        final anim = _getAnimation(previousValue, section.value);
+        animatedSectionValues.add(anim);
+
+        // Save new values.
+        isOutOfRange
+            ? previousSectionValues.add(section.value)
+            : previousSectionValues[i] = section.value;
+      }
+      _animController.forward();
+    }
+  }
+
   @override
   void dispose() {
     // Close the StreamController when the widget is disposed.
     hoveredIndexController.close();
+
+    _animController.dispose();
     super.dispose();
   }
 }
