@@ -135,4 +135,17 @@ abstract class Utils {
     // If no differences were found, the arrays are the same.
     return false;
   }
+
+  /// Returns a truncated version of the [inputList] with a maximum length
+  /// of [maxLength].
+  static List truncateList(List inputList, int maxLength) {
+    // If the list is already within or equal to the desired length
+    if (inputList.length <= maxLength) {
+      // return it as is.
+      return inputList;
+    } else {
+      // Use sublist to truncate the list.
+      return inputList.sublist(0, maxLength);
+    }
+  }
 }
