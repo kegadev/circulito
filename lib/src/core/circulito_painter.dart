@@ -61,9 +61,8 @@ class CirculitoPainter extends CustomPainter {
     /// Draws a section of the wheel.
     void customDraw(
       double percentage,
-      Color color,
+      CirculitoDecoration decoration,
       int index, [
-      Color? hoverColor,
       bool isBackground = false,
     ]) {
       var sweepAngle = 2 * pi * percentage;
@@ -71,6 +70,8 @@ class CirculitoPainter extends CustomPainter {
         sweepAngle = -sweepAngle;
       }
       var customStrokeWidth = strokeWidth;
+      var baseColor = decoration.color;
+      var baseGradient = decoration.gradient;
 
       if (index == selectedIndex || (isBackground && selectedIndex == index)) {
         // Stroke transformation on Hover
@@ -80,17 +81,28 @@ class CirculitoPainter extends CustomPainter {
         customStrokeWidth = strokeWidth * multiplier;
 
         // Color transformation on Hover
-        if (hoverColor != null) color = hoverColor;
+        decoration.type == DecorationType.color
+            ? baseColor = decoration.hoverColor ?? baseColor
+            : baseGradient = decoration.hoverGradient ?? baseGradient;
+
+        // final hoverColor = decoration.hoverColor;
+        // if (hoverColor != null) color = hoverColor;
       }
 
+      final rect = Rect.fromCircle(center: centerOffset, radius: radius);
       final sectionPaint = Paint()
-        ..color = color
         ..style = PaintingStyle.stroke
         ..strokeWidth = customStrokeWidth
         ..strokeCap = flutterStrokeCap;
+      sectionPaint.color = Colors.black;
+
+      // Asign decoration
+      decoration.type == DecorationType.color
+          ? sectionPaint.color = baseColor!
+          : sectionPaint.shader = baseGradient!.createShader(rect);
 
       canvas.drawArc(
-        Rect.fromCircle(center: centerOffset, radius: radius),
+        rect,
         startAngle,
         sweepAngle,
         false,
@@ -103,7 +115,11 @@ class CirculitoPainter extends CustomPainter {
 
     // Background.
     if (background != null) {
-      customDraw(1, background!.color, -2, background!.hoverColor, true);
+      final decoration = CirculitoDecoration.fromColor(
+        background!.color,
+        hoverColor: background!.hoverColor,
+      );
+      customDraw(1, decoration, -2, true);
     }
 
     // Sections.
@@ -116,7 +132,7 @@ class CirculitoPainter extends CustomPainter {
           ? sectionsToUse[i].value / valueTotal
           : sectionsToUse[i].value;
 
-      customDraw(percentage, sections[i].color, i, sections[i].hoverColor);
+      customDraw(percentage, sections[i].decoration, i);
     }
   }
 

@@ -1,12 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:circulito/circulito.dart';
 
 /// The sections to be painted
 ///
 /// Each section has a value and a color.
 class CirculitoSection {
-  /// The color of the section.
-  final Color color;
-
   /// The value of the section.
   ///
   /// If [sectionValueType] is [SectionValueType.percentage], the value must
@@ -16,10 +13,16 @@ class CirculitoSection {
   /// greater than `0.0`.
   final double value;
 
-  /// The color of the section when hovered.
+  /// The decoration of a section in the Circulito widget.
   ///
-  /// if no [hoverColor] is provided, the [color] will be used.
-  final Color? hoverColor;
+  /// This decoration can contain either a solid `color` or a `gradient`. Users
+  /// should instantiate it using one of the following constructors:
+  /// - [CirculitoDecoration.fromColor] for a solid color.
+  /// - [CirculitoDecoration.fromGradient] for a gradient.
+  ///
+  /// Additionally, this decoration supports hover effects, which can be defined
+  /// using `hoverColor` or `hoverGradient`, depending on the constructor used.
+  final CirculitoDecoration decoration;
 
   /// The function to be called when the section is tapped.
   ///
@@ -41,9 +44,8 @@ class CirculitoSection {
   ///
   /// Each section has a value and a color.
   CirculitoSection({
-    required this.color,
     required this.value,
-    this.hoverColor,
+    required this.decoration,
     this.onTap,
     this.onHover,
     this.hoverStrokeMultiplier = 1.1,
