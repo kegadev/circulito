@@ -4,18 +4,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:circulito/src/circulito_animation.dart';
-
-import '/src/circulito_background.dart';
-import 'src/circulito_painter.dart';
-import 'src/circulito_section.dart';
+import 'src/core/core.dart';
 import 'src/enums/enums.dart';
 import 'src/utils/utils.dart';
 
-export '/src/circulito_background.dart';
-export 'src/circulito_section.dart';
+export 'src/core/core.dart';
 export 'src/enums/enums.dart';
-export 'src/circulito_animation.dart';
 
 /// `Hover` selected Index.
 ///
