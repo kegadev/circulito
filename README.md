@@ -56,27 +56,20 @@ Circulito(
 
 <!-- Sort alphabetically -->
 
-`background`: The background of the wheel to be painted.
-
-`child`: The widget to be shown over the wheel.
-
-`circulitoDirection:` Determines the direction of the wheel.
-
-`direction:` Determines the direction of the wheel.
-
-`isCentered:` Whether the widget should be centered or not inside the parent widget.
-
-`maxSize`: The maximum size the widget can grow inside its parent.
-
-`padding:` The padding to be applied to the widget.
-
-`sections`: A list of CirculitoSection objects representing each chart section.
-
-`startPoint:` Determines the start point of the wheel.
-
-`strokeCap`: The type of cap to use for the stroke (round or butt).
-
-`strokeWidth`: The width of the stroke that defines the chart's outline.
+| Parameter          | Type                     | Description                                                            |
+| ------------------ | ------------------------ | ---------------------------------------------------------------------- |
+| `animation`        | `Animation`              | The animation to be applied to the wheel.                              |
+| `background`       | `CirculitoAnimation?`    | The background of the wheel to be painted.                             |
+| `child`            | `Widget`                 | The widget to be shown over the wheel.                                 |
+| `direction`        | `CirculitoDirection`     | Determines the direction of the wheel.                                 |
+| `isCentered`       | `bool`                   | Whether the widget should be centered or not inside the parent widget. |
+| `maxSize`          | `double`                 | The maximum size the widget can grow inside its parent.                |
+| `padding`          | `double?`                | The padding to be applied to the widget.                               |
+| `sections`         | `List<CirculitoSection>` | A list of CirculitoSection objects representing each chart section.    |
+| `sectionValueType` | `SectionValueType`       | Type of the value of each section (`amount` or `percentage`)           |
+| `startPoint`       | `StartPoint`             | Determines the start point of the wheel.                               |
+| `strokeCap`        | `CirculitoStrokeCap`     | The type of cap to use for the stroke (`round` or `butt`).             |
+| `strokeWidth`      | `double`                 | The width of the stroke that defines the chart's outline.              |
 
 ---
 
