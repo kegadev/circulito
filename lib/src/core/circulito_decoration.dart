@@ -20,14 +20,14 @@ class CirculitoDecoration {
 
   /// Creates a `decoration` from a solid color. If [hoverColor] is provided, the
   /// section will change to that color when hovered.
-  CirculitoDecoration.fromColor(this.color, {this.hoverColor})
+  const CirculitoDecoration.fromColor(this.color, {this.hoverColor})
       : type = DecorationType.color,
         gradient = null,
         hoverGradient = null;
 
   /// Creates a `decoration` from a gradient. If [hoverGradient] is provided, the
   /// section will change to that gradient when hovered.
-  CirculitoDecoration.fromGradient(this.gradient, {this.hoverGradient})
+  const CirculitoDecoration.fromGradient(this.gradient, {this.hoverGradient})
       : type = DecorationType.gradient,
         color = null,
         hoverColor = null;
