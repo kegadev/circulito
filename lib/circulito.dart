@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:circulito/src/circulito_animation.dart';
+
 import '/src/circulito_background.dart';
 import 'src/circulito_painter.dart';
 import 'src/circulito_section.dart';
@@ -13,6 +15,7 @@ import 'src/utils/utils.dart';
 export '/src/circulito_background.dart';
 export 'src/circulito_section.dart';
 export 'src/enums/enums.dart';
+export 'src/circulito_animation.dart';
 // export 'src/utils/utils.dart';
 
 /// Circulito is a widget wraps the CirculitoPainter class
@@ -112,6 +115,8 @@ class Circulito extends StatefulWidget {
   /// ```
   final SectionValueType sectionValueType;
 
+  final CirculitoAnimation? animation;
+
   const Circulito({
     super.key,
     required this.sections,
@@ -124,6 +129,7 @@ class Circulito extends StatefulWidget {
     this.startPoint = StartPoint.top,
     this.direction = CirculitoDirection.clockwise,
     this.strokeCap = CirculitoStrokeCap.round,
+    this.animation,
     this.sectionValueType = SectionValueType.percentage,
   })  : assert(strokeWidth > 0, "[strokeWidth] must be a positive value"),
         assert(maxSize > 0, "[maxSize] must be a positive value"),
@@ -172,13 +178,15 @@ class _CirculitoState extends State<Circulito>
 
   @override
   Widget build(BuildContext context) {
+    final isAnimated = widget.animation != null;
+
     Widget mainWidget = StreamBuilder<int>(
         stream: hoveredIndexController.stream,
         initialData: -1,
         builder: (_, snapshot) {
           final hoveredIndex = snapshot.data ?? -1;
 
-          _checkAnimation();
+          if (isAnimated) _checkAnimation();
 
           return MouseRegion(
             cursor: _getCursor(hoveredIndex),
@@ -196,8 +204,8 @@ class _CirculitoState extends State<Circulito>
                       startPoint: widget.startPoint,
                       strokeWidth: widget.strokeWidth,
                       background: widget.background,
-                      sectionValues: animatedSectionValues,
                       sectionValueType: widget.sectionValueType,
+                      sectionValues: isAnimated ? animatedSectionValues : null,
                     ),
                   );
                 }),
