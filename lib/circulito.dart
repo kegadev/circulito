@@ -16,7 +16,6 @@ export '/src/circulito_background.dart';
 export 'src/circulito_section.dart';
 export 'src/enums/enums.dart';
 export 'src/circulito_animation.dart';
-// export 'src/utils/utils.dart';
 
 /// Circulito is a widget wraps the CirculitoPainter class
 /// to be used properly.
