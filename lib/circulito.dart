@@ -17,6 +17,12 @@ export 'src/circulito_section.dart';
 export 'src/enums/enums.dart';
 export 'src/circulito_animation.dart';
 
+/// `Hover` selected Index.
+///
+/// This var is global in this file to avoid repaints when the widget is
+/// rebuilt when the parent widget is rebuilt.
+var _selectedIndex = -1;
+
 /// Circulito is a widget wraps the CirculitoPainter class
 /// to be used properly.
 class Circulito extends StatefulWidget {
@@ -356,9 +362,8 @@ class _Circulito extends StatelessWidget {
   final double? padding;
   final Widget? child;
 
-  var _index = -1;
-
   _Circulito({
+    Key? key,
     required this.direction,
     required this.hoveredIndexController,
     required this.isCentered,
@@ -373,7 +378,7 @@ class _Circulito extends StatelessWidget {
     this.background,
     this.padding,
     this.child,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -418,17 +423,17 @@ class _Circulito extends StatelessWidget {
   ///
   /// Only update stream if the section has changed.
   void doSelection(int sectionIndex) {
-    if (sectionIndex != _index) {
-      _index = sectionIndex;
+    if (sectionIndex != _selectedIndex) {
+      _selectedIndex = sectionIndex;
       hoveredIndexController.add(sectionIndex);
 
       // Nothing selected.
-      if (_index == -1) return;
+      if (_selectedIndex == -1) return;
 
       // on Hover callback.
-      _index == -2
+      _selectedIndex == -2
           ? background?.onHover?.call()
-          : sections[_index].onHover?.call();
+          : sections[_selectedIndex].onHover?.call();
     }
   }
 
@@ -474,10 +479,10 @@ class _Circulito extends StatelessWidget {
 
   /// Handles the tap event.
   void onTap() {
-    if (_index == -2) {
+    if (_selectedIndex == -2) {
       background?.onTap?.call();
-    } else if (_index != -1) {
-      final section = sections[_index];
+    } else if (_selectedIndex != -1) {
+      final section = sections[_selectedIndex];
       if (section.onTap != null) {
         section.onTap!();
       }
@@ -486,9 +491,9 @@ class _Circulito extends StatelessWidget {
 
   /// Removes the selection reseting index.
   void removeSelection() {
-    if (_index != -1) {
-      _index = -1;
-      hoveredIndexController.add(_index);
+    if (_selectedIndex != -1) {
+      _selectedIndex = -1;
+      hoveredIndexController.add(_selectedIndex);
     }
   }
 }
