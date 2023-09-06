@@ -23,7 +23,7 @@ dependencies:
 
 ## Usage
 
-Use the Circulito widget in your Flutter app:
+Use the _Circulito_ widget in your Flutter app:
 
 ```dart
 Circulito(
@@ -50,6 +50,50 @@ Circulito(
         ),
     ],
 );
+```
+
+#### Amount values
+
+If you want to use _amount_ values instead of _percentages_ just add `sectionValueType` property. The library will automatically calculate the percentages.
+
+```dart
+Circulito(
+  sectionValueType: SectionValueType.amount,
+  sections: [
+      CirculitoSection(
+        value: 535, // Amount values instead of percentages.
+        color: Colors.blue,
+      ),
+    //...other sections with amount values.
+  ]
+
+  // ...other Circulito properties.
+)
+
+```
+
+#### Animation
+
+To add **Animation** simply add `animation` property:
+
+```dart
+Circulito(
+  animation: CirculitoAnimation(),
+  // ...other Circulito properties.
+)
+
+```
+
+You can also configure duration and curve of the animation like this:
+
+```dart
+Circulito(
+  animation: CirculitoAnimation(
+    duration: 200,
+    curve: Curves.easeInOut,
+  ),
+  // ...other Circulito properties.
+)
 ```
 
 ### Parameters
