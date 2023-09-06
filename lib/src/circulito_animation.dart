@@ -15,6 +15,6 @@ class CirculitoAnimation {
   /// Creates an animation to the drawing of sections.
   CirculitoAnimation({
     this.duration = 500,
-    this.curve = Curves.easeInOut,
+    this.curve = Curves.decelerate,
   });
 }
