@@ -13,7 +13,7 @@ class CirculitoSection {
   /// greater than `0.0`.
   final double value;
 
-  /// The decoration of a section or background in the Circulito widget.
+  /// The decoration of a section in the Circulito widget.
   ///
   /// This decoration can contain either a solid `color` or a `gradient`. Users
   /// should instantiate it using one of the following constructors:
