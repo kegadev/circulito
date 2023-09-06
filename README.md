@@ -100,7 +100,7 @@ Circulito(
 
 <!-- Sort alphabetically -->
 
-| Parameter          | Type                     | Description                                                            |
+| Name               | Type                     | Description                                                            |
 | ------------------ | ------------------------ | ---------------------------------------------------------------------- |
 | `animation`        | `Animation`              | The animation to be applied to the wheel.                              |
 | `background`       | `CirculitoAnimation?`    | The background of the wheel to be painted.                             |
