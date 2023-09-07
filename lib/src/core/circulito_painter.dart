@@ -59,7 +59,7 @@ class CirculitoPainter extends CustomPainter {
   /// List of animations for each section.
   ///
   /// If this is null, the sections will not be animated.
-  List<Animation<double>>? sectionValues;
+  final List<Animation<double>>? sectionValues;
 
   /// Create a CustomPainter to draw the Circulito widget.
   ///
@@ -121,7 +121,7 @@ class CirculitoPainter extends CustomPainter {
       var baseColor = decoration.color;
       var baseGradient = decoration.gradient;
 
-      if (index == selectedIndex || (isBackground && selectedIndex == index)) {
+      if (index == selectedIndex) {
         // Stroke transformation on Hover.
         final multiplier = isBackground
             ? background!.hoverStrokeMultiplier

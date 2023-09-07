@@ -1,3 +1,7 @@
+## 0.5.1
+
+- **Performance:** Delete unnessary _if condition_ on _CirculitoPainter_.<br>
+
 ## 0.5.0
 
 - **BREAKING CHANGE:** `color` and `hoverColor` are now included in `CirculitoDecoration` for _CirculitoSection_ and _CirculitoBackground_.<br>
