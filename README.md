@@ -1,6 +1,6 @@
 # Circulito
 
-Circulito provides a simple circular wheel chart for visualizing data using percentages and colors.
+_Circulito_ provides a simple circular wheel/donut chart for visualizing data using percentages and colors.
 
 <div align="center">
 <img src='https://user-images.githubusercontent.com/138328831/263871505-d39bc60c-261f-448f-91a6-5605ad1e4f2d.png' alt='example circle wheel'>
@@ -12,7 +12,7 @@ Circulito provides a simple circular wheel chart for visualizing data using perc
 - Display circular wheel charts with customizable sections.
 - Easily visualize data by providing amounts or percentages and corresponding colors.
 - Gradient decoration on sections and background.
-- Interactive sections: `hover` and `onTap` events;
+- Interactive sections: `hover` and `onTap` events.
 - Animated sections.
 
 ## Getting started
