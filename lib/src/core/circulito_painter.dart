@@ -9,29 +9,72 @@ import 'package:circulito/src/utils/utils.dart';
 ///
 /// Shouldn't be used directly. Use [Circulito] instead.
 class CirculitoPainter extends CustomPainter {
+  /// Max size of the Circulito widget.
   final double maxsize;
+
+  /// List of sections to draw.
   final List<CirculitoSection> sections;
+
+  /// Stroke width of the Circulito widget.
+  ///
+  /// This represent the pixels the stroke will have.
   final double strokeWidth;
+
+  /// If the Circulito widget is centered.
+  /// This will help calculate the centerOffset.
   final bool isCentered;
+
+  /// Start point of the Circulito widget.
+  ///
+  /// Could be: `top`, `right`, `bottom`, or `left`.
   final StartPoint startPoint;
+
+  /// Direction of the Circulito widget.
+  ///
+  /// Could be: `clockwise` or `counterClockwise`
   final CirculitoDirection direction;
+
+  /// Type of value of the section.
+  ///
+  /// Could be: `percentage` or `amount`
   final SectionValueType sectionValueType;
-  final CirculitoBackground? background;
+
+  /// Stroke cap of the Circulito widget.
+  ///
+  /// Could be: `butt` or `round`
   final CirculitoStrokeCap strokeCap;
+
+  /// Index of the selected section. Usually the hovered section.
+  ///
+  /// If there is no section selected, this must be -1.
+  ///
+  /// If the background is selected, this must be -2.
   final int selectedIndex;
+
+  /// Background of the Circulito widget.
+  ///
+  /// If this is null, the background will not be drawn.
+  final CirculitoBackground? background;
+
+  /// List of animations for each section.
+  ///
+  /// If this is null, the sections will not be animated.
   List<Animation<double>>? sectionValues;
 
+  /// Create a CustomPainter to draw the Circulito widget.
+  ///
+  /// Shouldn't be used directly. Use [Circulito] instead.
   CirculitoPainter({
     required this.maxsize,
     required this.sections,
     required this.strokeCap,
     required this.isCentered,
+    required this.strokeWidth,
     required this.startPoint,
     required this.direction,
     required this.sectionValueType,
     required this.selectedIndex,
     this.background,
-    this.strokeWidth = 20,
     this.sectionValues,
   });
 
@@ -59,6 +102,11 @@ class CirculitoPainter extends CustomPainter {
     var startAngle = Utils.getStartAngle(startPoint);
 
     /// Draws a section of the wheel.
+    ///
+    /// [percentage] between 0 and 1. Full circle is 1.
+    /// [decoration] to use in this Arc Draw. (color or gradient)
+    /// [index] of the section to draw. Nothing is -1 and background is -2.
+    ///
     void customDraw(
       double percentage,
       CirculitoDecoration decoration,
