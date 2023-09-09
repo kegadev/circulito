@@ -1,6 +1,7 @@
 ## 0.5.1
 
 - **Performance:** Delete unnessary _if condition_ on _CirculitoPainter_.<br>
+- **Docs:** Update _README_.<br>
 
 ## 0.5.0
 
