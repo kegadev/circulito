@@ -11,12 +11,6 @@ import 'src/utils/utils.dart';
 export 'src/core/core.dart';
 export 'src/enums/enums.dart';
 
-/// `Hover` selected Index.
-///
-/// This var is global in this file to avoid repaints when the widget is
-/// rebuilt when the parent widget is rebuilt.
-var _selectedIndex = -1;
-
 /// Circulito is a widget wraps the CirculitoPainter class
 /// to be used properly.
 class Circulito extends StatefulWidget {
@@ -224,7 +218,8 @@ class _CirculitoState extends State<Circulito>
         final maxWidth = constraints.maxWidth;
         final maxHeight = constraints.maxHeight;
 
-        final circulitoWidget = _Circulito(
+        final circulitoWidget = _InsideCirculito(
+          key: GlobalKey(),
           sizeToDraw: min(maxWidth, maxHeight),
           mainWidget: mainWidget,
           sections: widget.sections,
@@ -339,7 +334,7 @@ class _CirculitoState extends State<Circulito>
 
 /// Wraps the main widget and the child widget. Also handles the hover events.
 // ignore: must_be_immutable
-class _Circulito extends StatelessWidget {
+class _InsideCirculito extends StatefulWidget {
   final CirculitoDirection direction;
   final StreamController<int> hoveredIndexController;
   final bool isCentered;
@@ -356,7 +351,7 @@ class _Circulito extends StatelessWidget {
   final double? padding;
   final Widget? child;
 
-  _Circulito({
+  _InsideCirculito({
     Key? key,
     required this.direction,
     required this.hoveredIndexController,
@@ -375,42 +370,62 @@ class _Circulito extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<_InsideCirculito> createState() => _InsideCirculitoState();
+}
+
+class _InsideCirculitoState extends State<_InsideCirculito> {
+  /// `Hover` selected Index.
+  ///
+  /// This var is global in this file to avoid repaints when the widget is
+  /// rebuilt when the parent widget is rebuilt.
+
+  var _selectedIndex = -1;
+
+  @override
   Widget build(BuildContext context) {
-    final wrappedMainWidget = SizedBox(
-      width: sizeToDraw,
-      height: sizeToDraw,
+    // print("build con key $key");
+    Widget wrappedMainWidget = SizedBox(
+      width: widget.sizeToDraw,
+      height: widget.sizeToDraw,
       child: GestureDetector(
         onTap: onTap,
         child: MouseRegion(
           onHover: onPointerHover,
           onExit: onPointerExit,
-          child: mainWidget,
+          child: widget.mainWidget,
         ),
       ),
     );
 
-    if (child == null) return wrappedMainWidget;
+    // Show
+    if (widget.child == null) return wrappedMainWidget;
 
     Widget childToSHow = SizedBox(
-      width: min(maxsize, sizeToDraw),
-      height: min(maxsize, sizeToDraw),
-      child: child,
+      width: min(widget.maxsize, widget.sizeToDraw),
+      height: min(widget.maxsize, widget.sizeToDraw),
+      child: widget.child,
     );
 
-    if (!isInfiniteSizedParent) {
+    if (!widget.isInfiniteSizedParent) {
       childToSHow = Center(child: childToSHow);
     }
 
-    return Stack(
-      children: [
-        SizedBox(
-          width: sizeToDraw,
-          height: sizeToDraw,
-          child: wrappedMainWidget,
-        ),
-        childToSHow,
-      ],
+    final hitTestBehavior = _selectedIndex == -1
+        ? HitTestBehavior.translucent
+        : HitTestBehavior.opaque;
+
+    // Pr
+    wrappedMainWidget = MouseRegion(
+      opaque: false,
+      hitTestBehavior: hitTestBehavior,
+      child: SizedBox(
+        width: widget.sizeToDraw,
+        height: widget.sizeToDraw,
+        child: wrappedMainWidget,
+      ),
     );
+
+    return Stack(children: [childToSHow, wrappedMainWidget]);
   }
 
   /// Handles the selection event.
@@ -419,15 +434,15 @@ class _Circulito extends StatelessWidget {
   void doSelection(int sectionIndex) {
     if (sectionIndex != _selectedIndex) {
       _selectedIndex = sectionIndex;
-      hoveredIndexController.add(sectionIndex);
+      widget.hoveredIndexController.add(sectionIndex);
 
       // Nothing selected.
       if (_selectedIndex == -1) return;
 
       // on Hover callback.
       _selectedIndex == -2
-          ? background?.onHover?.call()
-          : sections[_selectedIndex].onHover?.call();
+          ? widget.background?.onHover?.call()
+          : widget.sections[_selectedIndex].onHover?.call();
     }
   }
 
@@ -437,7 +452,7 @@ class _Circulito extends StatelessWidget {
   /// Handles the hover event.
   void onPointerHover(PointerHoverEvent event) {
     final hoverPosition = event.localPosition;
-    final halfSizeToDraw = sizeToDraw / 2;
+    final halfSizeToDraw = widget.sizeToDraw / 2;
     final centerOffset = Offset(halfSizeToDraw, halfSizeToDraw);
 
     /// Get distance from center to approximate the hover position.
@@ -446,12 +461,12 @@ class _Circulito extends StatelessWidget {
       centerOffset,
     );
 
-    final diameter = min(maxsize, sizeToDraw) / 2;
-    final paddingValue = padding ?? 0.0;
+    final diameter = min(widget.maxsize, widget.sizeToDraw) / 2;
+    final paddingValue = widget.padding ?? 0.0;
 
     /// If the hover position is too much inside the wheel,
     /// or too much outside the wheel, remove selection.
-    if (distance <= ((diameter - strokeWidth) - paddingValue) ||
+    if (distance <= ((diameter - widget.strokeWidth) - paddingValue) ||
         distance >= (diameter - paddingValue)) {
       removeSelection();
       return;
@@ -462,11 +477,11 @@ class _Circulito extends StatelessWidget {
       centerOffset,
       halfSizeToDraw,
       CirculitoDirection.clockwise,
-      startPoint,
+      widget.startPoint,
     );
 
-    final sectionIndex =
-        Utils.determineHoverSection(angle, sections, sectionValueType);
+    final sectionIndex = Utils.determineHoverSection(
+        angle, widget.sections, widget.sectionValueType);
 
     doSelection(sectionIndex);
   }
@@ -474,9 +489,9 @@ class _Circulito extends StatelessWidget {
   /// Handles the tap event.
   void onTap() {
     if (_selectedIndex == -2) {
-      background?.onTap?.call();
+      widget.background?.onTap?.call();
     } else if (_selectedIndex != -1) {
-      final section = sections[_selectedIndex];
+      final section = widget.sections[_selectedIndex];
       if (section.onTap != null) {
         section.onTap!();
       }
@@ -487,7 +502,7 @@ class _Circulito extends StatelessWidget {
   void removeSelection() {
     if (_selectedIndex != -1) {
       _selectedIndex = -1;
-      hoveredIndexController.add(_selectedIndex);
+      widget.hoveredIndexController.add(_selectedIndex);
     }
   }
 }
