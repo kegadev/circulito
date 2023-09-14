@@ -218,7 +218,7 @@ class _CirculitoState extends State<Circulito>
         final maxWidth = constraints.maxWidth;
         final maxHeight = constraints.maxHeight;
 
-        final circulitoWidget = _InsideCirculito(
+        final circulitoWidget = _WrappedCirculito(
           key: GlobalKey(),
           sizeToDraw: min(maxWidth, maxHeight),
           mainWidget: mainWidget,
@@ -334,7 +334,7 @@ class _CirculitoState extends State<Circulito>
 
 /// Wraps the main widget and the child widget. Also handles the hover events.
 // ignore: must_be_immutable
-class _InsideCirculito extends StatefulWidget {
+class _WrappedCirculito extends StatefulWidget {
   final CirculitoDirection direction;
   final StreamController<int> hoveredIndexController;
   final bool isCentered;
@@ -351,7 +351,7 @@ class _InsideCirculito extends StatefulWidget {
   final double? padding;
   final Widget? child;
 
-  _InsideCirculito({
+  _WrappedCirculito({
     Key? key,
     required this.direction,
     required this.hoveredIndexController,
@@ -370,10 +370,10 @@ class _InsideCirculito extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<_InsideCirculito> createState() => _InsideCirculitoState();
+  State<_WrappedCirculito> createState() => _WrappedCirculitoState();
 }
 
-class _InsideCirculitoState extends State<_InsideCirculito> {
+class _WrappedCirculitoState extends State<_WrappedCirculito> {
   /// `Hover` selected Index.
   ///
   /// This avoid repaints when the widget is rebuilt when the parent
