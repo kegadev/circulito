@@ -376,14 +376,13 @@ class _InsideCirculito extends StatefulWidget {
 class _InsideCirculitoState extends State<_InsideCirculito> {
   /// `Hover` selected Index.
   ///
-  /// This var is global in this file to avoid repaints when the widget is
-  /// rebuilt when the parent widget is rebuilt.
-
+  /// This avoid repaints when the widget is rebuilt when the parent
+  /// widget is rebuilt. Also this is the reason why this class is statefull.
+  /// This ensure many Circulito Widgets can be used at the same time.
   var _selectedIndex = -1;
 
   @override
   Widget build(BuildContext context) {
-    // print("build con key $key");
     Widget wrappedMainWidget = SizedBox(
       width: widget.sizeToDraw,
       height: widget.sizeToDraw,
@@ -397,7 +396,7 @@ class _InsideCirculitoState extends State<_InsideCirculito> {
       ),
     );
 
-    // Show
+    // Return only the main widget if there is no child.
     if (widget.child == null) return wrappedMainWidget;
 
     Widget childToSHow = SizedBox(
@@ -406,6 +405,7 @@ class _InsideCirculitoState extends State<_InsideCirculito> {
       child: widget.child,
     );
 
+    // Center when the parent has fixed size.
     if (!widget.isInfiniteSizedParent) {
       childToSHow = Center(child: childToSHow);
     }
@@ -414,7 +414,8 @@ class _InsideCirculitoState extends State<_InsideCirculito> {
         ? HitTestBehavior.translucent
         : HitTestBehavior.opaque;
 
-    // Pr
+    /// Wrap the `wrappedMainWidget` with a MouseRegion to allow interaction with
+    /// the `child` widget.
     wrappedMainWidget = MouseRegion(
       opaque: false,
       hitTestBehavior: hitTestBehavior,
