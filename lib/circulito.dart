@@ -182,7 +182,27 @@ class _CirculitoState extends State<Circulito>
         builder: (_, snapshot) {
           final hoveredIndex = snapshot.data ?? -1;
 
-          if (isAnimated) _checkAnimation();
+          /// [PERFORMANCE]
+          /// Prevent animation redraws when no animation was provided.
+          if (!isAnimated) {
+            return MouseRegion(
+              cursor: _getCursor(hoveredIndex),
+              child: CustomPaint(
+                painter: CirculitoPainter(
+                  maxsize: widget.maxSize,
+                  sections: widget.sections,
+                  direction: widget.direction,
+                  strokeCap: widget.strokeCap,
+                  isCentered: widget.isCentered,
+                  selectedIndex: hoveredIndex,
+                  startPoint: widget.startPoint,
+                  strokeWidth: widget.strokeWidth,
+                  background: widget.background,
+                  sectionValueType: widget.sectionValueType,
+                ),
+              ),
+            );
+          }
 
           return MouseRegion(
             cursor: _getCursor(hoveredIndex),
@@ -190,6 +210,10 @@ class _CirculitoState extends State<Circulito>
                 animation: _animController,
                 builder: (_, __) {
                   return CustomPaint(
+                    /// [PERFORMANCE]
+                    /// Couldn't asign the painter to a variable and reuse it
+                    /// here because then, no animation was shown.
+                    /// This go against DRY principle but is necessary.
                     painter: CirculitoPainter(
                       maxsize: widget.maxSize,
                       sections: widget.sections,
@@ -201,7 +225,7 @@ class _CirculitoState extends State<Circulito>
                       strokeWidth: widget.strokeWidth,
                       background: widget.background,
                       sectionValueType: widget.sectionValueType,
-                      sectionValues: isAnimated ? animatedSectionValues : null,
+                      sectionValues: _getAnimationValues(),
                     ),
                   );
                 }),
@@ -285,41 +309,43 @@ class _CirculitoState extends State<Circulito>
   }
 
   /// Checks if the animation should be reseted.
-  void _checkAnimation() {
+  List<Animation<double>> _getAnimationValues() {
     final sections = widget.sections;
 
     // Only draw again if the sections have changed.
     final canDrawAgain = Utils.areArraysDifferent(
         previousSectionValues, sections.map((e) => e.value).toList());
 
-    if (canDrawAgain) {
-      // Restore values.
-      animatedSectionValues = [];
+    if (!canDrawAgain) return animatedSectionValues;
 
-      // Prevent overflow when adding and removing sectitons.
-      previousSectionValues = Utils.truncateList(
-        previousSectionValues,
-        sections.length,
-      ) as List<double>;
+    // Restore values.
+    animatedSectionValues = [];
 
-      _animController.reset();
+    // Prevent overflow when adding and removing sectitons.
+    previousSectionValues = Utils.truncateList(
+      previousSectionValues,
+      sections.length,
+    ) as List<double>;
 
-      for (int i = 0; i < sections.length; i++) {
-        final section = sections[i];
-        final isOutOfRange = i > previousSectionValues.length - 1;
-        final previousValue = isOutOfRange ? 0.0 : previousSectionValues[i];
+    _animController.reset();
 
-        // New animation.
-        final anim = _getAnimation(previousValue, section.value);
-        animatedSectionValues.add(anim);
+    for (int i = 0; i < sections.length; i++) {
+      final section = sections[i];
+      final isOutOfRange = i > previousSectionValues.length - 1;
+      final previousValue = isOutOfRange ? 0.0 : previousSectionValues[i];
 
-        // Save new values.
-        isOutOfRange
-            ? previousSectionValues.add(section.value)
-            : previousSectionValues[i] = section.value;
-      }
-      _animController.forward();
+      // New animation.
+      final anim = _getAnimation(previousValue, section.value);
+      animatedSectionValues.add(anim);
+
+      // Save new values.
+      isOutOfRange
+          ? previousSectionValues.add(section.value)
+          : previousSectionValues[i] = section.value;
     }
+    _animController.forward();
+
+    return animatedSectionValues;
   }
 
   @override
