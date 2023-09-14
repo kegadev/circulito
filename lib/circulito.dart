@@ -387,10 +387,10 @@ class _InsideCirculitoState extends State<_InsideCirculito> {
       width: widget.sizeToDraw,
       height: widget.sizeToDraw,
       child: GestureDetector(
-        onTap: onTap,
+        onTap: _onTap,
         child: MouseRegion(
-          onHover: onPointerHover,
-          onExit: onPointerExit,
+          onHover: _onPointerHover,
+          onExit: _onPointerExit,
           child: widget.mainWidget,
         ),
       ),
@@ -432,7 +432,7 @@ class _InsideCirculitoState extends State<_InsideCirculito> {
   /// Handles the selection event.
   ///
   /// Only update stream if the section has changed.
-  void doSelection(int sectionIndex) {
+  void _doSelection(int sectionIndex) {
     if (sectionIndex != _selectedIndex) {
       _selectedIndex = sectionIndex;
       widget.hoveredIndexController.add(sectionIndex);
@@ -448,10 +448,10 @@ class _InsideCirculitoState extends State<_InsideCirculito> {
   }
 
   /// Handles the exit event.
-  void onPointerExit(PointerExitEvent event) => removeSelection();
+  void _onPointerExit(PointerExitEvent event) => _removeSelection();
 
   /// Handles the hover event.
-  void onPointerHover(PointerHoverEvent event) {
+  void _onPointerHover(PointerHoverEvent event) {
     final hoverPosition = event.localPosition;
     final halfSizeToDraw = widget.sizeToDraw / 2;
     final centerOffset = Offset(halfSizeToDraw, halfSizeToDraw);
@@ -469,7 +469,7 @@ class _InsideCirculitoState extends State<_InsideCirculito> {
     /// or too much outside the wheel, remove selection.
     if (distance <= ((diameter - widget.strokeWidth) - paddingValue) ||
         distance >= (diameter - paddingValue)) {
-      removeSelection();
+      _removeSelection();
       return;
     }
 
@@ -484,11 +484,11 @@ class _InsideCirculitoState extends State<_InsideCirculito> {
     final sectionIndex = Utils.determineHoverSection(
         angle, widget.sections, widget.sectionValueType);
 
-    doSelection(sectionIndex);
+    _doSelection(sectionIndex);
   }
 
   /// Handles the tap event.
-  void onTap() {
+  void _onTap() {
     if (_selectedIndex == -2) {
       widget.background?.onTap?.call();
     } else if (_selectedIndex != -1) {
@@ -500,7 +500,7 @@ class _InsideCirculitoState extends State<_InsideCirculito> {
   }
 
   /// Removes the selection reseting index.
-  void removeSelection() {
+  void _removeSelection() {
     if (_selectedIndex != -1) {
       _selectedIndex = -1;
       widget.hoveredIndexController.add(_selectedIndex);
