@@ -495,6 +495,18 @@ class _WrappedCirculitoState extends State<_WrappedCirculito> {
     }
   }
 
+  MouseCursor _getCursor(int hoveredIndex) {
+    // This as default because it is more often called and more efficient.
+    if (hoveredIndex == -1) return MouseCursor.defer;
+
+    if (hoveredIndex == -2 && widget.background?.onTap != null ||
+        hoveredIndex >= 0 && widget.sections[hoveredIndex].onTap != null) {
+      return SystemMouseCursors.click;
+    }
+
+    return MouseCursor.defer;
+  }
+
   /// Handles the exit event.
   void _onPointerExit(PointerExitEvent event) => _removeSelection();
 
@@ -553,17 +565,5 @@ class _WrappedCirculitoState extends State<_WrappedCirculito> {
       setState(() => _selectedIndex = -1);
       widget.hoveredIndexController.add(_selectedIndex);
     }
-  }
-
-  MouseCursor _getCursor(int hoveredIndex) {
-    // This as default because it is more often called and more efficient.
-    if (hoveredIndex == -1) return MouseCursor.defer;
-
-    if (hoveredIndex == -2 && widget.background?.onTap != null ||
-        hoveredIndex >= 0 && widget.sections[hoveredIndex].onTap != null) {
-      return SystemMouseCursors.click;
-    }
-
-    return MouseCursor.defer;
   }
 }
