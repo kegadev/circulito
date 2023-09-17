@@ -113,6 +113,15 @@ class Circulito extends StatefulWidget {
   /// If null, no animation will be applied.
   final CirculitoAnimation? animation;
 
+  /// The order in which a child is stacked relative to the parent.
+  ///
+  /// Could be `behindParent` or `inFrontOfParent`.
+  ///
+  /// Sometimes the [child] widget is needed to be placed inside the wheel,
+  /// by placing the child behind the wheel, the child will be drawn behind
+  /// and prevent
+  final ChildStackingOrder? childStackingOrder;
+
   const Circulito({
     super.key,
     required this.sections,
@@ -125,6 +134,7 @@ class Circulito extends StatefulWidget {
     this.startPoint = StartPoint.top,
     this.direction = CirculitoDirection.clockwise,
     this.strokeCap = CirculitoStrokeCap.round,
+    this.childStackingOrder = ChildStackingOrder.inFrontOfParent,
     this.animation,
     this.sectionValueType = SectionValueType.percentage,
   })  : assert(strokeWidth > 0, "[strokeWidth] must be a positive value"),
@@ -246,6 +256,7 @@ class _CirculitoState extends State<Circulito>
           mainWidget: mainWidget,
           sections: widget.sections,
           isCentered: widget.isCentered,
+          childStackingOrder: widget.childStackingOrder,
           hoveredIndexController: hoveredIndexController,
           isInfiniteSizedParent: false,
           strokeWidth: widget.strokeWidth,
@@ -355,6 +366,7 @@ class _WrappedCirculito extends StatefulWidget {
   final SectionValueType sectionValueType;
   final StartPoint startPoint;
   final double strokeWidth;
+  final ChildStackingOrder? childStackingOrder;
   double sizeToDraw;
   bool isInfiniteSizedParent;
 
@@ -364,6 +376,7 @@ class _WrappedCirculito extends StatefulWidget {
 
   _WrappedCirculito({
     Key? key,
+    required this.childStackingOrder,
     required this.direction,
     required this.hoveredIndexController,
     required this.isCentered,
@@ -438,25 +451,30 @@ class _WrappedCirculitoState extends State<_WrappedCirculito> {
       child: wrappedMainWidget,
     );
 
-    /// Wrap the `wrappedMainWidget` with a MouseRegion to allow interaction with
-    /// the `child` widget.
-    // childToSHow = MouseRegion(
-    //   //todo: al poner true se hace muchas draws on tap
-    //   opaque: false,
-    //   cursor: _cursor,
-    //   // hitTestBehavior: hitTestBehavior,
-    //   child: childToSHow,
-    // );
-    wrappedMainWidget = MouseRegion(
-      opaque: false,
-      hitTestBehavior: hitTestBehavior,
-      child: wrappedMainWidget,
-    );
+    if (widget.childStackingOrder == ChildStackingOrder.behindParent) {
+      /// Wrap the `wrappedMainWidget` with a MouseRegion to allow
+      /// interaction with the `child` widget.
+      wrappedMainWidget = MouseRegion(
+        opaque: false,
+        hitTestBehavior: hitTestBehavior,
+        child: wrappedMainWidget,
+      );
+    } else {
+      /// Wrap the `childToSHow` with a MouseRegion to allow
+      /// interaction with the `wrappedMainWidget` widget.
+      childToSHow = MouseRegion(
+        opaque: false,
+        hitTestBehavior: hitTestBehavior,
+        child: childToSHow,
+      );
+    }
 
-    return Stack(alignment: Alignment.center, children: [
-      childToSHow,
-      wrappedMainWidget,
-    ]);
+    return Stack(
+      alignment: Alignment.center,
+      children: widget.childStackingOrder == ChildStackingOrder.behindParent
+          ? [childToSHow, wrappedMainWidget]
+          : [wrappedMainWidget, childToSHow],
+    );
   }
 
   /// Handles the selection event.
