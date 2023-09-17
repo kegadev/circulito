@@ -428,7 +428,7 @@ class _WrappedCirculitoState extends State<_WrappedCirculito> {
 
     final type = widget.child!.runtimeType;
 
-    Widget childToSHow = type == Circulito
+    Widget childToShow = type == Circulito
         ? SizedBox(
             width: min(widget.maxsize, widget.sizeToDraw),
             height: min(widget.maxsize, widget.sizeToDraw),
@@ -438,7 +438,7 @@ class _WrappedCirculitoState extends State<_WrappedCirculito> {
 
     // Center when the parent has fixed size.
     if (!widget.isInfiniteSizedParent) {
-      childToSHow = Center(child: childToSHow);
+      childToShow = Center(child: childToShow);
     }
 
     final hitTestBehavior = isNothingSelected
@@ -460,20 +460,20 @@ class _WrappedCirculitoState extends State<_WrappedCirculito> {
         child: wrappedMainWidget,
       );
     } else {
-      /// Wrap the `childToSHow` with a MouseRegion to allow
+      /// Wrap the `childToShow` with a MouseRegion to allow
       /// interaction with the `wrappedMainWidget` widget.
-      childToSHow = MouseRegion(
+      childToShow = MouseRegion(
         opaque: false,
         hitTestBehavior: hitTestBehavior,
-        child: childToSHow,
+        child: childToShow,
       );
     }
 
     return Stack(
       alignment: Alignment.center,
       children: widget.childStackingOrder == ChildStackingOrder.behindParent
-          ? [childToSHow, wrappedMainWidget]
-          : [wrappedMainWidget, childToSHow],
+          ? [childToShow, wrappedMainWidget]
+          : [wrappedMainWidget, childToShow],
     );
   }
 
