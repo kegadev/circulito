@@ -317,7 +317,7 @@ class _CirculitoState extends State<Circulito>
     // Restore values.
     animatedSectionValues = [];
 
-    // Prevent overflow when adding and removing sectitons.
+    // Prevent overflow when adding and removing sections.
     previousSectionValues = Utils.truncateList(
       previousSectionValues,
       sections.length,
