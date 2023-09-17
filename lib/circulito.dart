@@ -149,6 +149,9 @@ class _CirculitoState extends State<Circulito>
   late List<Animation<double>> animatedSectionValues;
   List<double> previousSectionValues = [];
 
+  // Main widget key.
+  late GlobalKey wrappedKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
@@ -170,6 +173,7 @@ class _CirculitoState extends State<Circulito>
 
     // Start the animation when the widget is built.
     _animController.forward();
+    wrappedKey = GlobalKey();
   }
 
   @override
@@ -185,51 +189,45 @@ class _CirculitoState extends State<Circulito>
           /// [PERFORMANCE]
           /// Prevent animation redraws when no animation was provided.
           if (!isAnimated) {
-            return MouseRegion(
-              cursor: _getCursor(hoveredIndex),
-              child: CustomPaint(
-                painter: CirculitoPainter(
-                  maxsize: widget.maxSize,
-                  sections: widget.sections,
-                  direction: widget.direction,
-                  strokeCap: widget.strokeCap,
-                  isCentered: widget.isCentered,
-                  selectedIndex: hoveredIndex,
-                  startPoint: widget.startPoint,
-                  strokeWidth: widget.strokeWidth,
-                  background: widget.background,
-                  sectionValueType: widget.sectionValueType,
-                ),
+            return CustomPaint(
+              painter: CirculitoPainter(
+                maxsize: widget.maxSize,
+                sections: widget.sections,
+                direction: widget.direction,
+                strokeCap: widget.strokeCap,
+                isCentered: widget.isCentered,
+                selectedIndex: hoveredIndex,
+                startPoint: widget.startPoint,
+                strokeWidth: widget.strokeWidth,
+                background: widget.background,
+                sectionValueType: widget.sectionValueType,
               ),
             );
           }
 
-          return MouseRegion(
-            cursor: _getCursor(hoveredIndex),
-            child: AnimatedBuilder(
-                animation: _animController,
-                builder: (_, __) {
-                  return CustomPaint(
-                    /// [PERFORMANCE]
-                    /// Couldn't asign the painter to a variable and reuse it
-                    /// here because then, no animation was shown.
-                    /// This go against DRY principle but is necessary.
-                    painter: CirculitoPainter(
-                      maxsize: widget.maxSize,
-                      sections: widget.sections,
-                      direction: widget.direction,
-                      strokeCap: widget.strokeCap,
-                      isCentered: widget.isCentered,
-                      selectedIndex: hoveredIndex,
-                      startPoint: widget.startPoint,
-                      strokeWidth: widget.strokeWidth,
-                      background: widget.background,
-                      sectionValueType: widget.sectionValueType,
-                      sectionValues: _getAnimationValues(),
-                    ),
-                  );
-                }),
-          );
+          return AnimatedBuilder(
+              animation: _animController,
+              builder: (_, __) {
+                return CustomPaint(
+                  /// [PERFORMANCE]
+                  /// Couldn't asign the painter to a variable and reuse it
+                  /// here because then, no animation was shown.
+                  /// This go against DRY principle but is necessary.
+                  painter: CirculitoPainter(
+                    maxsize: widget.maxSize,
+                    sections: widget.sections,
+                    direction: widget.direction,
+                    strokeCap: widget.strokeCap,
+                    isCentered: widget.isCentered,
+                    selectedIndex: hoveredIndex,
+                    startPoint: widget.startPoint,
+                    strokeWidth: widget.strokeWidth,
+                    background: widget.background,
+                    sectionValueType: widget.sectionValueType,
+                    sectionValues: _getAnimationValues(),
+                  ),
+                );
+              });
         });
 
     if (widget.padding != null) {
@@ -243,7 +241,7 @@ class _CirculitoState extends State<Circulito>
         final maxHeight = constraints.maxHeight;
 
         final circulitoWidget = _WrappedCirculito(
-          key: GlobalKey(),
+          key: wrappedKey,
           sizeToDraw: min(maxWidth, maxHeight),
           mainWidget: mainWidget,
           sections: widget.sections,
@@ -277,19 +275,6 @@ class _CirculitoState extends State<Circulito>
         return circulitoWidget;
       },
     );
-  }
-
-  /// Returns the cursor to be shown when the mouse is over the widget.
-  SystemMouseCursor _getCursor(int hoveredIndex) {
-    // This as default because it is more often called and more efficient.
-    if (hoveredIndex == -1) return SystemMouseCursors.basic;
-
-    if (hoveredIndex == -2 && widget.background?.onTap != null ||
-        hoveredIndex >= 0 && widget.sections[hoveredIndex].onTap != null) {
-      return SystemMouseCursors.click;
-    }
-
-    return SystemMouseCursors.basic;
   }
 
   /// Returns an animation from a value to another.
@@ -409,14 +394,17 @@ class _WrappedCirculitoState extends State<_WrappedCirculito> {
 
   @override
   Widget build(BuildContext context) {
+    final isNothingSelected = _selectedIndex == -1;
+
     Widget wrappedMainWidget = SizedBox(
       width: widget.sizeToDraw,
       height: widget.sizeToDraw,
       child: GestureDetector(
-        onTap: _onTap,
+        onTap: isNothingSelected ? null : _onTap,
         child: MouseRegion(
           onHover: _onPointerHover,
           onExit: _onPointerExit,
+          cursor: _getCursor(_selectedIndex),
           child: widget.mainWidget,
         ),
       ),
@@ -425,34 +413,50 @@ class _WrappedCirculitoState extends State<_WrappedCirculito> {
     // Return only the main widget if there is no child.
     if (widget.child == null) return wrappedMainWidget;
 
-    Widget childToSHow = SizedBox(
-      width: min(widget.maxsize, widget.sizeToDraw),
-      height: min(widget.maxsize, widget.sizeToDraw),
-      child: widget.child,
-    );
+    final type = widget.child!.runtimeType;
+
+    Widget childToSHow = type == Circulito
+        ? SizedBox(
+            width: min(widget.maxsize, widget.sizeToDraw),
+            height: min(widget.maxsize, widget.sizeToDraw),
+            child: widget.child,
+          )
+        : widget.child!;
 
     // Center when the parent has fixed size.
     if (!widget.isInfiniteSizedParent) {
       childToSHow = Center(child: childToSHow);
     }
 
-    final hitTestBehavior = _selectedIndex == -1
+    final hitTestBehavior = isNothingSelected
         ? HitTestBehavior.translucent
         : HitTestBehavior.opaque;
 
+    wrappedMainWidget = SizedBox(
+      width: widget.sizeToDraw,
+      height: widget.sizeToDraw,
+      child: wrappedMainWidget,
+    );
+
     /// Wrap the `wrappedMainWidget` with a MouseRegion to allow interaction with
     /// the `child` widget.
+    // childToSHow = MouseRegion(
+    //   //todo: al poner true se hace muchas draws on tap
+    //   opaque: false,
+    //   cursor: _cursor,
+    //   // hitTestBehavior: hitTestBehavior,
+    //   child: childToSHow,
+    // );
     wrappedMainWidget = MouseRegion(
       opaque: false,
       hitTestBehavior: hitTestBehavior,
-      child: SizedBox(
-        width: widget.sizeToDraw,
-        height: widget.sizeToDraw,
-        child: wrappedMainWidget,
-      ),
+      child: wrappedMainWidget,
     );
 
-    return Stack(children: [childToSHow, wrappedMainWidget]);
+    return Stack(alignment: Alignment.center, children: [
+      childToSHow,
+      wrappedMainWidget,
+    ]);
   }
 
   /// Handles the selection event.
@@ -460,7 +464,7 @@ class _WrappedCirculitoState extends State<_WrappedCirculito> {
   /// Only update stream if the section has changed.
   void _doSelection(int sectionIndex) {
     if (sectionIndex != _selectedIndex) {
-      _selectedIndex = sectionIndex;
+      setState(() => _selectedIndex = sectionIndex);
       widget.hoveredIndexController.add(sectionIndex);
 
       // Nothing selected.
@@ -528,8 +532,20 @@ class _WrappedCirculitoState extends State<_WrappedCirculito> {
   /// Removes the selection reseting index.
   void _removeSelection() {
     if (_selectedIndex != -1) {
-      _selectedIndex = -1;
+      setState(() => _selectedIndex = -1);
       widget.hoveredIndexController.add(_selectedIndex);
     }
+  }
+
+  MouseCursor _getCursor(int hoveredIndex) {
+    // This as default because it is more often called and more efficient.
+    if (hoveredIndex == -1) return MouseCursor.defer;
+
+    if (hoveredIndex == -2 && widget.background?.onTap != null ||
+        hoveredIndex >= 0 && widget.sections[hoveredIndex].onTap != null) {
+      return SystemMouseCursors.click;
+    }
+
+    return MouseCursor.defer;
   }
 }
