@@ -495,6 +495,13 @@ class _WrappedCirculitoState extends State<_WrappedCirculito> {
     }
   }
 
+  /// Returns the cursor to be shown.
+  ///
+  /// If the hovered index is -1, returns [MouseCursor.defer] which
+  /// means the cursor is the default.
+  ///
+  /// If the hovered section has an `onTap` callback, returns
+  /// [SystemMouseCursors.click].
   MouseCursor _getCursor(int hoveredIndex) {
     // This as default because it is more often called and more efficient.
     if (hoveredIndex == -1) return MouseCursor.defer;
