@@ -1,7 +1,13 @@
-## 0.5.1
+## 0.6.0
 
+- **Feature:** `ChildStackingOrder` property has been added.<br>
+- **Fix:** Resolved an issue where child interactions with the Circulito widget were not functioning correctly.<br>
+- **Fix:** Mouse pointer was not changing on Circulito child on hover.<br>
+- **Performance:** Prevent unnecessary draws when no animation is provided.<br>
 - **Performance:** Delete unnessary _if condition_ on _CirculitoPainter_.<br>
 - **Docs:** Update _README_.<br>
+- **Refactor:** `Circulito` main file.<br>
+- **Chore:** Update main example.<br>
 
 ## 0.5.0
 
@@ -10,8 +16,8 @@
 - **Performance:** Delete unnessary sentences on _CirculitoPainter_.<br>
 - **Docs:** Update Documentation.<br>
 - **Docs:** Update _README_.<br>
+- **Test:** Update main test.<br>
 - **Chore:** Update main example.<br>
-- **Chore:** Update main test.<br>
 
 ## 0.4.0
 
