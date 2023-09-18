@@ -140,7 +140,7 @@ class CirculitoPainter extends CustomPainter {
         ..strokeWidth = customStrokeWidth
         ..strokeCap = flutterStrokeCap;
 
-      // Shadow implementation
+      // Shadow implementation.
       var shadow = decoration.shadow;
       if (shadow != null) {
         final shadowPaint = Paint()
