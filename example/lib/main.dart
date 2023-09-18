@@ -39,7 +39,12 @@ class _MyAppState extends State<MyApp> {
                 maxSize: 510,
                 strokeWidth: 50,
                 childStackingOrder: ChildStackingOrder.behindParent,
-                background: CirculitoBackground(),
+                background: CirculitoBackground(
+                  decoration: const CirculitoDecoration.fromColor(
+                    Colors.grey,
+                    shadow: CirculitoShadow(),
+                  ),
+                ),
                 strokeCap: CirculitoStrokeCap.butt,
                 direction: CirculitoDirection.clockwise,
                 sectionValueType: SectionValueType.percentage,
