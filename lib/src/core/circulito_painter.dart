@@ -140,6 +140,15 @@ class CirculitoPainter extends CustomPainter {
         ..strokeWidth = customStrokeWidth
         ..strokeCap = flutterStrokeCap;
 
+      // Shadow implementation
+      // final paint2 = Paint()
+      //   ..style = PaintingStyle.stroke
+      //   ..strokeWidth = customStrokeWidth
+      //   ..strokeCap = flutterStrokeCap
+      //   ..color = Colors.black.withOpacity(.2)
+      //   ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5);
+      // canvas.drawArc(rect, startAngle, sweepAngle, false, paint2);
+
       // Asign decoration.
       decoration.type == DecorationType.color
           ? sectionPaint.color = baseColor!
