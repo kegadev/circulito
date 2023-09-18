@@ -1,3 +1,10 @@
+## 0.7.0
+
+- **Feature:** `CirculitoShadow` property has been added to _CirculitoDecoration_. Now the _background_ of _Circulito_ or each _section_ can have its own _shadow_.<br>
+- **Docs:** Update documentation to _CirculitoDecoration_.<br>
+- **Docs:** Update _README_.<br>
+- **Chore:** Update main example to add shadow to background.<br>
+
 ## 0.6.0
 
 - **Feature:** `ChildStackingOrder` property has been added.<br>
