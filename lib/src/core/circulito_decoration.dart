@@ -14,11 +14,25 @@ import '../enums/enums.dart';
 /// Additionally, this decoration supports hover effects, which can be defined
 /// using `hoverColor` or `hoverGradient`, depending on the constructor used.
 class CirculitoDecoration {
+  /// Color of the `section` or `background` to be painted.
   final Color? color;
+
+  /// Type of the `decoration`.
+  ///
+  /// This is used to determine if the `decoration` is a `color` or
+  /// a `gradient`.
   final DecorationType type;
+
+  /// Color of the `section` or `background` to be painted when hovered.
   final Color? hoverColor;
+
+  /// Gradient of the `section` or `background` to be painted.
   final Gradient? gradient;
+
+  /// Gradient of the `section` or `background` to be painted when hovered.
   final Gradient? hoverGradient;
+
+  /// The shadow to be painted behind `color` or `gradient`.
   final CirculitoShadow? shadow;
 
   /// Creates a `decoration` from a solid color. If [hoverColor] is provided, the
