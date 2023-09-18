@@ -123,6 +123,32 @@ Circulito(
 );
 ```
 
+#### Shadow
+
+Add **Shadow** to the _decoration_ for _sections_ or _background_ using `shadow` property:
+
+```dart
+decoration: const CirculitoDecoration.fromColor(
+    Colors.grey,
+    // Default grey shadow.
+    shadow: CirculitoShadow(),
+),
+```
+
+You can also customize the `color`, `spreading` and `style` of the _shadow_.
+
+```dart
+decoration: CirculitoDecoration.fromColor(
+    Colors.grey,
+    // Customized shadow.
+    shadow: CirculitoShadow(
+        color: Colors.blueGrey.withOpacity(.3),
+        spreading: 16.0,
+        blurStyle: BlurStyle.normal,
+    ),
+),
+```
+
 ### Section Interactivity
 
 To add **Interactivity** to sections or background just need to add `onHover` or
