@@ -166,6 +166,18 @@ class CirculitoPainter extends CustomPainter {
         sectionPaint,
       );
 
+      // Stroke border implementation.
+      _strokeBorder(
+        decoration: decoration,
+        canvas: canvas,
+        centerOffset: centerOffset,
+        radius: radius,
+        startAngle: startAngle,
+        sweepAngle: sweepAngle,
+        strokeCap: flutterStrokeCap,
+        customStrokeWidth: customStrokeWidth,
+      );
+
       // Prevent moving startAngle.
       if (isBackground) return;
 
@@ -190,6 +202,115 @@ class CirculitoPainter extends CustomPainter {
       // Draw the section.
       customDraw(percentage, sections[i].decoration, i);
     }
+  }
+
+  /// Draws the stroke border of a section or background.
+  ///
+  /// In order to draw the silloute of the stroke, this method draws two
+  /// arcs and two lines if the [strokeCap] is `StrokeCap.butt`. If the
+  /// [strokeCap] is `StrokeCap.round`, this method draws 4 arcs total.
+  void _strokeBorder({
+    required CirculitoDecoration decoration,
+    required Canvas canvas,
+    required Offset centerOffset,
+    required double radius,
+    required double startAngle,
+    required double sweepAngle,
+    required StrokeCap strokeCap,
+    required double customStrokeWidth,
+  }) {
+    var border = decoration.border;
+    if (border == null) return;
+
+    // Points to direct and move the closing lines or arcs of the border.
+    final halfStrokeWidth = customStrokeWidth / 2;
+    final innerRadius = radius - halfStrokeWidth;
+    final outerRadius = radius + halfStrokeWidth;
+
+    final dx = centerOffset.dx;
+    final dy = centerOffset.dy;
+
+    // Starting points of the border, by the startAngle.
+    final cosStartAngle = cos(startAngle);
+    final sinStartAngle = sin(startAngle);
+
+    final startPoint1 = Offset(
+      dx + outerRadius * cosStartAngle, // X
+      dy + outerRadius * sinStartAngle, // Y
+    );
+    final startPoint2 = Offset(
+      dx + innerRadius * cosStartAngle, // X
+      dy + innerRadius * sinStartAngle, // Y
+    );
+
+    // Ending points of the border, by the startAngle + sweepAngle.
+    final endAngle = startAngle + sweepAngle;
+    final cosEndAngle = cos(endAngle);
+    final sinEndAngle = sin(endAngle);
+
+    final endPoint1 = Offset(
+      dx + innerRadius * cosEndAngle, // X
+      dy + innerRadius * sinEndAngle, // Y
+    );
+    final endPoint2 = Offset(
+      dx + outerRadius * cosEndAngle, // X
+      dy + outerRadius * sinEndAngle, // Y
+    );
+
+    final path = Path();
+    final isStrokeCapRound = strokeCap == StrokeCap.round;
+
+    // [FIRST PART] Outer arc.
+    final outerRect = Rect.fromCircle(
+      center: centerOffset,
+      radius: radius + halfStrokeWidth,
+    );
+
+    // Draw outer arc.
+    path.addArc(outerRect, startAngle, sweepAngle);
+
+    // [SECOND PART] End closing line or arc.
+    if (isStrokeCapRound) {
+      var center = (endPoint2 + endPoint1) / 2;
+      var rect = Rect.fromCircle(center: center, radius: halfStrokeWidth);
+      path.addArc(rect, (startAngle + sweepAngle), pi);
+    } else {
+      path.moveTo(endPoint1.dx, endPoint1.dy);
+      path.lineTo(endPoint2.dx, endPoint2.dy);
+      path.close();
+    }
+
+    // [THIRD PART] Inner arc.
+    final innerRect = Rect.fromCircle(
+      center: centerOffset,
+      radius: radius - halfStrokeWidth,
+    );
+    path.addArc(innerRect, startAngle, sweepAngle);
+
+    // [FOURTH PART] Start closing line or arc.
+    if (isStrokeCapRound) {
+      // Draw start closing arc.
+      var center = (startPoint2 + startPoint1) / 2;
+      var rect = Rect.fromCircle(center: center, radius: halfStrokeWidth);
+
+      path.addArc(rect, startAngle, -pi);
+    } else {
+      // Draw start closing line.
+      path.moveTo(startPoint2.dx, startPoint2.dy);
+      path.lineTo(startPoint1.dx, startPoint1.dy);
+      path.close();
+    }
+
+    // Painter for the stroke border.
+    final strokeBorderPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = border.size
+      ..strokeCap = strokeCap
+      ..strokeJoin = StrokeJoin.round
+      ..color = border.color;
+
+    // Draw the stroke border.
+    canvas.drawPath(path, strokeBorderPaint);
   }
 
   @override

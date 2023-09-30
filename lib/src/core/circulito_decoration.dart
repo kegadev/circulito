@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:circulito/src/core/circulito_shadow.dart';
+import 'package:circulito/circulito.dart';
 
 import '../enums/enums.dart';
 
@@ -35,12 +35,15 @@ class CirculitoDecoration {
   /// The shadow to be painted behind `color` or `gradient`.
   final CirculitoShadow? shadow;
 
+  final CirculitoBorder? border;
+
   /// Creates a `decoration` from a solid color. If [hoverColor] is provided, the
   /// section will change to that color when hovered.
   const CirculitoDecoration.fromColor(
     this.color, {
     this.hoverColor,
     this.shadow,
+    this.border,
   })  : type = DecorationType.color,
         gradient = null,
         hoverGradient = null;
@@ -51,6 +54,7 @@ class CirculitoDecoration {
     this.gradient, {
     this.hoverGradient,
     this.shadow,
+    this.border,
   })  : type = DecorationType.gradient,
         color = null,
         hoverColor = null;
