@@ -1,3 +1,9 @@
+## 0.8.0
+
+- **Feature:** `CirculitoBorder` property has been added to _CirculitoDecoration_. Now the _background_ of _Circulito_ or each _section_ can have its own _border_.<br>
+- **Docs:** Update documentation to _CirculitoDecoration_.<br>
+- **Docs:** Update _README_.<br>
+
 ## 0.7.0
 
 - **Feature:** `CirculitoShadow` property has been added to _CirculitoDecoration_. Now the _background_ of _Circulito_ or each _section_ can have its own _shadow_.<br>
