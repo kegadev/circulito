@@ -149,6 +149,31 @@ decoration: CirculitoDecoration.fromColor(
 ),
 ```
 
+#### Border
+
+Add **Border** to the _decoration_ for _sections_ or _background_ using `border` property:
+
+```dart
+decoration: const CirculitoDecoration.fromColor(
+    Colors.grey,
+    // Default black border.
+    border: CirculitoBorder(),
+),
+```
+
+You can also customize the `color` and `size` of the _border_.
+
+```dart
+decoration: CirculitoDecoration.fromColor(
+    Colors.grey,
+    // Customized border.
+    border: CirculitoBorder(
+        color: Colors.blueGrey,
+        size: 8.0,
+    ),
+),
+```
+
 ### Section Interactivity
 
 To add **Interactivity** to sections or background just need to add `onHover` or
