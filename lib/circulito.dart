@@ -122,6 +122,9 @@ class Circulito extends StatefulWidget {
   /// and prevent
   final ChildStackingOrder? childStackingOrder;
 
+  /// The function to be called when the mouse pointer exits the wheel.
+  final void Function()? onHoverExit;
+
   const Circulito({
     super.key,
     required this.sections,
@@ -129,6 +132,7 @@ class Circulito extends StatefulWidget {
     this.child,
     this.padding,
     this.background,
+    this.onHoverExit,
     this.strokeWidth = 20,
     this.isCentered = true,
     this.startPoint = StartPoint.top,
@@ -256,6 +260,7 @@ class _CirculitoState extends State<Circulito>
           mainWidget: mainWidget,
           sections: widget.sections,
           isCentered: widget.isCentered,
+          onHoverExit: widget.onHoverExit,
           childStackingOrder: widget.childStackingOrder,
           hoveredIndexController: hoveredIndexController,
           isInfiniteSizedParent: false,
@@ -365,6 +370,7 @@ class _WrappedCirculito extends StatefulWidget {
   final List<CirculitoSection> sections;
   final SectionValueType sectionValueType;
   final StartPoint startPoint;
+  final void Function()? onHoverExit;
   final double strokeWidth;
   final ChildStackingOrder? childStackingOrder;
   double sizeToDraw;
@@ -388,6 +394,7 @@ class _WrappedCirculito extends StatefulWidget {
     required this.sizeToDraw,
     required this.startPoint,
     required this.strokeWidth,
+    required this.onHoverExit,
     this.background,
     this.padding,
     this.child,
@@ -569,6 +576,7 @@ class _WrappedCirculitoState extends State<_WrappedCirculito> {
   /// Removes the selection reseting index.
   void _removeSelection() {
     if (_selectedIndex != -1) {
+      widget.onHoverExit?.call();
       setState(() => _selectedIndex = -1);
       widget.hoveredIndexController.add(_selectedIndex);
     }
