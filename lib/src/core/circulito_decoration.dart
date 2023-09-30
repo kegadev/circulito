@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:circulito/circulito.dart';
 
-import '../enums/enums.dart';
-
 /// The decoration of a section or background in the Circulito widget.
 ///
 /// This decoration can contain either a solid `color` or a `gradient`. Users
@@ -32,9 +30,10 @@ class CirculitoDecoration {
   /// Gradient of the `section` or `background` to be painted when hovered.
   final Gradient? hoverGradient;
 
-  /// The shadow to be painted behind `color` or `gradient`.
+  /// The shadow to be painted behind `section` or `background`.
   final CirculitoShadow? shadow;
 
+  /// The border to be painted around `section` or `background`.
   final CirculitoBorder? border;
 
   /// Creates a `decoration` from a solid color. If [hoverColor] is provided, the
