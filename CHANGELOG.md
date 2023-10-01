@@ -1,3 +1,8 @@
+# 1.0.0
+
+- **Feature:** `onHoverExit` property has been added to _Circulito_.<br>
+- **Docs:** Update _CHANGELOG_.<br>
+
 ## 0.8.0
 
 - **Feature:** `CirculitoBorder` property has been added to _CirculitoDecoration_. Now the _background_ of _Circulito_ or each _section_ can have its own _border_.<br>
@@ -84,7 +89,6 @@
 - **Fix:** Some issues when drawing `Circulito` inside an infinite size parent like
 - **Feature:** `isCenter`: Allow to center the widget.<br>
 - **Feature:** `padding`: Add a padding to the widget.<br>
-  _Column_ or _Row_.
 - **Docs:** Update _README_ and _example_.<br>
 - **Docs:** Add Circulito painter class documentation.<br>
 
