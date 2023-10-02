@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'core.dart';
+import 'helpers.dart';
 
 /// The background to be painted behind the wheel.
 class CirculitoBackground {
