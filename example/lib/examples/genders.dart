@@ -73,19 +73,6 @@ class _GendersState extends State<Genders> {
     );
   }
 
-  /// Changes the text of the child widget.
-  void _changeChildText(String text) {
-    if (!mounted) return;
-    setState(() => _text = text);
-  }
-
-  /// Switches the text of the child widget.
-  void _switchText(String defaultText, double percentage) {
-    if (!mounted) return;
-    _text = _text == defaultText ? "${percentage * 100}%" : defaultText;
-    setState(() {});
-  }
-
   CirculitoSection _maleSection() {
     return CirculitoSection(
       value: _malePercentage,
@@ -118,5 +105,18 @@ class _GendersState extends State<Genders> {
         ]),
       ),
     );
+  }
+
+  /// Changes the text of the child widget.
+  void _changeChildText(String text) {
+    if (!mounted) return;
+    setState(() => _text = text);
+  }
+
+  /// Switches the text of the child widget.
+  void _switchText(String defaultText, double percentage) {
+    if (!mounted) return;
+    _text = _text == defaultText ? "${percentage * 100}%" : defaultText;
+    setState(() {});
   }
 }
