@@ -112,7 +112,7 @@ class Circulito extends StatefulWidget {
   /// ```
   final SectionValueType sectionValueType;
 
-  /// The animation to be applied to the wheel.
+  /// The animation to be applied to the wheel whenever the [sections] change.
   ///
   /// If null, no animation will be applied.
   final CirculitoAnimation? animation;
