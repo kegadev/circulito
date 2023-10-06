@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:example/examples/apple_fitness_rings.dart';
-import 'package:example/examples/count_down.dart';
-import 'package:example/examples/dynamic_ring.dart';
-import 'package:example/examples/genders.dart';
+import 'package:example/examples/examples.dart';
+
+import 'widgets/about_widget.dart';
 
 void main() => runApp(const MyApp());
 
@@ -15,8 +14,38 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  /// Controller for the PageView.
   late PageController _pageController;
 
+  /// List of items for the bottom navigation bar.
+  static const _bottomItems = [
+    BottomNavigationBarItem(icon: Icon(Icons.male), label: 'Simple'),
+    BottomNavigationBarItem(icon: Icon(Icons.ac_unit_sharp), label: 'Triple'),
+    BottomNavigationBarItem(icon: Icon(Icons.timer), label: 'Timer'),
+    BottomNavigationBarItem(icon: Icon(Icons.pie_chart), label: 'Dynamic'),
+  ];
+
+  static const _titles = [
+    'Genders simple example',
+    'Apple-like rings',
+    '10 seconds countdown',
+    'Dynamic Pie chart',
+  ];
+
+  /// List of Circulito examples.
+  ///
+  /// Check the `examples` folder to see the code of each one.
+  static const _circulitoExamples = [
+    Genders(),
+    AppleFitnessRings(),
+    CountDown(),
+    DynamicRing(),
+  ];
+
+  /// If the about widget should be shown.
+  var _canShowAbout = false;
+
+  /// Index of the current page.
   var _pageIndex = 0;
 
   @override
@@ -27,45 +56,61 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    const bottomItems = [
-      BottomNavigationBarItem(icon: Icon(Icons.male), label: 'Simple'),
-      BottomNavigationBarItem(icon: Icon(Icons.ac_unit_sharp), label: 'Triple'),
-      BottomNavigationBarItem(icon: Icon(Icons.timer), label: 'Timer'),
-      BottomNavigationBarItem(icon: Icon(Icons.pie_chart), label: 'Dynamic'),
-    ];
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Circulito basic examples'),
+          title: Text(
+            _canShowAbout ? 'About Circulito' : _titles[_pageIndex],
+          ),
           backgroundColor: Colors.black,
-        ),
-        backgroundColor: _pageIndex == 1 ? Colors.black : Colors.white,
-        body: PageView(
-          controller: _pageController,
-          children: const [
-            Genders(),
-            AppleFitnessRings(),
-            CountDown(),
-            DynamicRing(),
+          actions: [
+            IconButton(
+              tooltip: _canShowAbout ? 'Go back' : 'About',
+              onPressed: () => setState(() {
+                _canShowAbout = !_canShowAbout;
+                _pageIndex = 0;
+              }),
+              icon: const Icon(Icons.lightbulb),
+              color: _canShowAbout ? Colors.amberAccent : Colors.white,
+            )
           ],
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: Colors.black,
-          items: bottomItems,
-          currentIndex: _pageIndex,
-          onTap: (index) {
-            setState(() => _pageIndex = index);
-            _pageController.animateToPage(
-              index,
-              duration: const Duration(milliseconds: 100),
-              curve: Curves.fastOutSlowIn,
-            ); // Animate the PageView to the selected page
-          },
-        ),
+        backgroundColor:
+            _pageIndex == 1 && !_canShowAbout ? Colors.black : Colors.white,
+        body: _canShowAbout
+            ? const AboutWidget()
+            : PageView(
+                controller: _pageController,
+                children: _circulitoExamples,
+              ),
+        bottomNavigationBar: _canShowAbout
+            ? null
+            : BottomNavigationBar(
+                items: _bottomItems,
+                currentIndex: _pageIndex,
+                selectedItemColor: Colors.black,
+                type: BottomNavigationBarType.fixed,
+                onTap: _onBottomTap,
+              ),
       ),
     );
+  }
+
+  void _onBottomTap(int index) {
+    setState(() {
+      _pageIndex = index;
+      _pageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 }
