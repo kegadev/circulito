@@ -16,6 +16,7 @@ class Genders extends StatefulWidget {
 class _GendersState extends State<Genders> {
   static const _defaultText = 'Genders';
 
+  // Keys to prevent redraws on SetState calls.
   final _circulitoKey = GlobalKey();
   final _femalePercentage = 0.495;
   final _malePercentage = 0.415;

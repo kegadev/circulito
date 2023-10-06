@@ -16,6 +16,8 @@ class CountDown extends StatefulWidget {
 class _CountDownState extends State<CountDown> {
   static const int _durationInSeconds = 10;
 
+  // Keys to prevent redraws on SetState calls.
+  final _circulitoKey = GlobalKey();
   final _padding = 40.0;
   final _maxSize = 400.0;
   final _strokeWidth = 36.0;
@@ -45,6 +47,7 @@ class _CountDownState extends State<CountDown> {
     }
 
     return Circulito(
+        key: _circulitoKey,
         strokeWidth: _strokeWidth,
         animation: CirculitoAnimation(
           duration: _durationInSeconds * 1000,
