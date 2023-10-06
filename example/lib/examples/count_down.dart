@@ -47,6 +47,7 @@ class _CountDownState extends State<CountDown> {
     }
 
     return Circulito(
+        maxSize: size,
         key: _circulitoKey,
         strokeWidth: _strokeWidth,
         animation: CirculitoAnimation(
@@ -59,7 +60,6 @@ class _CountDownState extends State<CountDown> {
             decoration: CirculitoDecoration.fromColor(_getColor()),
           )
         ],
-        maxSize: size,
         child: Text(
           '$_textNumber',
           style: Theme.of(context).textTheme.displayLarge,
