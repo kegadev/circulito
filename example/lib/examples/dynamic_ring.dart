@@ -19,12 +19,13 @@ class _DynamicRingState extends State<DynamicRing> {
   final _circulitoKey = GlobalKey();
   final _sectionValues = [0.0, 0.0, 0.0];
   final _colorNames = ['Yellow', 'Blue', 'Red']; // Ecuador 🇪🇨.
-
   final _colors = [
     Colors.yellowAccent,
     Colors.blueAccent,
     Colors.redAccent,
   ];
+
+  var _selectedIndex = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -94,25 +95,38 @@ class _DynamicRingState extends State<DynamicRing> {
     final colorName = _colorNames[index];
     final color = _colors[index];
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          '${_sectionValues[index].truncate()}',
-          style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 10.0),
-        Text(colorName, style: const TextStyle(fontSize: 16.0)),
-        const SizedBox(height: 10.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _subButton(color, index, Icons.remove, _sectionValues[index] - 10),
-            const SizedBox(width: 10.0),
-            _subButton(color, index, Icons.add, _sectionValues[index] + 10),
-          ],
-        ),
-      ],
+    return SizedBox(
+      height: 120.0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
+            '${_sectionValues[index].truncate()}',
+            style: TextStyle(
+                fontSize: _selectedIndex == index ? 24.0 : 18.0,
+                fontWeight: _selectedIndex == index
+                    ? FontWeight.bold
+                    : FontWeight.normal),
+          ),
+          const SizedBox(height: 10.0),
+          Text(colorName,
+              style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: _selectedIndex == index
+                      ? FontWeight.bold
+                      : FontWeight.normal)),
+          const SizedBox(height: 10.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _subButton(
+                  color, index, Icons.remove, _sectionValues[index] - 10),
+              const SizedBox(width: 10.0),
+              _subButton(color, index, Icons.add, _sectionValues[index] + 10),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -161,6 +175,7 @@ class _DynamicRingState extends State<DynamicRing> {
       maxSize: size,
       key: _circulitoKey,
       sections: sections,
+      onHoverExit: () => setState(() => _selectedIndex = -1),
       strokeCap: CirculitoStrokeCap.butt,
       animation: animation,
       background: background,
@@ -176,6 +191,7 @@ class _DynamicRingState extends State<DynamicRing> {
 
     return CirculitoSection(
       value: value,
+      onHover: () => setState(() => _selectedIndex = index),
       decoration: CirculitoDecoration.fromColor(_colors[index]),
     );
   }
