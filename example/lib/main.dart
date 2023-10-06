@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:circulito/circulito.dart';
+import 'package:example/examples/apple_fitness_rings.dart';
+import 'package:example/examples/count_down.dart';
+import 'package:example/examples/dynamic_ring.dart';
+import 'package:example/examples/genders.dart';
 
 void main() => runApp(const MyApp());
 
@@ -12,112 +15,57 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // Keys to prevent redraws on SetState calls.
-  final parentKey = GlobalKey();
-  final childKey = GlobalKey();
+  late PageController _pageController;
 
-  var _text = 'Circulito';
+  var _pageIndex = 0;
+
+  @override
+  void initState() {
+    _pageController = PageController(initialPage: 0);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Circulito basic example')),
-        body: Center(
-          child: Container(
-            width: 500,
-            height: 500,
-            color: Colors.grey.shade200,
-            child: SingleChildScrollView(
-              child: Circulito(
-                key: parentKey,
-                // Custom animation.
-                animation: CirculitoAnimation(
-                  duration: 600,
-                  curve: Curves.easeInOut,
-                ),
-                maxSize: 510,
-                strokeWidth: 50,
-                childStackingOrder: ChildStackingOrder.behindParent,
-                background: CirculitoBackground(
-                  decoration: const CirculitoDecoration.fromColor(
-                    Colors.grey,
-                    shadow: CirculitoShadow(),
-                  ),
-                ),
-                strokeCap: CirculitoStrokeCap.butt,
-                direction: CirculitoDirection.clockwise,
-                sectionValueType: SectionValueType.percentage,
-                sections: [
-                  // Male percentage.
-                  CirculitoSection(
-                    value: .35,
-                    decoration: const CirculitoDecoration.fromColor(
-                      Colors.blue,
-                      hoverColor: Colors.blueAccent,
-                    ),
-                    onHover: () {
-                      setState(() => _text = 'Blue');
-                      // Do something when mouse over this section.
-                    },
-                    onTap: () {
-                      // Do something when mouse tapped this section.
-                    },
-                  ),
+    const bottomItems = [
+      BottomNavigationBarItem(icon: Icon(Icons.male), label: 'Simple'),
+      BottomNavigationBarItem(icon: Icon(Icons.ac_unit_sharp), label: 'Triple'),
+      BottomNavigationBarItem(icon: Icon(Icons.timer), label: 'Timer'),
+      BottomNavigationBarItem(icon: Icon(Icons.pie_chart), label: 'Dynamic'),
+    ];
 
-                  // Female percentage.
-                  CirculitoSection(
-                    value: .45,
-                    decoration: const CirculitoDecoration.fromGradient(
-                      LinearGradient(colors: [Colors.pink, Colors.red]),
-                      hoverGradient: LinearGradient(colors: [
-                        Colors.pinkAccent,
-                        Colors.redAccent,
-                      ]),
-                    ),
-                  ),
-                ],
-                // Circulito as a child.
-                child: _getChild(),
-              ),
-            ),
-          ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Circulito basic examples'),
+          backgroundColor: Colors.black,
+        ),
+        backgroundColor: _pageIndex == 1 ? Colors.black : Colors.white,
+        body: PageView(
+          controller: _pageController,
+          children: const [
+            Genders(),
+            AppleFitnessRings(),
+            CountDown(),
+            DynamicRing(),
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Colors.black,
+          items: bottomItems,
+          currentIndex: _pageIndex,
+          onTap: (index) {
+            setState(() => _pageIndex = index);
+            _pageController.animateToPage(
+              index,
+              duration: const Duration(milliseconds: 100),
+              curve: Curves.fastOutSlowIn,
+            ); // Animate the PageView to the selected page
+          },
         ),
       ),
-    );
-  }
-
-  Circulito _getChild() {
-    return Circulito(
-      key: childKey,
-      maxSize: 380,
-      strokeWidth: 50,
-      strokeCap: CirculitoStrokeCap.butt,
-      background: CirculitoBackground(),
-      startPoint: StartPoint.bottom,
-      animation: CirculitoAnimation(),
-      sectionValueType: SectionValueType.percentage,
-      sections: [
-        CirculitoSection(
-          value: .2,
-          onHover: () => setState(() => _text = 'Green'),
-          onTap: () => {
-            // Do something when mouse tapped this section.
-          },
-          decoration: const CirculitoDecoration.fromColor(Colors.green),
-        ),
-        CirculitoSection(
-          value: .3,
-          decoration: const CirculitoDecoration.fromColor(Colors.pink),
-        ),
-        CirculitoSection(
-          value: .2,
-          decoration: const CirculitoDecoration.fromColor(Colors.amber),
-        ),
-      ],
-
-      // Grandchild, to show text changes when sections are hovered.
-      child: Text(_text),
     );
   }
 }
