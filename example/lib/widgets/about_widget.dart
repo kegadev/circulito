@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 class AboutWidget extends StatelessWidget {
   const AboutWidget({super.key});
+  static const _titleStyle = TextStyle(fontSize: 20.0);
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.center,
       children: [
+        // Top message.
         const Align(
           alignment: Alignment.topRight,
           child: Padding(
@@ -18,6 +20,8 @@ class AboutWidget extends StatelessWidget {
             ),
           ),
         ),
+
+        // About text.
         ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600.0),
           child: const SingleChildScrollView(
@@ -26,10 +30,7 @@ class AboutWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Top message.
-
-                  // SizedBox(height: 30.0),
-                  SelectableText('About', style: TextStyle(fontSize: 20.0)),
+                  SelectableText('About', style: _titleStyle),
                   SizedBox(height: 10.0),
                   SelectableText(
                       'Circulito is a Flutter package,highly customizable to draw circular charts or wheels. '
@@ -38,23 +39,19 @@ class AboutWidget extends StatelessWidget {
                       '• Donut and Pie Charts.\n'
                       '• Apple-like Fitness rings.\n'
                       '• Countdowns.\n'
-                      '• Dynamic charts with animated sections.\n'
-                      ''),
-
+                      '• Dynamic charts with animated sections.\n'),
                   SizedBox(height: 30.0),
-                  SelectableText('Disclaimer',
-                      style: TextStyle(fontSize: 20.0)),
+                  SelectableText('Disclaimer', style: _titleStyle),
                   SizedBox(height: 10.0),
                   SelectableText('This is not an official Apple product.\n'
                       'This is just an example of what can be achieved with Circulito.\n'
                       'The Apple Fitness rings are a registered trademark of Apple Inc.'),
                   SizedBox(height: 30.0),
-                  SelectableText('Developer', style: TextStyle(fontSize: 20.0)),
+                  SelectableText('Developer', style: _titleStyle),
                   SizedBox(height: 10.0),
                   SelectableText('Made with ❤️ by Kevin Garcia:\n'
                       'More about me: https://kega.dev\n'
-                      'Social media:    @kegadev\n'
-                      ''),
+                      'Social media:    @kegadev\n'),
                 ],
               ),
             ),
