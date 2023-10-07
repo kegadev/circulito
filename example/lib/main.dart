@@ -51,6 +51,13 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     _pageController = PageController(initialPage: 0);
+    _pageController.addListener(() {
+      if (_pageController.page != null) {
+        setState(() {
+          _pageIndex = _pageController.page!.round();
+        });
+      }
+    });
     super.initState();
   }
 
