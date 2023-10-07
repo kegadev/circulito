@@ -69,6 +69,13 @@ class _DynamicRingState extends State<DynamicRing> {
 
     return ElevatedButton(
       onPressed: isResetted ? null : reset,
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.all(16),
+        backgroundColor: Colors.black,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+      ),
       child: const Row(
         children: [
           Icon(Icons.refresh),
