@@ -42,11 +42,11 @@ class _DynamicRingState extends State<DynamicRing> {
       children: [
         _ring(size),
         Positioned(
-          top: 30.0,
+          top: 20.0,
           child: _resetButton(),
         ),
         Positioned(
-          bottom: 30.0,
+          bottom: 20.0,
           child: _buttons(),
         ),
       ],
