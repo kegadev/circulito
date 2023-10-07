@@ -41,7 +41,7 @@ class _GendersState extends State<Genders> {
   Circulito _genders(double maxSize) {
     final animation = CirculitoAnimation(
       duration: 1000,
-      curve: Curves.easeInOut,
+      curve: Curves.easeOutCubic,
     );
 
     final background = CirculitoBackground(

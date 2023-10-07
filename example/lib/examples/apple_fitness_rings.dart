@@ -31,18 +31,18 @@ class AppleFitnessRings extends StatelessWidget {
     /// Ring 3: Stand.
     final ringSmall = _ring(
       level: 2,
-      delay: 400,
+      delay: 600,
       maxSize: size,
-      value: .45, // 45%
+      value: .65, // 65%
       colors: const [Color(0xFF00fff2), Color(0xFF00ffb7)],
     );
 
     /// Ring 2: Exercise.
     final ringMedium = _ring(
       level: 1,
-      delay: 200,
+      delay: 300,
       maxSize: size,
-      value: .65, // 65%
+      value: .75, // 65%
       child: ringSmall,
       colors: const [Color(0xFFa4ff35), Color(0xFFd4ff0d)],
     );
@@ -104,12 +104,17 @@ class AppleFitnessRings extends StatelessWidget {
       return NoSpaceWidget(color: colors[0]);
     }
 
+    final animation = CirculitoAnimation(
+      duration: 1000 + delay,
+      curve: Curves.fastOutSlowIn,
+    );
+
     return Circulito(
       maxSize: maxSize,
       sections: [section],
+      animation: animation,
       background: background,
       strokeWidth: _strokeWidth,
-      animation: CirculitoAnimation(duration: 600 + delay),
       child: child,
     );
   }

@@ -174,8 +174,10 @@ class _DynamicRingState extends State<DynamicRing> {
     }
 
     final animation = CirculitoAnimation(
-      duration: 600,
-      curve: Curves.easeInOut,
+      duration: 800,
+      curve: Curves.fastOutSlowIn,
+      // Other animation style
+      // curve: sections.length <= 2 ? Curves.fastOutSlowIn : Curves.elasticOut,
     );
 
     return Circulito(
@@ -203,8 +205,8 @@ class _DynamicRingState extends State<DynamicRing> {
     );
   }
 
-  /// Simplier way:
-  /// CONS: The animation is not smooth it the total changing.
+  /// Simplier way to Create a section:
+  /// CONS: The animation is not smooth if the total is changing.
   /// If want to use values then the Circulito Section Value Type
   /// should be SectionValueType.amount
   // CirculitoSection _section(int index) {
