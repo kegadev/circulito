@@ -42,7 +42,7 @@ class AppleFitnessRings extends StatelessWidget {
       level: 1,
       delay: 300,
       maxSize: size,
-      value: .75, // 65%
+      value: .75, // 75%
       child: ringSmall,
       colors: const [Color(0xFFa4ff35), Color(0xFFd4ff0d)],
     );
