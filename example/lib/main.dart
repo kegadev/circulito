@@ -16,6 +16,17 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   /// Controller for the PageView.
   late PageController _pageController;
+  final _pageControllerKey = GlobalKey();
+
+  /// List of Circulito examples.
+  ///
+  /// Check the `examples` folder to see the code of each one.
+  static const _circulitoExamples = [
+    Genders(),
+    AppleFitnessRings(),
+    CountDown(),
+    DynamicRing(),
+  ];
 
   /// List of items for the bottom navigation bar.
   static const _bottomItems = [
@@ -32,16 +43,6 @@ class _MyAppState extends State<MyApp> {
     'Dynamic Pie chart',
   ];
 
-  /// List of Circulito examples.
-  ///
-  /// Check the `examples` folder to see the code of each one.
-  static const _circulitoExamples = [
-    Genders(),
-    AppleFitnessRings(),
-    CountDown(),
-    DynamicRing(),
-  ];
-
   /// If the about widget should be shown.
   var _canShowAbout = false;
 
@@ -51,13 +52,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     _pageController = PageController(initialPage: 0);
-    _pageController.addListener(() {
-      if (_pageController.page != null) {
-        setState(() {
-          _pageIndex = _pageController.page!.round();
-        });
-      }
-    });
+
     super.initState();
   }
 
@@ -76,7 +71,7 @@ class _MyAppState extends State<MyApp> {
               tooltip: _canShowAbout ? 'Go back' : 'About',
               onPressed: () => setState(() {
                 _canShowAbout = !_canShowAbout;
-                _pageIndex = 0;
+                _pageController = PageController(initialPage: _pageIndex);
               }),
               icon: const Icon(Icons.lightbulb),
               color: _canShowAbout ? Colors.amberAccent : Colors.white,
@@ -88,6 +83,8 @@ class _MyAppState extends State<MyApp> {
         body: _canShowAbout
             ? const AboutWidget()
             : PageView(
+                key: _pageControllerKey,
+                onPageChanged: _onPageChanged,
                 controller: _pageController,
                 children: _circulitoExamples,
               ),
@@ -102,6 +99,12 @@ class _MyAppState extends State<MyApp> {
               ),
       ),
     );
+  }
+
+  void _onPageChanged(int index) {
+    setState(() {
+      _pageIndex = index;
+    });
   }
 
   void _onBottomTap(int index) {
