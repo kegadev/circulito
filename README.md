@@ -19,7 +19,7 @@ _Circulito_ provides a highly customizable way to draw and animate circular whee
 
 ## Examples
 
-**Some of the things you can do with Circulito are:**
+Some of the things you can do with Circulito are:
 
 - Dynamic charts with animated sections.
 <div align="center">
