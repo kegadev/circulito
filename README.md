@@ -50,6 +50,8 @@ _Circulito_ provides a highly customizable way to draw and animate circular whee
 
 </div>
 
+<br>
+
 **Online example:**
 
 Check out the online example at [circulito.kega.dev](https://circulito.kega.dev/) to see it in action.
