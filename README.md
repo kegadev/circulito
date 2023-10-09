@@ -1,10 +1,9 @@
 # Circulito
 
-_Circulito_ provides a highly customizable way to draw and animate circular wheel/donut/pie chart for visualizing data using percentages and colors.
+_Circulito_ provides a highly customizable way to draw and animate circular wheel/donut/pie charts for visualizing data.
 
 <div align="center">
 <img src='https://user-images.githubusercontent.com/138328831/273652567-26867a46-9a28-493f-bdab-07266d8b8c86.png' alt='example circle wheel'>
-<!-- <img src='https://user-images.githubusercontent.com/138328831/263871505-d39bc60c-261f-448f-91a6-5605ad1e4f2d.png' alt='example circle wheel'> -->
 
 </div>
 
@@ -21,6 +20,13 @@ _Circulito_ provides a highly customizable way to draw and animate circular whee
 
 Some of the things you can do with Circulito are:
 
+- Donut and Pie Charts.
+<div align="center">
+<img src='https://user-images.githubusercontent.com/138328831/273653288-094ebe2c-438a-4fc0-9961-9d8b10685fec.png' alt='example circle wheel 3'>
+</div>
+
+<br>
+
 - Dynamic charts with animated sections.
 <div align="center">
 <img src='https://user-images.githubusercontent.com/138328831/273652780-5c809b7b-6f28-49f6-b7b6-9febb701e817.png' alt='example circle wheel 2'>
@@ -28,16 +34,9 @@ Some of the things you can do with Circulito are:
 
 <br>
 
-- Donut and Pie Charts.
-<div align="center">
-<img src='https://user-images.githubusercontent.com/138328831/273653288-094ebe2c-438a-4fc0-9961-9d8b10685fec.png' alt='example circle wheel 2'>
-</div>
-
-<br>
-
 - Countdowns.
 <div align="center">
-<img src='https://user-images.githubusercontent.com/138328831/273652764-7a87202f-9a8a-4fe3-88bc-133135483fa9.png' alt='example circle wheel 2'>
+<img src='https://user-images.githubusercontent.com/138328831/273652764-7a87202f-9a8a-4fe3-88bc-133135483fa9.png' alt='example circle wheel 4'>
 
 </div>
 
@@ -46,7 +45,7 @@ Some of the things you can do with Circulito are:
 - Apple-like Fitness rings.
 
 <div align="center">
-<img src='https://user-images.githubusercontent.com/138328831/273653562-cb504817-ae98-4af7-8cd4-ad89856713cb.png' alt='example circle wheel 2'>
+<img src='https://user-images.githubusercontent.com/138328831/273653562-cb504817-ae98-4af7-8cd4-ad89856713cb.png' alt='example circle wheel 5'>
 
 </div>
 
@@ -67,32 +66,63 @@ dependencies:
 
 ## Usage
 
-Use the _Circulito_ widget in your Flutter app:
+Use the _Circulito_ widget in your Flutter app. Properties `maxSize` and `sections` are required:
 
 ```dart
 Circulito(
     maxSize: 480,
-    padding: 20.0,
-    strokeWidth: 80,
-    startPoint: StartPoint.left,
-    background: CirculitoBackground(),
-    strokeCap: CirculitoStrokeCap.round,
-    direction: CirculitoDirection.clockwise,
-    sectionValueType: SectionValueType.percentage,
     sections: [
-        // Male percentage.
+        // One single section at 50%.
         CirculitoSection(
-          value: .35,
-          color: Colors.blue,
-          hoverColor: Colors.blueAccent,
-        ),
-        // Female percentage.
-        CirculitoSection(
-          value: .40,
-          color: Colors.pink,
-          hoverColor: Colors.pinkAccent,
-        ),
+          value: 0.5,
+          decoration: const CirculitoDecoration.fromColor(Colors.amber),
+        )
     ],
+);
+```
+
+Customization:
+
+```dart
+Circulito(
+  maxSize: 480,
+  padding: 20.0,
+  key: GlobalKey(),
+  strokeWidth: 150,
+  isCentered: true,
+  onHoverExit: () {},
+  startPoint: StartPoint.left,
+  animation: CirculitoAnimation(),
+  background: CirculitoBackground(),
+  strokeCap: CirculitoStrokeCap.round,
+  direction: CirculitoDirection.clockwise,
+  sectionValueType: SectionValueType.amount,
+  childStackingOrder: ChildStackingOrder.behindParent,
+  sections: [
+    // Male percentage.
+    CirculitoSection(
+      value: 750,
+      decoration: const CirculitoDecoration.fromColor(
+        Colors.blue,
+        hoverColor: Colors.blueAccent,
+      ),
+    ),
+
+    // Female percentage.
+    CirculitoSection(
+      value: 997,
+      decoration: const CirculitoDecoration.fromColor(
+        Colors.pink,
+        hoverColor: Colors.pinkAccent,
+        shadow: CirculitoShadow(),
+        border: CirculitoBorder(
+          color: Colors.white,
+          size: 3.0,
+        ),
+      ),
+    ),
+  ],
+  child: const Text('Genders'),
 );
 ```
 
@@ -126,7 +156,7 @@ Circulito(
 );
 ```
 
-You can also configure duration and curve of the animation like this:
+You can also customize duration and curve of the animation like this:
 
 ```dart
 Circulito(
@@ -183,9 +213,9 @@ decoration: CirculitoDecoration.fromColor(
     Colors.grey,
     // Customized shadow.
     shadow: CirculitoShadow(
-        color: Colors.blueGrey.withOpacity(.3),
         spreading: 16.0,
         blurStyle: BlurStyle.normal,
+        color: Colors.blueGrey.withOpacity(.3),
     ),
 ),
 ```
@@ -209,8 +239,8 @@ decoration: CirculitoDecoration.fromColor(
     Colors.grey,
     // Customized border.
     border: CirculitoBorder(
-        color: Colors.blueGrey,
         size: 8.0,
+        color: Colors.blueGrey,
     ),
 ),
 ```
