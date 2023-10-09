@@ -1,7 +1,17 @@
-# 1.0.0
+## 1.0.0 Production release
 
 - **Feature:** `onHoverExit` property has been added to _Circulito_.<br>
+- **Docs:** Update _Circulito_ documentation.<br>
+- **Docs:** Update _README_ with examples.<br>
 - **Docs:** Update _CHANGELOG_.<br>
+- **Test:** Add _Utils_ test.<br>
+- **Test:** Update main test files.<br>
+- **Chore:** Update example main file with new examples.<br>
+- **Chore:** Add example Genders.<br>
+- **Chore:** Add example Apple fitness.<br>
+- **Chore:** Add example Countdown.<br>
+- **Chore:** Add example Dynamic pie.<br>
+- **Chore:** Reorganize files and folders.<br>
 
 ## 0.8.0
 
