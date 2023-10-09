@@ -1,19 +1,58 @@
 # Circulito
 
-_Circulito_ provides a simple circular wheel/donut chart for visualizing data using percentages and colors.
+_Circulito_ provides a highly customizable way to draw and animate circular wheel/donut/pie chart for visualizing data using percentages and colors.
 
 <div align="center">
-<img src='https://user-images.githubusercontent.com/138328831/263871505-d39bc60c-261f-448f-91a6-5605ad1e4f2d.png' alt='example circle wheel'>
+<img src='https://user-images.githubusercontent.com/138328831/273652567-26867a46-9a28-493f-bdab-07266d8b8c86.png' alt='example circle wheel'>
+<!-- <img src='https://user-images.githubusercontent.com/138328831/263871505-d39bc60c-261f-448f-91a6-5605ad1e4f2d.png' alt='example circle wheel'> -->
 
 </div>
 
 ## Features
 
-- Display circular wheel charts with customizable sections.
+- Display circular wheel/donut/pie charts with customizable sections.
 - Easily visualize data by providing amounts or percentages and corresponding colors.
 - Gradient decoration on sections and background.
 - Interactive sections: `hover` and `onTap` events.
+- Multiple levels allowed when added _Circulito_ as a child.
 - Animated sections.
+
+## Examples
+
+**Some of the things you can do with Circulito are:**
+
+- Dynamic charts with animated sections.
+<div align="center">
+<img src='https://user-images.githubusercontent.com/138328831/273652780-5c809b7b-6f28-49f6-b7b6-9febb701e817.png' alt='example circle wheel 2'>
+</div>
+
+<br>
+
+- Donut and Pie Charts.
+<div align="center">
+<img src='https://user-images.githubusercontent.com/138328831/273653288-094ebe2c-438a-4fc0-9961-9d8b10685fec.png' alt='example circle wheel 2'>
+</div>
+
+<br>
+
+- Countdowns.
+<div align="center">
+<img src='https://user-images.githubusercontent.com/138328831/273652764-7a87202f-9a8a-4fe3-88bc-133135483fa9.png' alt='example circle wheel 2'>
+
+</div>
+
+<br>
+
+- Apple-like Fitness rings.
+
+<div align="center">
+<img src='https://user-images.githubusercontent.com/138328831/273653562-cb504817-ae98-4af7-8cd4-ad89856713cb.png' alt='example circle wheel 2'>
+
+</div>
+
+**Online example:**
+
+Check out the online example at [circulito.kega.dev](https://circulito.kega.dev/) to see it in action.
 
 ## Getting started
 
