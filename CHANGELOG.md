@@ -1,3 +1,9 @@
+## 1.0.1
+
+- **Fix:** `onTap` was not detected on mobile.<br>
+- **Fix:** Overflow on Dynamic example.<br>
+- **Chore:** Remove default to Material 3 on example.<br>
+
 ## 1.0.0 Production release
 
 - **Feature:** `onHoverExit` property has been added to _Circulito_.<br>
