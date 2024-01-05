@@ -111,6 +111,7 @@ class _DynamicRingState extends State<DynamicRing> {
             '${_sectionValues[index].truncate()}',
             style: TextStyle(
                 fontSize: _selectedIndex == index ? 24.0 : 18.0,
+                height: 1.0,
                 fontWeight: _selectedIndex == index
                     ? FontWeight.bold
                     : FontWeight.normal),
