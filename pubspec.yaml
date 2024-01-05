@@ -6,7 +6,7 @@
 
 name: circulito
 description: Circulito provides a highly customizable way to draw and animate circular wheel/donut/pie charts for visualizing data.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/kegadev/circulito
 
 
