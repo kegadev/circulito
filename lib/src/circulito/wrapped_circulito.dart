@@ -53,15 +53,28 @@ class _WrappedCirculitoState extends State<_WrappedCirculito> {
   /// This ensure many Circulito Widgets can be used at the same time.
   var _selectedIndex = -1;
 
+  /// This help detect section tap on mobile devices where hover is not allowed.
+  late final bool _isMobile;
+
+  @override
+  void initState() {
+    _isMobile = Platform.isIOS || Platform.isAndroid;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final isNothingSelected = _selectedIndex == -1;
+    final canTap = !isNothingSelected || _isMobile;
 
     Widget wrappedMainWidget = SizedBox(
       width: widget.sizeToDraw,
       height: widget.sizeToDraw,
       child: GestureDetector(
-        onTap: isNothingSelected ? null : _onTap,
+        onTapDown: _onTapDown,
+        onTapCancel: _onTapCancel,
+        onTap: canTap ? _onTap : null,
         child: MouseRegion(
           onHover: _onPointerHover,
           onExit: _onPointerExit,
@@ -162,12 +175,26 @@ class _WrappedCirculitoState extends State<_WrappedCirculito> {
     return MouseCursor.defer;
   }
 
-  /// Handles the exit event.
-  void _onPointerExit(PointerExitEvent event) => _removeSelection();
+  /// Handles the Tap down event.
+  void _onTapDown(TapDownDetails details) {
+    if (_isMobile) _onCheckSection(details.localPosition);
+  }
+
+  /// Handles the cancel of the tap.
+  void _onTapCancel() => _removeSelection();
 
   /// Handles the hover event.
   void _onPointerHover(PointerHoverEvent event) {
-    final hoverPosition = event.localPosition;
+    _onCheckSection(event.localPosition);
+  }
+
+  /// Handles the exit event.
+  void _onPointerExit(PointerExitEvent event) => _removeSelection();
+
+  /// Handles the position of the hover or the tap down to detect
+  /// which section should be selected when clicked.
+  void _onCheckSection(Offset localPosition) {
+    final hoverPosition = localPosition;
     final halfSizeToDraw = widget.sizeToDraw / 2;
     final centerOffset = Offset(halfSizeToDraw, halfSizeToDraw);
 
