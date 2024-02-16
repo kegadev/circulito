@@ -1,3 +1,10 @@
+## 1.0.2
+
+- **Refactor:** Replaced `part of` directives with _string_ to prevent dart analysis warnings.<br>
+- **Vendor"** Added `lints` package to dev dependencies to ensure consistent linting rules across the project.<br>
+- **Vendor"** Update `flutter_lints` in dev dependencies.
+- **Chore:** Update _example_ lint version.<br>
+
 ## 1.0.1
 
 - **Fix:** `onTap` was not detected on mobile.<br>

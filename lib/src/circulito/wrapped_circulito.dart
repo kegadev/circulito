@@ -1,4 +1,4 @@
-part of circulito;
+part of '../../circulito.dart';
 
 /// Wraps the main widget and the child widget. Also handles the hover events.
 // ignore: must_be_immutable
@@ -22,7 +22,7 @@ class _WrappedCirculito extends StatefulWidget {
   final Widget? child;
 
   _WrappedCirculito({
-    Key? key,
+    super.key,
     required this.childStackingOrder,
     required this.direction,
     required this.hoveredIndexController,
@@ -39,7 +39,7 @@ class _WrappedCirculito extends StatefulWidget {
     this.background,
     this.padding,
     this.child,
-  }) : super(key: key);
+  });
 
   @override
   State<_WrappedCirculito> createState() => _WrappedCirculitoState();
