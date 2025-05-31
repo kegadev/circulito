@@ -77,7 +77,7 @@ class AppleFitnessRings extends StatelessWidget {
     final background = CirculitoBackground(
       decoration: CirculitoDecoration.fromGradient(
         LinearGradient(
-          colors: colors.map((c) => c.withOpacity(.5)).toList(),
+          colors: colors.map((c) => c.withValues(alpha: .5)).toList(),
         ),
       ),
     );
