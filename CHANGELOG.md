@@ -1,3 +1,6 @@
+## 1.0.3
+- **Fix:** Deprecated method `withOpacity`
+
 ## 1.0.2
 
 - **Refactor:** Replaced `part of` directives with _string_ to prevent dart analysis warnings.<br>
